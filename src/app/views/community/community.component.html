@@ -1,0 +1,28 @@
+<div class="bg-light flex-row align-items-center">
+  <!-- min-vh-100 -->
+  <!-- <c-container> -->
+  <c-row class="justify-content-center">
+    <c-nav variant="tabs">
+      <a
+        [active]="true"
+        [cTabContent]="tabContent"
+        [routerLink]
+        [tabPaneIdx]="0"
+        cNavLink
+        >Approve Community</a
+      >
+      <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink
+        >Un Approve Community</a
+      >
+    </c-nav>
+    <c-tab-content #tabContent="cTabContent">
+      <c-tab-pane class="p-3">
+        <app-approve-community></app-approve-community>
+      </c-tab-pane>
+      <c-tab-pane class="p-3">
+        <app-un-approve-community></app-un-approve-community>
+      </c-tab-pane>
+    </c-tab-content>
+  </c-row>
+  <!-- </c-container> -->
+</div>

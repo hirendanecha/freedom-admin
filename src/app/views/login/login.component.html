@@ -1,0 +1,100 @@
+<c-toaster [placement]="position" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="visible"
+    class="text-bg-{{ type }}"
+  >
+    <c-toast-header>
+      <toast-sample-icon></toast-sample-icon>
+      <!-- CoreUI for Angular -->
+    </c-toast-header>
+    <c-toast-body>
+      <p class="text-white">{{ errorMessage }}</p>
+      <c-progress thin>
+        <c-progress-bar [value]="percentage"></c-progress-bar>
+      </c-progress>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>
+
+<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col md="6">
+        <c-card-group>
+          <c-card class="p-4">
+            <c-card-body>
+              <form
+                cForm
+                #signInForm="ngForm"
+                [formGroup]="loginForm"
+                (ngSubmit)="signInForm.form.valid && onSubmit()"
+              >
+                <h1>Login</h1>
+                <p class="text-medium-emphasis">Sign In to your account</p>
+                <c-input-group class="mb-3">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                  </span>
+                  <input
+                    autoComplete="email"
+                    cFormControl
+                    placeholder="Email"
+                    formControlName="Email"
+                    required
+                  />
+                  <div
+                    class="srv-validation-message text-danger"
+                    *ngIf="
+                        signInForm.submitted &&
+                           loginForm.controls['Email'].invalid &&
+                           loginForm.controls['Email'].errors?.['required']
+                         "
+                  >
+                    Email field is required.
+                  </div>
+                </c-input-group>
+                <c-input-group class="mb-4">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilLockLocked"></svg>
+                  </span>
+                  <input
+                    autoComplete="current-password"
+                    cFormControl
+                    placeholder="Password"
+                    type="password"
+                    formControlName="Password"
+                    required
+                  />
+                  <div
+                    class="srv-validation-message text-danger"
+                    *ngIf="
+                        signInForm.submitted &&
+                           loginForm.controls['Password'].invalid &&
+                           loginForm.controls['Password'].errors?.['Email']
+                         "
+                  >
+                    Please enter valid email!
+                  </div>
+                </c-input-group>
+                <c-row>
+                  <c-col xs="6">
+                    <button cButton class="px-4" color="primary" type="submit">
+                      Login
+                    </button>
+                  </c-col>
+                  <!-- <c-col class="text-right" xs="6">
+                    <button cButton class="px-0" color="link">
+                      Forgot password?
+                    </button>
+                  </c-col> -->
+                </c-row>
+              </form>
+            </c-card-body>
+          </c-card>
+        </c-card-group>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>

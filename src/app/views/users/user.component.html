@@ -1,0 +1,215 @@
+<c-toaster [placement]="position" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="visible"
+    class="text-bg-{{ type }}"
+  >
+    <c-toast-header>
+      <toast-sample-icon></toast-sample-icon>
+      <!-- CoreUI for Angular -->
+    </c-toast-header>
+    <c-toast-body>
+      <p class="text-white">{{ message }}</p>
+      <c-progress thin>
+        <c-progress-bar [value]="percentage"></c-progress-bar>
+      </c-progress>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>
+<div class="bg-light flex-row align-items-center">
+  <!-- min-vh-100 -->
+  <!-- <c-container> -->
+
+  <c-row>
+    <c-col lg="">
+      <c-card class="mb-4">
+        <c-card-header>Users</c-card-header>
+        <c-card-body>
+          <c-row class="justify-content-start">
+            <c-col md="3">
+              <c-input-group class="input-prepend mb-3">
+                <!-- <span cInputGroupText>
+                  <svg cIcon name="cilMagnifyingGlass"></svg>
+                </span> -->
+                <input
+                  cFormControl
+                  placeholder="Search..."
+                  type="text"
+                  name="search"
+                  [(ngModel)]="searchText"
+                  (keyup)="getUserList()"
+                />
+              </c-input-group>
+            </c-col>
+          </c-row>
+          <table
+            [hover]="true"
+            [responsive]="true"
+            [striped]="true"
+            align="middle"
+            cTable
+            class="mb-0 border"
+          >
+            <thead cTableColor="light">
+              <tr class="text-center">
+                <th class="text-center">
+                  <!-- <svg cIcon name="cilPeople"></svg> -->
+                  Id
+                </th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>AccountType</th>
+                <th>DateCreation</th>
+                <th>Status</th>
+                <th>Suspended</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                class="text-center"
+                *ngFor="let user of userData; let i = index"
+              >
+                <td>
+                  <!-- <c-avatar
+                      size="md"
+                      src="{{ user.avatar }}"
+                      status="{{ user.status }}"
+                    ></c-avatar> -->
+                  {{ user.Id }}
+                </td>
+                <td>{{ user.Username }}</td>
+                <td>
+                  <!-- <svg
+                      cIcon
+                      id="{{ user.country + user.name }}"
+                      name="cif{{ user.country }}"
+                      size="xl"
+                      title="{{ user.country }}"
+                    ></svg> -->
+                  {{ user.Email }}
+                </td>
+                <td>
+                  <ng-container *ngIf="user.AccountType === 'user'">
+                    <c-badge
+                      color="success"
+                      (click)="changeAccountType(user.Id, 'communityAdmin')"
+                      >Make Community Admin</c-badge
+                    >
+                  </ng-container>
+                  <ng-container *ngIf="user.AccountType === 'communityAdmin'">
+                    <c-badge
+                      color="danger"
+                      (click)="changeAccountType(user.Id, 'user')"
+                      >Make User</c-badge
+                    >
+                  </ng-container>
+                  <!-- {{ user.AccountType }} -->
+                  <!-- <div class="d-flex justify-content-between">
+                      <div class="float-start">
+                        <strong>{{ user.usage }}%</strong>
+                      </div>
+                      <div class="float-end ms-1 text-nowrap">
+                        <small class="text-medium-emphasis">
+                          {{ user.period }}
+                        </small>
+                      </div>
+                    </div> -->
+                </td>
+                <td>{{ user.DateCreation | date : "d-MM-YYYY" }}</td>
+                <td>
+                  <ng-container *ngIf="user.IsActive === 'Y'">
+                    <c-badge
+                      color="success"
+                      (click)="changeIsActiveStatus(user.Id, 'N')"
+                      >Active</c-badge
+                    >
+                  </ng-container>
+                  <ng-container *ngIf="user.IsActive === 'N'">
+                    <c-badge
+                      color="danger"
+                      (click)="changeIsActiveStatus(user.Id, 'Y')"
+                      >DeActive</c-badge
+                    >
+                  </ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="user.IsSuspended === 'Y'">
+                    <c-badge color="warning" (click)="suspendUser(user.Id, 'N')"
+                      >Yes</c-badge
+                    >
+                  </ng-container>
+                  <ng-container *ngIf="user.IsSuspended === 'N'">
+                    <c-badge color="info" (click)="suspendUser(user.Id, 'Y')"
+                      >No</c-badge
+                    >
+                  </ng-container>
+                </td>
+                <td>
+                  <span (click)="opebEditUserPopup(user.Id)">
+                    <svg cIcon name="cilLowVision" size="xl"></svg>
+                  </span>
+                  <span (click)="deleteUser(user.Id)">
+                    <svg cIcon name="cil-trash" size="xl"></svg>
+                  </span>
+                  <!-- <svg cIcon name="cilDrop" size="xl"></svg> -->
+                </td>
+                <!-- <td class="text-center">
+                    <svg cIcon name="cibCc{{ user.payment }}" size="xl"></svg>
+                  </td> -->
+                <!-- <td>
+                    <div class="small text-medium-emphasis">Last login</div>
+                    <div class="fw-semibold text-nowrap">
+                      {{ user.activity }}
+                    </div>
+                  </td> -->
+              </tr>
+            </tbody>
+          </table>
+        </c-card-body>
+      </c-card>
+      <c-pagination aria-label="Page navigation example" class="float-lg-end">
+        <li cPageItem [ngClass]="{ disabled: activePage === 1 }">
+          <a cPageLink (click)="onPreviousGroup()" aria-label="Previous">
+            <span aria-hidden="true">&laquo;&laquo;</span>
+          </a>
+        </li>
+        <li cPageItem [ngClass]="{ disabled: activePage === 1 }">
+          <a
+            cPageLink
+            aria-label="Previous"
+            (click)="onPageChange(activePage - 1)"
+            [routerLink]
+            ><span aria-hidden="true">&laquo;</span></a
+          >
+        </li>
+        <li
+          cPageItem
+          *ngFor="let page of pageGroup"
+          [ngClass]="{ active: page === activePage }"
+        >
+          <a cPageLink [routerLink] (click)="onPageChange(page)">{{ page }}</a>
+        </li>
+        <li cPageItem>
+          <a cPageLink (click)="onNextGroup()" [routerLink]>{{ "..." }}</a>
+        </li>
+        <li cPageItem [ngClass]="{ disabled: activePage === totalPages }">
+          <a
+            cPageLink
+            aria-label="Next"
+            [routerLink]
+            (click)="onPageChange(activePage + 1)"
+            ><span aria-hidden="true">&raquo;</span></a
+          >
+        </li>
+        <li cPageItem>
+          <a cPageLink (click)="onNextGroup()" aria-label="Next">
+            <span aria-hidden="true">&raquo;&raquo;</span>
+          </a>
+        </li>
+      </c-pagination>
+    </c-col>
+  </c-row>
+  <!-- </c-container> -->
+</div>

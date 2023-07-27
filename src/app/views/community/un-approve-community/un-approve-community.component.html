@@ -1,0 +1,138 @@
+<div class="bg-light flex-row align-items-center">
+  <!-- min-vh-100 -->
+  <!-- <c-container> -->
+  <c-row>
+    <c-col lg="">
+      <c-card class="mb-4">
+        <c-card-header>Unapprove Community</c-card-header>
+        <c-card-body>
+          <table
+            [hover]="true"
+            [responsive]="true"
+            [striped]="true"
+            align="middle"
+            cTable
+            class="mb-0 border"
+          >
+            <thead cTableColor="light">
+              <tr class="text-center">
+                <th class="text-center">
+                  <!-- <svg cIcon name="cilPeople"></svg> -->
+                  No
+                </th>
+                <th>Logo</th>
+                <th>Community Name</th>
+                <th>Description</th>
+                <th>DateCreation</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                class="text-center"
+                *ngFor="let community of communityList; let i = index"
+              >
+                <td>
+                  <!-- <c-avatar
+                        size="md"
+                        src="{{ user.avatar }}"
+                        status="{{ user.status }}"
+                      ></c-avatar> -->
+                  {{ i + 1 }}
+                </td>
+                <td>
+                  <c-avatar [src]="community.logoImg"></c-avatar>
+                </td>
+                <td>{{ community.CommunityName }}</td>
+                <td>
+                  <!-- <svg
+                        cIcon
+                        id="{{ user.country + user.name }}"
+                        name="cif{{ user.country }}"
+                        size="xl"
+                        title="{{ user.country }}"
+                      ></svg> -->
+                  {{ community.CommunityDescription }}
+                </td>
+                <td>{{ community.creationDate | date : "d-MM-YYYY" }}</td>
+                <td>
+                  <c-badge
+                    color="danger"
+                    (click)="approveCommunity(community.Id, 'Y')"
+                    >UnApprove</c-badge
+                  >
+                  <!-- <ng-container *ngIf="user.IsActive === 'N'">
+                      <c-badge
+                        color="danger"
+                        (click)="changeStatusToActive(user.Id, 'Y')"
+                        >DeActive</c-badge
+                      >
+                    </ng-container> -->
+                </td>
+                <td>
+                  <span (click)="openCommunity(community.Id)">
+                    <svg cIcon name="cilLowVision" size="xl"></svg>
+                  </span>
+                  <span (click)="deleteCommunity(community.Id)">
+                    <svg cIcon name="cil-trash" size="xl"></svg>
+                  </span>
+                  <!-- <svg cIcon name="cilDrop" size="xl"></svg> -->
+                </td>
+                <!-- <td class="text-center">
+                      <svg cIcon name="cibCc{{ user.payment }}" size="xl"></svg>
+                    </td> -->
+                <!-- <td>
+                      <div class="small text-medium-emphasis">Last login</div>
+                      <div class="fw-semibold text-nowrap">
+                        {{ user.activity }}
+                      </div>
+                    </td> -->
+              </tr>
+            </tbody>
+          </table>
+        </c-card-body>
+      </c-card>
+      <c-pagination aria-label="Page navigation example" class="float-lg-end">
+        <li cPageItem [ngClass]="{ disabled: activePage === 1 }">
+          <a cPageLink (click)="onPreviousGroup()" aria-label="Previous">
+            <span aria-hidden="true">&laquo;&laquo;</span>
+          </a>
+        </li>
+        <li cPageItem [ngClass]="{ disabled: activePage === 1 }">
+          <a
+            cPageLink
+            aria-label="Previous"
+            (click)="onPageChange(activePage - 1)"
+            [routerLink]
+            ><span aria-hidden="true">&laquo;</span></a
+          >
+        </li>
+        <!-- *ngFor="let page of totalPages" -->
+        <li cPageItem [ngClass]="{ active: totalPages === activePage }">
+          <a cPageLink [routerLink] (click)="onPageChange(activePage)">{{
+            activePage
+          }}</a>
+        </li>
+        <!-- <li cPageItem>
+          <a cPageLink (click)="onNextGroup()" [routerLink]>{{ "..." }}</a>
+        </li> -->
+        <li cPageItem [ngClass]="{ disabled: activePage === 1 }">
+          <a
+            cPageLink
+            aria-label="Next"
+            [routerLink]
+            (click)="onPageChange(activePage + 1)"
+            ><span aria-hidden="true">&raquo;</span></a
+          >
+        </li>
+        <li cPageItem [ngClass]="{ disabled: activePage === 1 }">
+          <a cPageLink (click)="onNextGroup()" aria-label="Next">
+            <span aria-hidden="true">&raquo;&raquo;</span>
+          </a>
+        </li>
+      </c-pagination>
+    </c-col>
+  </c-row>
+  <!-- </c-container> -->
+</div>
