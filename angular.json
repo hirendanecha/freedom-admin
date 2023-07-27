@@ -146,7 +146,7 @@
               "serviceWorker": false
             }
           },
-          "defaultConfiguration": "test"
+          "defaultConfiguration": "dev"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
