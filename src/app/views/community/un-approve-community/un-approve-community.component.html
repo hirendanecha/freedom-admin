@@ -6,6 +6,23 @@
       <c-card class="mb-4">
         <c-card-header>Unapprove Community</c-card-header>
         <c-card-body>
+          <c-row class="justify-content-start">
+            <c-col md="3">
+              <c-input-group class="input-prepend mb-3">
+                <!-- <span cInputGroupText>
+                  <svg cIcon name="cilMagnifyingGlass"></svg>
+                </span> -->
+                <input
+                  cFormControl
+                  placeholder="Search..."
+                  type="text"
+                  name="search"
+                  [(ngModel)]="searchText"
+                  (keyup)="getCommunityList()"
+                />
+              </c-input-group>
+            </c-col>
+          </c-row>
           <table
             [hover]="true"
             [responsive]="true"
@@ -72,7 +89,7 @@
                 </td>
                 <td>
                   <span (click)="openCommunity(community.Id)">
-                    <svg cIcon name="cilLowVision" size="xl"></svg>
+                    <svg cIcon name="cilPencil" size="xl"></svg>
                   </span>
                   <span (click)="deleteCommunity(community.Id)">
                     <svg cIcon name="cil-trash" size="xl"></svg>
@@ -91,6 +108,9 @@
               </tr>
             </tbody>
           </table>
+          <h4 *ngIf="!communityList.length" class="text-center mt-2">
+            <span>No community available</span>
+          </h4>
         </c-card-body>
       </c-card>
       <c-pagination aria-label="Page navigation example" class="float-lg-end">

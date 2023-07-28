@@ -91,7 +91,8 @@
                   {{ user.Email }}
                 </td>
                 <td>
-                  <ng-container *ngIf="user.AccountType === 'user'">
+                  {{ user.AccountType }}
+                  <!-- <ng-container *ngIf="user.AccountType === 'user'">
                     <c-badge
                       color="success"
                       (click)="changeAccountType(user.Id, 'communityAdmin')"
@@ -104,7 +105,7 @@
                       (click)="changeAccountType(user.Id, 'user')"
                       >Make User</c-badge
                     >
-                  </ng-container>
+                  </ng-container> -->
                   <!-- {{ user.AccountType }} -->
                   <!-- <div class="d-flex justify-content-between">
                       <div class="float-start">
@@ -148,7 +149,7 @@
                 </td>
                 <td>
                   <span (click)="opebEditUserPopup(user.Id)">
-                    <svg cIcon name="cilLowVision" size="xl"></svg>
+                    <svg cIcon name="cilPencil" size="xl"></svg>
                   </span>
                   <span (click)="deleteUser(user.Id)">
                     <svg cIcon name="cil-trash" size="xl"></svg>
@@ -186,12 +187,12 @@
         </li>
         <li
           cPageItem
-          *ngFor="let page of pageGroup"
-          [ngClass]="{ active: page === activePage }"
+          *ngFor="let page of pageGroup; let i = index"
+          [ngClass]="{ active: i + 1 === activePage }"
         >
           <a cPageLink [routerLink] (click)="onPageChange(page)">{{ page }}</a>
         </li>
-        <li cPageItem>
+        <li cPageItem *ngIf="activePage !== totalPages">
           <a cPageLink (click)="onNextGroup()" [routerLink]>{{ "..." }}</a>
         </li>
         <li cPageItem [ngClass]="{ disabled: activePage === totalPages }">
@@ -204,7 +205,12 @@
           >
         </li>
         <li cPageItem>
-          <a cPageLink (click)="onNextGroup()" aria-label="Next">
+          <a
+            cPageLink
+            (click)="onNextGroup()"
+            aria-label="Next"
+            [ngClass]="{ disabled: activePage === totalPages }"
+          >
             <span aria-hidden="true">&raquo;&raquo;</span>
           </a>
         </li>

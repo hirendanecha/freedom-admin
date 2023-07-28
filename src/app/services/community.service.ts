@@ -30,7 +30,7 @@ export class CommunityService {
     const communityId = id;
     const IsApprove = status;
     return this.http.get(
-      `${this.baseUrl}/${communityId}?IsApprove=${IsApprove}`
+      `${this.baseUrl}/status/${communityId}?IsApprove=${IsApprove}`
     );
   }
 
@@ -40,5 +40,17 @@ export class CommunityService {
 
   getCommunityById(id): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}`);
+  }
+
+  searchCommunity(searchText, page, size): Observable<any> {
+    return this.http.get(
+      `${
+        this.baseUrl
+      }/search/?searchText=${searchText.trim()}&?page=${page}&size=${size}`
+    );
+  }
+
+  createCommunityAdmin(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/create-community-admin`, data);
   }
 }

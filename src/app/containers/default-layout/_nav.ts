@@ -244,16 +244,16 @@ export const navItems: INavData[] = [
   {
     name: 'Community',
     url: '/community',
-    // iconComponent: { name: 'cib-asana' },
+    iconComponent: { name: 'cil-bookmark' },
   },
   {
     name: 'Post List',
     url: '/post-list',
-    // iconComponent: { name: 'cil-user' },
+    iconComponent: { name: 'cil-basket' },
   },
   {
     name: 'Users',
     url: '/user',
-    // iconComponent: { name: 'cil-user' },
+    iconComponent: { name: 'cil-user' },
   },
 ];

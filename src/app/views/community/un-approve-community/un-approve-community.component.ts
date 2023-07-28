@@ -23,6 +23,7 @@ export class UnApproveCommunityComponent implements OnInit, AfterViewInit {
   percentage = 0;
   message = '';
   type = '';
+  searchText = '';
   constructor(
     private communityService: CommunityService,
     private modalService: NgbModal
@@ -155,4 +156,27 @@ export class UnApproveCommunityComponent implements OnInit, AfterViewInit {
       (_, i) => i + start
     );
   }
+
+  getCommunityList(): void {
+    const currrentPage = this.activePage;
+    const size = 100;
+    console.log(this.searchText);
+    if (this.searchText) {
+      this.communityService
+        .searchCommunity(this.searchText, currrentPage, size)
+        .subscribe(
+          (res) => {
+            if (res) {
+              this.communityList = res.data;
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    } else {
+      this.getCommunities(this.activePage);
+    }
+  }
+  
 }

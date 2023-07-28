@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommunityService } from 'src/app/services/community.service';
+import { ViewCommunityDialogComponent } from '../view-community/view-community-dialog.component';
 
 @Component({
   selector: 'app-approve-community',
@@ -20,7 +22,11 @@ export class ApproveCommunityComponent implements OnInit {
   percentage = 0;
   message = '';
   type = '';
-  constructor(private communityService: CommunityService) {}
+  searchText = '';
+  constructor(
+    private communityService: CommunityService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
     this.getCommunities();
@@ -59,5 +65,52 @@ export class ApproveCommunityComponent implements OnInit {
 
   deleteCommunity(Id): void {}
 
-  openCommunity(Id): void {}
+  getCommunityList(): void {
+    const currrentPage = this.activePage;
+    const size = 100;
+    console.log(this.searchText);
+    if (this.searchText) {
+      this.communityService
+        .searchCommunity(this.searchText, currrentPage, size)
+        .subscribe(
+          (res) => {
+            if (res) {
+              this.communityList = res.data;
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    } else {
+      this.getCommunities(this.activePage);
+    }
+  }
+
+  openCommunity(Id): void {
+    const modalRef = this.modalService.open(ViewCommunityDialogComponent, {
+      centered: true,
+      size: 'lg',
+    });
+    modalRef.componentInstance.communityId = Id;
+  }
+
+  createCommunityAdmin(userId, communityId): void {
+    const data = {
+      userId: userId,
+      communityId: communityId,
+      isActive: 'Y',
+      isAdmin: 'Y',
+    };
+    this.communityService.createCommunityAdmin(data).subscribe(
+      (res: any) => {
+        if (res) {
+          return res;
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 }

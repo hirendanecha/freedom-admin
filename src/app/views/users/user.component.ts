@@ -17,7 +17,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   activePage = 1;
   totalItems: any;
   pageSize: any;
-  pagesToShow = 10; // Number of page links to show at a tim
+  pagesToShow = 5; // Number of page links to show at a tim
   pageGroup: any;
   position = 'top-end';
   visible = false;
@@ -96,6 +96,7 @@ export class UserComponent implements OnInit, AfterViewInit {
       { length: end - start + 1 },
       (_, i) => i + start
     );
+    console.log(this.pageGroup);
   }
 
   getUserDetails(page?: number): void {
@@ -178,7 +179,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   //   );
   // }
 
-  changeAccountType(Id, status): void {
+  changeAccountType(Id: any, status: any): void {
     this.userService.changeAccountType(Id, status).subscribe(
       (res) => {
         console.log(res);
@@ -194,7 +195,7 @@ export class UserComponent implements OnInit, AfterViewInit {
       }
     );
   }
-  changeIsActiveStatus(Id, status): void {
+  changeIsActiveStatus(Id: any, status: any): void {
     this.userService.changeUserStatus(Id, status).subscribe(
       (res) => {
         console.log(res);
@@ -211,7 +212,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     );
   }
 
-  suspendUser(Id, status): void {
+  suspendUser(Id: any, status: any): void {
     this.userService.suspendUser(Id, status).subscribe(
       (res) => {
         console.log(res);
