@@ -64,4 +64,8 @@ export class UserService {
       }/search/?searchText=${searchText.trim()}&?page=${page}&size=${size}`
     );
   }
+
+  getUserList(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/get`);
+  }
 }

@@ -1,33 +1,5 @@
-<!-- <div class="bg-light d-flex flex-row align-items-center">
+<div class="bg-light flex-row align-items-center min-vh-100">
   <c-container>
-    <c-row class="justify-content-center">
-      <c-col md="8">
-        <span class="clearfix">
-          <h1 class="float-start display-3 me-4">Community</h1>
-          <h4 class="pt-3">The page will appear soon</h4>
-          <p class="text-medium-emphasis float-start">
-            The page you are looking for is temporarily unavailable.
-          </p>
-        </span>
-      </c-col>
-    </c-row>
-  </c-container>
-</div> -->
-
-<c-modal
-  id="liveDemoModal"
-  [visible]="true"
-  [keyboard]="false"
-  [transition]="false"
-  backdrop="static"
-  alignment="center"
-  size="lg"
->
-  <c-modal-header>
-    <h5 cModalTitle>View Community</h5>
-    <button (click)="activateModal.close()" cButtonClose></button>
-  </c-modal-header>
-  <c-modal-body>
     <c-row class="justify-content-center">
       <c-col md="6">
         <label>Community Name</label>
@@ -120,11 +92,22 @@
         />
       </c-col>
     </c-row>
-  </c-modal-body>
-  <c-modal-footer>
-    <button (click)="activateModal.close()" cButton color="secondary">
-      Close
-    </button>
-    <!-- <button cButton color="primary">Save changes</button> -->
-  </c-modal-footer>
-</c-modal>
+    <c-row class="justify-content-center mt-2">
+      <c-col md="12">
+        <label for="">Make Community Admin</label>
+        <ng-multiselect-dropdown
+          [placeholder]="'Select user'"
+          [settings]="dropdownSettings"
+          [data]="dropdownList"
+          [(ngModel)]="selectedItems"
+          (onSelect)="onItemSelect($event)"
+          (onSelectAll)="onSelectAll($event)"
+        >
+        </ng-multiselect-dropdown>
+      </c-col>
+    </c-row>
+    <c-row class="float-end mt-3">
+      <button cButton color="primary" (click)="saveChanges()">Save changes</button>
+    </c-row>
+  </c-container>
+</div>

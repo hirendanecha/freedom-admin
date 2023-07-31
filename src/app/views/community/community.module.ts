@@ -4,7 +4,7 @@ import { CommunityRoutingModule } from './community-routing.module';
 import { CommunityComponent } from './community.component';
 import { ApproveCommunityComponent } from './approve-community/approve-community.component';
 import { UnApproveCommunityComponent } from './un-approve-community/un-approve-community.component';
-import { ViewCommunityDialogComponent } from './view-community/view-community-dialog.component';
+import { ViewCommunityDialogComponent } from './view-community/edit-community.component';
 import {
   AvatarModule,
   BadgeModule,
@@ -23,6 +23,7 @@ import {
 import { IconModule } from '@coreui/icons-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
   declarations: [
     CommunityComponent,
@@ -49,8 +50,9 @@ import { CommonModule } from '@angular/common';
     AvatarModule,
     PaginationModule,
     ModalModule,
+    NgMultiSelectDropDownModule.forRoot(),
   ],
-  exports: [],
+  exports: [ApproveCommunityComponent, UnApproveCommunityComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CommunityModule {}

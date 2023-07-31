@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { CommunityService } from 'src/app/services/community.service';
 import { DeleteDialogComponent } from '../../users/delete-confirmation-dialog/delete-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ViewCommunityDialogComponent } from '../view-community/view-community-dialog.component';
+import { ViewCommunityDialogComponent } from '../view-community/edit-community.component';
 
 @Component({
   selector: 'app-un-approve-community',
@@ -96,13 +96,13 @@ export class UnApproveCommunityComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openCommunity(Id): void {
-    const modalRef = this.modalService.open(ViewCommunityDialogComponent, {
-      centered: true,
-      size: 'lg',
-    });
-    modalRef.componentInstance.communityId = Id;
-  }
+  // openCommunity(Id): void {
+  //   const modalRef = this.modalService.open(ViewCommunityDialogComponent, {
+  //     centered: true,
+  //     size: 'lg',
+  //   });
+  //   modalRef.componentInstance.communityId = Id;
+  // }
 
   calculateTotalPages(): void {
     this.totalPages = Math.ceil(this.totalItems / this.pageSize);

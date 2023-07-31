@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommunityService } from 'src/app/services/community.service';
-import { ViewCommunityDialogComponent } from '../view-community/view-community-dialog.component';
+import { ViewCommunityDialogComponent } from '../view-community/edit-community.component';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-approve-community',
@@ -23,9 +25,11 @@ export class ApproveCommunityComponent implements OnInit {
   message = '';
   type = '';
   searchText = '';
+
   constructor(
     private communityService: CommunityService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -87,12 +91,14 @@ export class ApproveCommunityComponent implements OnInit {
     }
   }
 
-  openCommunity(Id): void {
-    const modalRef = this.modalService.open(ViewCommunityDialogComponent, {
-      centered: true,
-      size: 'lg',
-    });
-    modalRef.componentInstance.communityId = Id;
+  openCommunity(id: any): void {
+    // const modalRef = this.modalService.open(ViewCommunityDialogComponent, {
+    //   centered: true,
+    //   size: 'lg',
+    //   scrollable: false,
+    // });
+    // modalRef.componentInstance.communityId = Id;
+    this.router.navigate([`community/edit/${id}`]);
   }
 
   createCommunityAdmin(userId, communityId): void {

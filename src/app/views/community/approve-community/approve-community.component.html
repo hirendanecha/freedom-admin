@@ -42,6 +42,7 @@
                 <th>Description</th>
                 <th>DateCreation</th>
                 <th>Status</th>
+                <th>Members</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -98,9 +99,10 @@
                       >
                     </ng-container> -->
                 </td>
+                <td>{{ community.members }}</td>
                 <td>
                   <span (click)="openCommunity(community.Id)">
-                    <svg cIcon name="cilPencil" size="xl"></svg>
+                    <svg cIcon name="cilArrowRight" size="xl"></svg>
                   </span>
                   <!-- <span (click)="deleteCommunity(community.Id)">
                     <svg cIcon name="cil-trash" size="xl"></svg>

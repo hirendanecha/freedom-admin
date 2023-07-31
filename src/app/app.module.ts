@@ -48,6 +48,7 @@ import {
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginModule } from './views/login/login.module';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -88,6 +89,7 @@ const APP_CONTAINERS = [
     HttpClientModule,
     FormsModule,
     LoginModule,
+    // NgMultiSelectDropDownModule.forRoot(),
   ],
   providers: [
     // {
