@@ -59,7 +59,11 @@
                   {{ i + 1 }}
                 </td>
                 <td>
-                  <c-avatar [src]="community.logoImg"></c-avatar>
+                  <img
+                  class="avatar-img"
+                    [src]="community.logoImg"
+                    onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-user.png';"
+                  >
                 </td>
                 <td>{{ community.CommunityName }}</td>
                 <td>

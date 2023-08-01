@@ -32,7 +32,10 @@
           type="text"
           disabled
         /> -->
-        <img [src]="communityDetails.logoImg" />
+        <img
+          [src]="communityDetails.logoImg"
+          onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-user.png';"
+        />
         <!-- <c-avtar></c-avtar> -->
       </c-col>
       <c-col md="6" class="d-grid">
@@ -44,7 +47,7 @@
           type="text"
           disabled
         /> -->
-        <img [src]="communityDetails.coverImg" />
+        <img [src]="communityDetails.coverImg" onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-room.png';" />
       </c-col>
     </c-row>
     <c-row class="justify-content-center">
@@ -107,7 +110,9 @@
       </c-col>
     </c-row>
     <c-row class="float-end mt-3">
-      <button cButton color="primary" (click)="saveChanges()">Save changes</button>
+      <button cButton color="primary" (click)="saveChanges()">
+        Save changes
+      </button>
     </c-row>
   </c-container>
 </div>
