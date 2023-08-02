@@ -33,7 +33,7 @@
               >
                 <h1>Login</h1>
                 <p class="text-medium-emphasis">Sign In to your account</p>
-                <c-input-group class="mb-3">
+                <c-input-group class="">
                   <span cInputGroupText>
                     <svg cIcon name="cilUser"></svg>
                   </span>
@@ -44,18 +44,18 @@
                     formControlName="Email"
                     required
                   />
-                  <div
-                    class="srv-validation-message text-danger"
-                    *ngIf="
-                        signInForm.submitted &&
-                           loginForm.controls['Email'].invalid &&
-                           loginForm.controls['Email'].errors?.['required']
-                         "
-                  >
-                    Email field is required.
-                  </div>
                 </c-input-group>
-                <c-input-group class="mb-4">
+                <div
+                  class="srv-validation-message text-danger"
+                  *ngIf="
+                      signInForm.submitted &&
+                         loginForm.controls['Email'].invalid &&
+                         loginForm.controls['Email'].errors?.['required']
+                       "
+                >
+                  Email field is required.
+                </div>
+                <c-input-group class="mt-3">
                   <span cInputGroupText>
                     <svg cIcon name="cilLockLocked"></svg>
                   </span>
@@ -67,18 +67,18 @@
                     formControlName="Password"
                     required
                   />
-                  <div
-                    class="srv-validation-message text-danger"
-                    *ngIf="
-                        signInForm.submitted &&
-                           loginForm.controls['Password'].invalid &&
-                           loginForm.controls['Password'].errors?.['Email']
-                         "
-                  >
-                    Please enter valid email!
-                  </div>
                 </c-input-group>
-                <c-row>
+                <div
+                  class="srv-validation-message text-danger"
+                  *ngIf="
+                      signInForm.submitted &&
+                         loginForm.controls['Password'].invalid &&
+                         loginForm.controls['Password'].errors?.['required']
+                       "
+                >
+                  Password field is required.
+                </div>
+                <c-row class="mt-3">
                   <c-col xs="6">
                     <button cButton class="px-4" color="primary" type="submit">
                       Login
