@@ -16,13 +16,6 @@ import { AppRoutingModule } from './app-routing.module';
 // Import app component
 import { AppComponent } from './app.component';
 
-// Import containers
-import {
-  DefaultFooterComponent,
-  DefaultHeaderComponent,
-  DefaultLayoutComponent,
-} from './containers';
-
 import {
   AvatarModule,
   BadgeModule,
@@ -49,15 +42,21 @@ import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginModule } from './views/login/login.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { FooterComponent } from './containers/default-layout/footer/footer.component';
+import { HeaderComponent } from './containers/default-layout/header/header.component';
+import { LayoutComponent } from './containers/default-layout/layout.component';
 
-const APP_CONTAINERS = [
-  DefaultFooterComponent,
-  DefaultHeaderComponent,
-  DefaultLayoutComponent,
-];
+// const APP_CONTAINERS = [
+
+// ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS],
+  declarations: [
+    AppComponent,
+    FooterComponent,
+    HeaderComponent,
+    LayoutComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

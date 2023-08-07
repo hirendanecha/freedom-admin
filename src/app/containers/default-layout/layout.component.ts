@@ -6,15 +6,14 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './default-layout.component.html',
-  styleUrls: ['./default-layout.component.scss'],
+  templateUrl: './layout.component.html',
+  styleUrls: ['./layout.component.scss'],
 })
-export class DefaultLayoutComponent {
+export class LayoutComponent {
   public navItems = navItems;
 
   constructor(
     private tokenStorage: TokenStorageService,
     private router: Router
-  ) {
-  }
+  ) {}
 }

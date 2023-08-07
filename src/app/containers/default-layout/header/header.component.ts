@@ -1,15 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ClassToggleService } from '@coreui/angular';
 
-import { ClassToggleService, HeaderComponent } from '@coreui/angular';
+// import { ClassToggleService, HeaderComponent } from '@coreui/angular';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 
 @Component({
-  selector: 'app-default-header',
-  templateUrl: './default-header.component.html',
+  selector: 'app-header',
+  templateUrl: './header.component.html',
 })
-export class DefaultHeaderComponent extends HeaderComponent {
+export class HeaderComponent {
   @Input() sidebarId: string = 'sidebar';
 
   public newMessages = new Array(4);
@@ -21,7 +22,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
     private tokenStorageService: TokenStorageService,
     private router: Router
   ) {
-    super();
+    // super();
   }
 
   logout(): void {

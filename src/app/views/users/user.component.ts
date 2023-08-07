@@ -162,23 +162,6 @@ export class UserComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // changeStatusToDeActive(Id, status): void {
-  //   this.userService.changeUserStatus(Id, status).subscribe(
-  //     (res) => {
-  //       console.log(res);
-  //       this.visible = true;
-  //       this.message = res.message;
-  //       this.type = 'success';
-  //       this.getUserDetails(this.activePage);
-  //     },
-  //     (error) => {
-  //       this.type = 'danger';
-  //       this.visible = true;
-  //       this.message = error.err.message;
-  //     }
-  //   );
-  // }
-
   changeAccountType(Id: any, status: any): void {
     this.userService.changeAccountType(Id, status).subscribe(
       (res) => {
@@ -228,22 +211,6 @@ export class UserComponent implements OnInit, AfterViewInit {
       }
     );
   }
-  // activateUser(Id, status): void {
-  //   this.userService.suspendUser(Id, status).subscribe(
-  //     (res) => {
-  //       console.log(res);
-  //       this.visible = true;
-  //       this.type = 'success';
-  //       this.message = res.message;
-  //       this.getUserDetails(this.activePage);
-  //     },
-  //     (error) => {
-  //       this.visible = true;
-  //       this.type = 'danger';
-  //       this.message = error.err.message;
-  //     }
-  //   );
-  // }
 
   onVisibleChange(event: boolean) {
     console.log(event);
