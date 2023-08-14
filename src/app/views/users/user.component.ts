@@ -1,118 +1,59 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ModalModule } from '@coreui/angular';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteDialogComponent } from './delete-confirmation-dialog/delete-dialog.component';
+import { Pagination } from 'src/app/@shared/interface/pagination';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
 })
-export class UserComponent implements OnInit, AfterViewInit {
+export class UserComponent implements OnInit {
   userData: any = [];
-  paggination: any;
-  totalPages: any;
-  activePage = 1;
-  totalItems: any;
-  pageSize: any;
-  pagesToShow = 5; // Number of page links to show at a tim
-  pageGroup: any;
-  position = 'top-end';
+  pagination: Pagination = {
+    activePage: 1,
+    perPage: 100,
+    totalItems: 0
+  };
   visible = false;
   percentage = 0;
   message = '';
   type = '';
-  searchText = '';
+  searchCtrl: FormControl;
+
   constructor(
     private userService: UserService,
     private modalService: NgbModal
-  ) {}
+  ) {
+    this.searchCtrl = new FormControl('');
+    this.searchCtrl.valueChanges.pipe(distinctUntilChanged(), debounceTime(500)).subscribe((val: string) => {
+      if (val) {
+        this.searchUsers(val);
+      } else {
+        this.getUserDetails();
+      }
+    })
+  }
 
   ngOnInit(): void {
     this.getUserDetails();
   }
 
-  ngAfterViewInit(): void {
-    this.activePage = 1;
+  onPageChange(config: Pagination): void {
+    this.pagination = config;
+    this.getUserDetails();
   }
 
-  fetchDataForPage(page: number): void {
-    // Replace this with actual data fetching logic from your API or service
-    const startIndex = (page - 1) * this.pageSize;
-    this.userData = Array.from({ length: this.pageSize }, (_, i) => ({
-      id: startIndex + i + 1,
-      name: `Item ${startIndex + i + 1}`,
-    }));
-  }
-  calculateTotalPages(): void {
-    this.totalPages = Math.ceil(this.totalItems / this.pageSize);
-    console.log('pages', this.totalPages);
-    this.calculatePageGroup();
-  }
-
-  onPageChange(page: any): void {
-    console.log(event);
-    if (page < 1) {
-      this.activePage = 1;
-    } else if (page > this.totalPages) {
-      this.activePage = this.totalPages;
-    } else {
-      this.activePage = page;
-    }
-    // this.activePage = event;
-    console.log(this.activePage);
-    this.getUserDetails(this.activePage);
-
-    this.calculatePageGroup();
-  }
-
-  getPagesArray(): number[] {
-    const totalPages = this.totalPages;
-    this.calculatePageGroup();
-    return Array.from({ length: totalPages }, (_, i) => i + 1);
-  }
-
-  onNextGroup(): void {
-    const lastPageInGroup = this.pageGroup[this.pageGroup.length - 1];
-    this.onPageChange(lastPageInGroup + 1);
-  }
-
-  onPreviousGroup(): void {
-    const firstPageInGroup = this.pageGroup[0];
-    this.onPageChange(firstPageInGroup - 1);
-  }
-
-  calculatePageGroup(): void {
-    const currentGroup = Math.ceil(this.activePage / this.pagesToShow);
-    const lastGroup = Math.ceil(this.totalPages / this.pagesToShow);
-    const start = (currentGroup - 1) * this.pagesToShow + 1;
-    const end =
-      currentGroup === lastGroup
-        ? this.totalPages
-        : currentGroup * this.pagesToShow;
-    this.pageGroup = Array.from(
-      { length: end - start + 1 },
-      (_, i) => i + start
-    );
-    console.log(this.pageGroup);
-  }
-
-  getUserDetails(page?: number): void {
-    const currrentPage = page || this.activePage;
-    const size = 100;
-    this.userService.getAllUserList(currrentPage, size).subscribe(
+  getUserDetails(): void {
+    this.userService.getAllUserList(this.pagination.activePage, this.pagination.perPage).subscribe(
       (res: any) => {
         if (res.data) {
           this.userData = res.data;
-          this.paggination = res.pagination;
-          // this.totalPages = res?.pagination?.totalPages;
-          // this.activePage = res?.pagination?.currentPage;
-          this.totalItems = res?.pagination?.totalItems;
-          this.pageSize = res?.pagination?.pageSize;
-          console.log(this.userData, this.paggination);
-          this.calculateTotalPages();
+          this.pagination.totalItems = res.pagination.totalItems;
         }
       },
       (error) => {
@@ -121,7 +62,21 @@ export class UserComponent implements OnInit, AfterViewInit {
     );
   }
 
-  opebEditUserPopup(userId: any) {
+  searchUsers(search: string): void {
+    this.userService.searchUser(search, this.pagination.activePage, this.pagination.perPage).subscribe({
+      next: (res) => {
+        if (res.data) {
+          this.userData = res.data;
+          this.pagination.totalItems = res.pagination.totalItems;
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  openEditUserPopup(userId: any) {
     console.log(userId);
     const modalRef = this.modalService.open(EditUserDialogComponent, {
       centered: true,
@@ -148,7 +103,7 @@ export class UserComponent implements OnInit, AfterViewInit {
               this.type = 'success';
               this.message = res.message;
               modalRef.close();
-              this.getUserDetails(this.activePage);
+              this.getUserDetails();
             }
           },
           (error) => {
@@ -169,7 +124,7 @@ export class UserComponent implements OnInit, AfterViewInit {
         this.visible = true;
         this.message = res.message;
         this.type = 'success';
-        this.getUserDetails(this.activePage);
+        this.getUserDetails();
       },
       (error) => {
         this.type = 'danger';
@@ -178,6 +133,7 @@ export class UserComponent implements OnInit, AfterViewInit {
       }
     );
   }
+
   changeIsActiveStatus(Id: any, status: any): void {
     this.userService.changeUserStatus(Id, status).subscribe(
       (res) => {
@@ -185,7 +141,7 @@ export class UserComponent implements OnInit, AfterViewInit {
         this.visible = true;
         this.type = 'success';
         this.message = res.message;
-        this.getUserDetails(this.activePage);
+        this.getUserDetails();
       },
       (error) => {
         this.visible = true;
@@ -196,20 +152,20 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   suspendUser(Id: any, status: any): void {
-    this.userService.suspendUser(Id, status).subscribe(
-      (res) => {
+    this.userService.suspendUser(Id, status).subscribe({
+      next: (res) => {
         console.log(res);
         this.visible = true;
         this.message = res.message;
         this.type = 'success';
-        this.getUserDetails(this.activePage);
+        this.getUserDetails();
       },
-      (error) => {
+      error: (error) => {
         this.type = 'danger';
         this.visible = true;
         this.message = error.err.message;
       }
-    );
+    });
   }
 
   onVisibleChange(event: boolean) {
@@ -220,27 +176,5 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   onTimerChange(event: number) {
     this.percentage = event * 25;
-  }
-
-  getUserList(): void {
-    const currrentPage = this.activePage;
-    const size = 100;
-    console.log(this.searchText);
-    if (this.searchText) {
-      this.userService
-        .searchUser(this.searchText, currrentPage, size)
-        .subscribe(
-          (res) => {
-            if (res) {
-              this.userData = res.data;
-            }
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-    } else {
-      this.getUserDetails(this.activePage);
-    }
   }
 }
