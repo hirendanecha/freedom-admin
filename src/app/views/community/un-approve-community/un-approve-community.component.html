@@ -46,70 +46,72 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                class="text-center"
-                *ngFor="let community of communityList; let i = index"
-              >
-                <td>
-                  <!-- <c-avatar
-                        size="md"
-                        src="{{ user.avatar }}"
-                        status="{{ user.status }}"
-                      ></c-avatar> -->
-                  {{ i + 1 }}
-                </td>
-                <td>
-                  <img
-                  class="avatar-img"
-                    [src]="community.logoImg"
-                    onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-user.png';"
-                  >
-                </td>
-                <td>{{ community.CommunityName }}</td>
-                <td>
-                  <!-- <svg
-                        cIcon
-                        id="{{ user.country + user.name }}"
-                        name="cif{{ user.country }}"
-                        size="xl"
-                        title="{{ user.country }}"
-                      ></svg> -->
-                  {{ community.CommunityDescription }}
-                </td>
-                <td>{{ community.creationDate | date : "d-MM-YYYY" }}</td>
-                <td>
-                  <c-badge
-                    color="danger"
-                    (click)="approveCommunity(community.Id, 'Y')"
-                    >UnApprove</c-badge
-                  >
-                  <!-- <ng-container *ngIf="user.IsActive === 'N'">
-                      <c-badge
-                        color="danger"
-                        (click)="changeStatusToActive(user.Id, 'Y')"
-                        >DeActive</c-badge
-                      >
-                    </ng-container> -->
-                </td>
-                <td>
-                  <!-- <span (click)="openCommunity(community.Id)">
-                    <svg cIcon name="cilPencil" size="xl"></svg>
-                  </span> -->
-                  <span (click)="deleteCommunity(community.Id)">
-                    <svg cIcon name="cil-trash" size="xl"></svg>
-                  </span>
-                  <!-- <svg cIcon name="cilDrop" size="xl"></svg> -->
-                </td>
-                <!-- <td class="text-center">
-                      <svg cIcon name="cibCc{{ user.payment }}" size="xl"></svg>
-                    </td> -->
-                <!-- <td>
-                      <div class="small text-medium-emphasis">Last login</div>
-                      <div class="fw-semibold text-nowrap">
-                        {{ user.activity }}
-                      </div>
-                    </td> -->
-              </tr>
+              <ng-container *ngFor="let community of communityList; let i = index">
+                <tr
+                  class="text-center"
+                  *ngIf="community.Id"
+                >
+                  <td>
+                    <!-- <c-avatar
+                          size="md"
+                          src="{{ user.avatar }}"
+                          status="{{ user.status }}"
+                        ></c-avatar> -->
+                    {{ i + 1 }}
+                  </td>
+                  <td>
+                    <img
+                    class="avatar-img"
+                      [src]="community.logoImg"
+                      onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-user.png';"
+                    >
+                  </td>
+                  <td>{{ community.CommunityName }}</td>
+                  <td>
+                    <!-- <svg
+                          cIcon
+                          id="{{ user.country + user.name }}"
+                          name="cif{{ user.country }}"
+                          size="xl"
+                          title="{{ user.country }}"
+                        ></svg> -->
+                    {{ community.CommunityDescription }}
+                  </td>
+                  <td>{{ community.creationDate | date : "d-MM-YYYY" }}</td>
+                  <td>
+                    <c-badge
+                      color="danger"
+                      (click)="approveCommunity(community.Id, 'Y')"
+                      >UnApprove</c-badge
+                    >
+                    <!-- <ng-container *ngIf="user.IsActive === 'N'">
+                        <c-badge
+                          color="danger"
+                          (click)="changeStatusToActive(user.Id, 'Y')"
+                          >DeActive</c-badge
+                        >
+                      </ng-container> -->
+                  </td>
+                  <td>
+                    <!-- <span (click)="openCommunity(community.Id)">
+                      <svg cIcon name="cilPencil" size="xl"></svg>
+                    </span> -->
+                    <span (click)="deleteCommunity(community.Id)">
+                      <svg cIcon name="cil-trash" size="xl"></svg>
+                    </span>
+                    <!-- <svg cIcon name="cilDrop" size="xl"></svg> -->
+                  </td>
+                  <!-- <td class="text-center">
+                        <svg cIcon name="cibCc{{ user.payment }}" size="xl"></svg>
+                      </td> -->
+                  <!-- <td>
+                        <div class="small text-medium-emphasis">Last login</div>
+                        <div class="fw-semibold text-nowrap">
+                          {{ user.activity }}
+                        </div>
+                      </td> -->
+                </tr>
+              </ng-container>
             </tbody>
           </table>
           <h4 *ngIf="!communityList.length" class="text-center mt-2">

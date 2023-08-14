@@ -47,83 +47,85 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                class="text-center"
-                *ngFor="let community of communityList; let i = index"
-              >
-                <td>
-                  <!-- <c-avatar
-                        size="md"
-                        src="{{ user.avatar }}"
-                        status="{{ user.status }}"
-                      ></c-avatar> -->
-                  {{ i + 1 }}
-                </td>
-                <td>
-                  <!-- <c-avatar [src]="community.logoImg"></c-avatar> -->
-                  <img
-                    class="avatar-img"
-                    [src]="community.logoImg"
-                    onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-user.png';"
-                  />
-                  <!-- {{ user.AccountType }} -->
-                  <!-- <div class="d-flex justify-content-between">
-                        <div class="float-start">
-                          <strong>{{ user.usage }}%</strong>
+              <ng-container *ngFor="let community of communityList; let i = index">
+                <tr
+                  class="text-center"
+                  *ngIf="community.Id"
+                >
+                  <td>
+                    <!-- <c-avatar
+                          size="md"
+                          src="{{ user.avatar }}"
+                          status="{{ user.status }}"
+                        ></c-avatar> -->
+                    {{ i + 1 }}
+                  </td>
+                  <td>
+                    <!-- <c-avatar [src]="community.logoImg"></c-avatar> -->
+                    <img
+                      class="avatar-img"
+                      [src]="community.logoImg"
+                      onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-user.png';"
+                    />
+                    <!-- {{ user.AccountType }} -->
+                    <!-- <div class="d-flex justify-content-between">
+                          <div class="float-start">
+                            <strong>{{ user.usage }}%</strong>
+                          </div>
+                          <div class="float-end ms-1 text-nowrap">
+                            <small class="text-medium-emphasis">
+                              {{ user.period }}
+                            </small>
+                          </div>
+                        </div> -->
+                  </td>
+                  <td>{{ community.CommunityName }}</td>
+                  <td>
+                    <!-- <svg
+                          cIcon
+                          id="{{ user.country + user.name }}"
+                          name="cif{{ user.country }}"
+                          size="xl"
+                          title="{{ user.country }}"
+                        ></svg> -->
+                    {{ community.CommunityDescription }}
+                  </td>
+                  <td>{{ community.creationDate | date : "d-MM-YYYY" }}</td>
+                  <td>
+                    <c-badge
+                      color="success"
+                      (click)="upApproveCommunity(community.Id, 'N')"
+                      >Approve</c-badge
+                    >
+                    <!-- <ng-container *ngIf="user.IsActive === 'N'">
+                        <c-badge
+                          color="danger"
+                          (click)="changeStatusToActive(user.Id, 'Y')"
+                          >DeActive</c-badge
+                        >
+                      </ng-container> -->
+                  </td>
+                  <td>{{ community.members }}</td>
+                  <td>
+                    <span (click)="openCommunity(community.Id)">
+                      <svg cIcon name="cilArrowRight" size="xl"></svg>
+                    </span>
+                    <!-- <span (click)="deleteCommunity(community.Id)">
+                      <svg cIcon name="cil-trash" size="xl"></svg>
+                    </span> -->
+                    <!-- <svg cIcon name="cilDrop" size="xl"></svg> -->
+                  </td>
+                  <!-- <td class="text-center">
+                        <svg cIcon name="cibCc{{ user.payment }}" size="xl"></svg>
+                      </td> -->
+                  <!-- <td>
+                        <div class="small text-medium-emphasis">Last login</div>
+                        <div class="fw-semibold text-nowrap">
+                          {{ user.activity }}
                         </div>
-                        <div class="float-end ms-1 text-nowrap">
-                          <small class="text-medium-emphasis">
-                            {{ user.period }}
-                          </small>
-                        </div>
-                      </div> -->
-                </td>
-                <td>{{ community.CommunityName }}</td>
-                <td>
-                  <!-- <svg
-                        cIcon
-                        id="{{ user.country + user.name }}"
-                        name="cif{{ user.country }}"
-                        size="xl"
-                        title="{{ user.country }}"
-                      ></svg> -->
-                  {{ community.CommunityDescription }}
-                </td>
-                <td>{{ community.creationDate | date : "d-MM-YYYY" }}</td>
-                <td>
-                  <c-badge
-                    color="success"
-                    (click)="upApproveCommunity(community.Id, 'N')"
-                    >Approve</c-badge
-                  >
-                  <!-- <ng-container *ngIf="user.IsActive === 'N'">
-                      <c-badge
-                        color="danger"
-                        (click)="changeStatusToActive(user.Id, 'Y')"
-                        >DeActive</c-badge
-                      >
-                    </ng-container> -->
-                </td>
-                <td>{{ community.members }}</td>
-                <td>
-                  <span (click)="openCommunity(community.Id)">
-                    <svg cIcon name="cilArrowRight" size="xl"></svg>
-                  </span>
-                  <!-- <span (click)="deleteCommunity(community.Id)">
-                    <svg cIcon name="cil-trash" size="xl"></svg>
-                  </span> -->
-                  <!-- <svg cIcon name="cilDrop" size="xl"></svg> -->
-                </td>
-                <!-- <td class="text-center">
-                      <svg cIcon name="cibCc{{ user.payment }}" size="xl"></svg>
-                    </td> -->
-                <!-- <td>
-                      <div class="small text-medium-emphasis">Last login</div>
-                      <div class="fw-semibold text-nowrap">
-                        {{ user.activity }}
-                      </div>
-                    </td> -->
-              </tr>
+                      </td> -->
+                </tr>
+              </ng-container>
             </tbody>
           </table>
           <h4 *ngIf="!communityList.length" class="text-center mt-2">

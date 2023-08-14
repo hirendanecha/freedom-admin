@@ -9,7 +9,7 @@ import { User } from 'src/app/containers/user';
 })
 export class EditUserDialogComponent implements OnInit {
   @Input() userId: any;
-  userDetails: User;
+  userDetails: User = new User();
   constructor(
     public activateModal: NgbActiveModal,
     private userService: UserService

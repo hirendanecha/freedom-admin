@@ -1,0 +1,122 @@
+<div class="bg-light flex-row align-items-center">
+  <!-- min-vh-100 -->
+  <c-row>
+    <c-col lg="">
+      <c-card class="mb-4">
+        <c-card-header>Community Posts List</c-card-header>
+        <c-card-body>
+          <c-row class="justify-content-start">
+            <c-col md="3">
+              <c-input-group class="input-prepend mb-3">
+                <!-- <span cInputGroupText>
+                  <svg cIcon name="cilMagnifyingGlass"></svg>
+                </span> -->
+                <input
+                  cFormControl
+                  placeholder="Search..."
+                  type="text"
+                  name="search"
+                  [(ngModel)]="searchText"
+                  (keyup)="getPosts()"
+                />
+              </c-input-group>
+            </c-col>
+          </c-row>
+          <table
+            [hover]="true"
+            [responsive]="true"
+            [striped]="true"
+            align="middle"
+            cTable
+            class="mb-0 border"
+          >
+            <thead cTableColor="light">
+              <tr class="text-center">
+                <th class="text-center">
+                  <!-- <svg cIcon name="cilPeople"></svg> -->
+                  No
+                </th>
+                <th>Profile Pic</th>
+                <th>UserName</th>
+                <th>Description</th>
+                <th>Image Url</th>
+                <th>Created Date</th>
+                <th>Post Type</th>
+                <th>Like Count</th>
+                <th>View Count</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let post of postList; let i = index">
+                <tr class="text-center" *ngIf="post.Id">
+                  <td>
+                    <!-- <c-avatar
+                          size="md"
+                          src="{{ user.avatar }}"
+                          status="{{ user.status }}"
+                        ></c-avatar> -->
+                    {{ i + 1 }}
+                  </td>
+                  <td>
+                    <!-- <c-avatar [src]="community.logoImg"></c-avatar> -->
+                    <img
+                      class="avatar-img"
+                      [src]="post.ProfilePicName"
+                      onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-user.png';"
+                    />
+                    <!-- {{ user.AccountType }} -->
+                    <!-- <div class="d-flex justify-content-between">
+                          <div class="float-start">
+                            <strong>{{ user.usage }}%</strong>
+                          </div>
+                          <div class="float-end ms-1 text-nowrap">
+                            <small class="text-medium-emphasis">
+                              {{ user.period }}
+                            </small>
+                          </div>
+                        </div> -->
+                  </td>
+                  <td>{{ post.Username }}</td>
+                  <td>
+                    <!-- <svg
+                          cIcon
+                          id="{{ user.country + user.name }}"
+                          name="cif{{ user.country }}"
+                          size="xl"
+                          title="{{ user.country }}"
+                        ></svg> -->
+                    {{ post.description }}
+                  </td>
+                  <td>
+                    <img
+                      class="post-img"
+                      [src]="post.imageUrl"
+                      onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-room.png';"
+                    />
+                  </td>
+                  <td>{{ post.createdDate | date : "d-MM-YYYY" }}</td>
+                  <td>{{ post.postType }}</td>
+                  <td>{{ post.likeCount }}</td>
+                  <td>{{ post.viewCount }}</td>
+                  <td>
+                    <span (click)="openCommunityPost(post.Id)">
+                      <svg cIcon name="cilArrowRight" size="xl"></svg>
+                    </span>
+                    <!-- <span (click)="deleteCommunity(post.Id)">
+                      <svg cIcon name="cil-trash" size="xl"></svg>
+                    </span> -->
+                    <!-- <svg cIcon name="cilDrop" size="xl"></svg> -->
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+          <h4 *ngIf="!postList.length" class="text-center mt-2">
+            <span>No community available</span>
+          </h4>
+        </c-card-body>
+      </c-card>
+      </c-col>
+  </c-row>
+</div>

@@ -4,6 +4,7 @@ import { CommunityService } from 'src/app/services/community.service';
 import { ViewCommunityDialogComponent } from '../view-community/edit-community.component';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Router } from '@angular/router';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'app-approve-community',
@@ -29,7 +30,8 @@ export class ApproveCommunityComponent implements OnInit {
   constructor(
     private communityService: CommunityService,
     private modalService: NgbModal,
-    private router: Router
+    private router: Router,
+    private socketService: SocketService
   ) {}
 
   ngOnInit(): void {
@@ -39,16 +41,26 @@ export class ApproveCommunityComponent implements OnInit {
   getCommunities(page?): void {
     const currrentPage = 1 || page || this.activePage;
     const size = 100;
-    this.communityService
-      .getApproveCommunity(currrentPage, size)
-      .subscribe((res: any) => {
-        if (res.data) {
-          this.communityList = res.data;
-          this.paggination = res.paggination;
-          this.totalItems = res?.pagination?.totalItems;
-          this.pageSize = res?.pagination?.pageSize;
-        }
-      });
+    // this.communityService
+    //   .getApproveCommunity(currrentPage, size)
+    //   .subscribe((res: any) => {
+    //     if (res.data) {
+    //       this.communityList = res.data;
+    //       this.paggination = res.paggination;
+    //       this.totalItems = res?.pagination?.totalItems;
+    //       this.pageSize = res?.pagination?.pageSize;
+    //     }
+    //   });
+
+    this.socketService.getApproveCommunity(
+      { currrentPage: currrentPage, size: size },
+      (data) => {
+        console.log(data);
+      }
+    );
+    this.socketService.socket.on('get-Approve-community', (res: any) => {
+      this.communityList = res;
+    });
   }
 
   upApproveCommunity(id, status): void {

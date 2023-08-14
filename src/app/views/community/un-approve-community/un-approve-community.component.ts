@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { CommunityService } from 'src/app/services/community.service';
+import { SocketService } from 'src/app/services/socket.service';
 import { DeleteDialogComponent } from '../../users/delete-confirmation-dialog/delete-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ViewCommunityDialogComponent } from '../view-community/edit-community.component';
@@ -26,7 +27,8 @@ export class UnApproveCommunityComponent implements OnInit, AfterViewInit {
   searchText = '';
   constructor(
     private communityService: CommunityService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private socketService: SocketService
   ) {}
 
   ngOnInit(): void {}
@@ -38,17 +40,30 @@ export class UnApproveCommunityComponent implements OnInit, AfterViewInit {
   getCommunities(page?): void {
     const currrentPage = page || this.activePage;
     const size = 100;
-    this.communityService
-      .getUnApproveCommunity(currrentPage, size)
-      .subscribe((res: any) => {
-        console.log(res);
-        if (res.data) {
-          this.communityList = res.data;
-          this.paggination = res.paggination;
-          this.totalItems = res?.pagination?.totalItems;
-          this.pageSize = res?.pagination?.pageSize;
+    // this.communityService
+    //   .getUnApproveCommunity(currrentPage, size)
+    //   .subscribe((res: any) => {
+    //     console.log(res);
+    //     if (res.data) {
+    //       this.communityList = res.data;
+    //       this.paggination = res.paggination;
+    //       this.totalItems = res?.pagination?.totalItems;
+    //       this.pageSize = res?.pagination?.pageSize;
+    //     }
+    //   });
+    this.socketService.getUnApproveCommunity(
+      { currrentPage: currrentPage, size: size },
+      (data) => {
+        console.log(data);
+      }
+    );
+    this.socketService.socket.on('get-unApprove-community', (res: any) => {
+      res.forEach((element) => {
+        if (element.Id) {
+          this.communityList.push(element);
         }
       });
+    });
   }
   approveCommunity(id, status): void {
     this.communityService.changeCommunityStatus(id, status).subscribe(
@@ -178,5 +193,4 @@ export class UnApproveCommunityComponent implements OnInit, AfterViewInit {
       this.getCommunities(this.activePage);
     }
   }
-  
 }
