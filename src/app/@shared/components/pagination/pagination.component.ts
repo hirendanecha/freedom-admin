@@ -45,7 +45,7 @@ export class PaginationComponent {
     this.setPaginator();
   }
 
-  setPaginator() {
+  setPaginator(): void {
     const totalItems: number = this.items;
     const perPage: number = this.perPageCtrl.value;
     const totalPages: number = Math.ceil(totalItems / perPage);
@@ -85,7 +85,7 @@ export class PaginationComponent {
       isStartEllipsesShow: isStartEllipsesShow,
       isEndEllipsesShow: isEndEllipsesShow,
       pages: startPage <= endPage ? Array(endPage - startPage + 1).fill(0).map((x, i) => startPage + i) : []
-    };
+    } as Pagination;
 
     this.onPageChange.emit(this.config);
   }
