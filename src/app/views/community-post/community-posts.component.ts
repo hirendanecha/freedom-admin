@@ -27,7 +27,7 @@ export class CommunityPostComponent implements OnInit {
     this.communityPostService.getPostList().subscribe(
       (res: any) => {
         if (res) {
-          // this.postList = res;
+          this.postList = res;
           console.log(this.postList);
         }
       },
