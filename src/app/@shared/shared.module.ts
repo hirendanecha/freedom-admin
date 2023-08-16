@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { TableComponent } from './components/table/table.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CardModule, ButtonModule, GridModule, FormModule, TableModule, BadgeModule, PaginationModule, ModalModule, ToastModule, ProgressModule } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 
 const sharedComponents = [
-  PaginationComponent
+  PaginationComponent,
+  TableComponent
 ];
 
 const sharedModules = [
