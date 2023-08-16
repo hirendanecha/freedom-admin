@@ -31,40 +31,22 @@ export class UserComponent implements OnInit {
   ) {
     this.searchCtrl = new FormControl('');
     this.searchCtrl.valueChanges.pipe(distinctUntilChanged(), debounceTime(500)).subscribe((val: string) => {
-      if (val) {
-        this.searchUsers(val);
-      } else {
-        this.getUserDetails();
-      }
+      this.getUserList();
     })
   }
 
   ngOnInit(): void {
-    this.getUserDetails();
+    this.getUserList();
   }
 
   onPageChange(config: Pagination): void {
     this.pagination = config;
-    this.getUserDetails();
+    this.getUserList();
   }
 
-  getUserDetails(): void {
-    this.userService.getAllUserList(this.pagination.activePage, this.pagination.perPage).subscribe(
-      (res: any) => {
-        if (res.data) {
-          this.userData = res.data;
-          this.pagination.totalItems = res.pagination.totalItems;
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
-  searchUsers(search: string): void {
-    this.userService.searchUser(search, this.pagination.activePage, this.pagination.perPage).subscribe({
-      next: (res) => {
+  getUserList(): void {
+    this.userService.userList(this.pagination.activePage, this.pagination.perPage, this.searchCtrl.value).subscribe({
+      next: (res: any) => {
         if (res.data) {
           this.userData = res.data;
           this.pagination.totalItems = res.pagination.totalItems;
@@ -103,7 +85,7 @@ export class UserComponent implements OnInit {
               this.type = 'success';
               this.message = res.message;
               modalRef.close();
-              this.getUserDetails();
+              this.getUserList();
             }
           },
           (error) => {
@@ -124,7 +106,7 @@ export class UserComponent implements OnInit {
         this.visible = true;
         this.message = res.message;
         this.type = 'success';
-        this.getUserDetails();
+        this.getUserList();
       },
       (error) => {
         this.type = 'danger';
@@ -141,7 +123,7 @@ export class UserComponent implements OnInit {
         this.visible = true;
         this.type = 'success';
         this.message = res.message;
-        this.getUserDetails();
+        this.getUserList();
       },
       (error) => {
         this.visible = true;
@@ -158,7 +140,7 @@ export class UserComponent implements OnInit {
         this.visible = true;
         this.message = res.message;
         this.type = 'success';
-        this.getUserDetails();
+        this.getUserList();
       },
       error: (error) => {
         this.type = 'danger';

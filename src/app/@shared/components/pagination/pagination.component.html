@@ -1,6 +1,6 @@
 <ng-container *ngIf="config?.totalPages">
   <c-row class="app-pagination pt-3" >
-    <c-col [xs]="4" class="d-flex align-items-center">
+    <c-col [xs]="6" class="d-flex align-items-center">
       <select [formControl]="perPageCtrl" cSelect class="w-80-px">
         <option value="15">15</option>
         <option value="25">25</option>
@@ -10,10 +10,12 @@
         <option value="500">500</option>
       </select>
 
-      <span class="ps-2">Per page</span>
+      <span class="ps-2 text-secondary">
+        Items per page, {{ ((config.activePage - 1) * config.perPage) || 1 }} – {{ config.activePage * config.perPage }} of {{ config.totalItems }} Items
+      </span>
     </c-col>
 
-    <c-col [xs]="8" class="d-flex justify-content-end">
+    <c-col [xs]="6" class="d-flex justify-content-end">
       <c-pagination aria-label="Page pagination" [size]="size">
         <li cPageItem [disabled]="config.activePage === 1">
           <button cPageLink class="c-pointer" aria-label="First Page" (click)="pageChange(1)"> ‹‹ </button>

@@ -23,17 +23,16 @@ export class PaginationComponent {
   constructor() {
     this.perPageCtrl = new FormControl(this.perPage);
 
-    this.perPageCtrl.valueChanges.pipe(distinctUntilChanged()).subscribe((val: number) => {
-      this.perPage = val;
-      this.config.activePage = 0;
-      this.pageChange(1);
+    this.perPageCtrl.valueChanges.pipe(distinctUntilChanged()).subscribe(() => {
+      this.setPaginator();
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     const items = changes['items'].currentValue;
     if (items) {
-      this.pageChange(this.config?.activePage);
+      this.items = items;
+      this.setPaginator();
     }
   }
 
@@ -42,38 +41,44 @@ export class PaginationComponent {
       return;
     }
 
-    this.config = this.getPaginator(this.items, page, this.perPage);
-    this.onPageChange.emit(this.config);
+    this.activePage = page;
+    this.setPaginator();
   }
 
-  getPaginator(totalItems: number, activePage: number, perPage: number): Pagination {
+  setPaginator() {
+    const totalItems: number = this.items;
+    const perPage: number = this.perPageCtrl.value;
     const totalPages: number = Math.ceil(totalItems / perPage);
     let startPage: number, endPage: number, isStartEllipsesShow: boolean, isEndEllipsesShow: boolean;
+
+    if (this.activePage > totalPages) {
+      this.activePage = 1;
+    }
 
     if (totalPages <= 5) {
       startPage = 1;
       endPage = totalPages;
       isStartEllipsesShow = false;
       isEndEllipsesShow = false;
-    } else if (activePage <= 3) {
+    } else if (this.activePage <= 3) {
       startPage = 1;
       endPage = 4;
       isStartEllipsesShow = false;
       isEndEllipsesShow = true;
-    } else if ((activePage + 2) >= totalPages) {
+    } else if ((this.activePage + 2) >= totalPages) {
       startPage = totalPages - 3;
       endPage = totalPages;
       isStartEllipsesShow = true;
       isEndEllipsesShow = false;
     } else {
-      startPage = activePage - 1;
-      endPage = activePage + 1;
+      startPage = this.activePage - 1;
+      endPage = this.activePage + 1;
       isStartEllipsesShow = true;
       isEndEllipsesShow = true;
     }
 
-    return {
-      activePage: activePage,
+    this.config = {
+      activePage: this.activePage,
       perPage: perPage,
       totalItems: totalItems,
       totalPages: totalPages,
@@ -81,5 +86,7 @@ export class PaginationComponent {
       isEndEllipsesShow: isEndEllipsesShow,
       pages: startPage <= endPage ? Array(endPage - startPage + 1).fill(0).map((x, i) => startPage + i) : []
     };
+
+    this.onPageChange.emit(this.config);
   }
 }
