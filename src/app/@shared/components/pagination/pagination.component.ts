@@ -13,7 +13,7 @@ export class PaginationComponent {
   @Input({ required: true }) items: number;
   @Input() activePage: number = 1;
   @Input() perPage: number = 100;
-  @Input() size: string = 'md';
+  @Input() size: "sm" | "lg" = null;
 
   @Output() onPageChange = new EventEmitter<Pagination>();;
 
@@ -25,6 +25,7 @@ export class PaginationComponent {
 
     this.perPageCtrl.valueChanges.pipe(distinctUntilChanged()).subscribe((val: number) => {
       this.perPage = val;
+      this.config.activePage = 0;
       this.pageChange(1);
     });
   }
