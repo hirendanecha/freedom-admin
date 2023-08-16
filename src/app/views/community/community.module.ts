@@ -5,25 +5,7 @@ import { CommunityComponent } from './community.component';
 import { ApproveCommunityComponent } from './approve-community/approve-community.component';
 import { UnApproveCommunityComponent } from './un-approve-community/un-approve-community.component';
 import { ViewCommunityDialogComponent } from './view-community/edit-community.component';
-import {
-  AvatarModule,
-  BadgeModule,
-  ButtonModule,
-  CardModule,
-  FormModule,
-  GridModule,
-  ModalModule,
-  NavModule,
-  PaginationModule,
-  ProgressModule,
-  TableModule,
-  TabsModule,
-  ToastModule,
-} from '@coreui/angular';
-import { IconModule } from '@coreui/icons-angular';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { SharedModule } from 'src/app/@shared/shared.module';
 @NgModule({
   declarations: [
     CommunityComponent,
@@ -32,25 +14,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     ViewCommunityDialogComponent,
   ],
   imports: [
-    CommonModule,
+    SharedModule,
     CommunityRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    CardModule,
-    ButtonModule,
-    GridModule,
-    IconModule,
-    FormModule,
-    ToastModule,
-    ProgressModule,
-    NavModule,
-    TabsModule,
-    TableModule,
-    BadgeModule,
-    AvatarModule,
-    PaginationModule,
-    ModalModule,
-    NgMultiSelectDropDownModule.forRoot(),
   ],
   exports: [ApproveCommunityComponent, UnApproveCommunityComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -62,6 +62,8 @@
           </td>
         </tr>
       </tbody>
+
+      <h6 *ngIf="!userData.length" class="text-center p-5 m-0">No User available</h6>
     </app-table>
 
     <app-pagination [items]="pagination?.totalItems" (onPageChange)="onPageChange($event)" />

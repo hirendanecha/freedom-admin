@@ -3,7 +3,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { TableComponent } from './components/table/table.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CardModule, ButtonModule, GridModule, FormModule, TableModule, BadgeModule, PaginationModule, ModalModule, ToastModule, ProgressModule } from '@coreui/angular';
+import { AvatarModule, CardModule, ButtonModule, GridModule, FormModule, TableModule, BadgeModule, PaginationModule, ModalModule, ToastModule, ProgressModule, NavModule, TabsModule } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 
 const sharedComponents = [
@@ -16,6 +16,7 @@ const sharedModules = [
   ReactiveFormsModule,
   CommonModule,
   IconModule,
+  AvatarModule,
   CardModule,
   ButtonModule,
   GridModule,
@@ -26,6 +27,8 @@ const sharedModules = [
   ModalModule,
   ToastModule,
   ProgressModule,
+  NavModule,
+  TabsModule
 ];
 
 @NgModule({

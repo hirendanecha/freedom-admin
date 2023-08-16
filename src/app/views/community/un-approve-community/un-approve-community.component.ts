@@ -4,6 +4,8 @@ import { SocketService } from 'src/app/services/socket.service';
 import { DeleteDialogComponent } from '../../users/delete-confirmation-dialog/delete-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ViewCommunityDialogComponent } from '../view-community/edit-community.component';
+import { FormControl } from '@angular/forms';
+import { distinctUntilChanged, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-un-approve-community',
@@ -24,12 +26,17 @@ export class UnApproveCommunityComponent implements OnInit, AfterViewInit {
   percentage = 0;
   message = '';
   type = '';
-  searchText = '';
+  searchCtrl: FormControl;
   constructor(
     private communityService: CommunityService,
     private modalService: NgbModal,
     private socketService: SocketService
-  ) {}
+  ) {
+    this.searchCtrl = new FormControl('');
+    this.searchCtrl.valueChanges.pipe(distinctUntilChanged(), debounceTime(500)).subscribe((val: string) => {
+      this.getCommunities();
+    });
+  }
 
   ngOnInit(): void {}
 
@@ -175,10 +182,10 @@ export class UnApproveCommunityComponent implements OnInit, AfterViewInit {
   getCommunityList(): void {
     const currrentPage = this.activePage;
     const size = 100;
-    console.log(this.searchText);
-    if (this.searchText) {
+    console.log(this.searchCtrl.value);
+    if (this.searchCtrl.value) {
       this.communityService
-        .searchCommunity(this.searchText, currrentPage, size)
+        .searchCommunity(this.searchCtrl.value, currrentPage, size)
         .subscribe(
           (res) => {
             if (res) {

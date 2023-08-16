@@ -5,6 +5,8 @@ import { ViewCommunityDialogComponent } from '../view-community/edit-community.c
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Router } from '@angular/router';
 import { SocketService } from 'src/app/services/socket.service';
+import { FormControl } from '@angular/forms';
+import { distinctUntilChanged, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-approve-community',
@@ -25,14 +27,19 @@ export class ApproveCommunityComponent implements OnInit {
   percentage = 0;
   message = '';
   type = '';
-  searchText = '';
+  searchCtrl: FormControl;
 
   constructor(
     private communityService: CommunityService,
     private modalService: NgbModal,
     private router: Router,
     private socketService: SocketService
-  ) {}
+  ) {
+    this.searchCtrl = new FormControl('');
+    this.searchCtrl.valueChanges.pipe(distinctUntilChanged(), debounceTime(500)).subscribe((val: string) => {
+      this.getCommunities();
+    });
+  }
 
   ngOnInit(): void {
     this.getCommunities();
@@ -84,10 +91,10 @@ export class ApproveCommunityComponent implements OnInit {
   getCommunityList(): void {
     const currrentPage = this.activePage;
     const size = 100;
-    console.log(this.searchText);
-    if (this.searchText) {
+    console.log(this.searchCtrl.value);
+    if (this.searchCtrl.value) {
       this.communityService
-        .searchCommunity(this.searchText, currrentPage, size)
+        .searchCommunity(this.searchCtrl.value, currrentPage, size)
         .subscribe(
           (res) => {
             if (res) {

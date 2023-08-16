@@ -1,28 +1,20 @@
-<div class="bg-light flex-row align-items-center">
-  <!-- min-vh-100 -->
-  <!-- <c-container> -->
-  <c-row class="justify-content-center card-header-pills">
-    <c-nav variant="tabs">
-      <a
-        [active]="true"
-        [cTabContent]="tabContent"
-        [routerLink]
-        [tabPaneIdx]="0"
-        cNavLink
-        >Approve Community</a
-      >
-      <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink
-        >Un Approve Community</a
-      >
+<c-card class="app-community mb-3">
+  <c-card-header class="p-0 border-0">
+    <c-nav variant="tabs" class="m-0 p-0">
+      <a [active]="true" [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="0" cNavLink>Approve Community</a>
+      <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink>Un Approve Community</a>
     </c-nav>
+  </c-card-header>
+
+  <c-card-body>
     <c-tab-content #tabContent="cTabContent">
-      <c-tab-pane class="p-3">
+      <c-tab-pane>
         <app-approve-community></app-approve-community>
       </c-tab-pane>
-      <c-tab-pane class="p-3">
+
+      <c-tab-pane>
         <app-un-approve-community></app-un-approve-community>
       </c-tab-pane>
     </c-tab-content>
-  </c-row>
-  <!-- </c-container> -->
-</div>
+  </c-card-body>
+</c-card>
