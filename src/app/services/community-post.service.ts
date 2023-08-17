@@ -14,27 +14,19 @@ export class CommunityPostService {
   private baseUrl = environment.serverUrl + 'community-post';
   constructor(private http: HttpClient) {}
 
-  getAllUserList(page: number, size: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/?page=${page}&size=${size}`);
-  }
-
-  getUserDetailsById(Id: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${Id}`);
-  }
-
-  deleteUser(id): Observable<any> {
+  deletePost(id): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
-  searchUser(searchText, page, size): Observable<any> {
+  searchUser(page, size, search): Observable<any> {
     return this.http.get(
-      `${
-        this.baseUrl
-      }/search/?searchText=${searchText.trim()}&?page=${page}&size=${size}`
+      `${this.baseUrl}/?page=${page}&size=${size}&search=${search}`
     );
   }
 
-  getPostList(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/`);
+  getPostList(page, size, search): Observable<any> {
+    return this.http.get(
+      `${this.baseUrl}/?page=${page}&size=${size}&search=${search}`
+    );
   }
 }

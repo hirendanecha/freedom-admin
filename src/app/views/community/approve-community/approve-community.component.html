@@ -1,6 +1,11 @@
 <c-row class="pb-3">
   <c-col xs="3">
-    <input cFormControl placeholder="Search..." name="search" [formControl]="searchCtrl" />
+    <input
+      cFormControl
+      placeholder="Search..."
+      name="search"
+      [formControl]="searchCtrl"
+    />
   </c-col>
 </c-row>
 
@@ -19,10 +24,7 @@
   </thead>
   <tbody>
     <ng-container *ngFor="let community of communityList; let i = index">
-      <tr
-        class="text-center"
-        *ngIf="community.Id"
-      >
+      <tr class="text-center" *ngIf="community.Id">
         <td>
           {{ i + 1 }}
         </td>
@@ -47,7 +49,11 @@
         </td>
         <td>{{ community.members }}</td>
         <td>
-          <button class="bg-transparent border-0" size="sm" (click)="openCommunity(community.Id)">
+          <button
+            class="bg-transparent border-0"
+            size="sm"
+            (click)="openCommunity(community.Id)"
+          >
             <svg cIcon name="cilArrowRight" size="md"></svg>
           </button>
         </td>
@@ -59,3 +65,26 @@
     No community available
   </h6>
 </app-table>
+<app-pagination
+  [items]="pagination?.totalItems"
+  (onPageChange)="onPageChange($event)"
+/>
+
+<c-toaster [placement]="'top-end'" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="visible"
+    class="text-bg-{{ type }}"
+  >
+    <c-toast-header>
+      <toast-sample-icon></toast-sample-icon>
+    </c-toast-header>
+    <c-toast-body>
+      <p class="text-white">{{ message }}</p>
+      <c-progress thin>
+        <c-progress-bar [value]="percentage"></c-progress-bar>
+      </c-progress>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>
