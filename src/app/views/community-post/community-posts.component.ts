@@ -3,6 +3,9 @@ import { CommunityPostService } from '../../services/community-post.service';
 import { FormControl } from '@angular/forms';
 import { distinctUntilChanged, debounceTime } from 'rxjs';
 import { Pagination } from 'src/app/@shared/interface/pagination';
+import { DeleteDialogComponent } from '../users/delete-confirmation-dialog/delete-dialog.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-community-posts',
   templateUrl: './community-posts.component.html',
@@ -16,8 +19,16 @@ export class CommunityPostComponent implements OnInit {
     perPage: 15,
     totalItems: 0,
   };
+  visible = false;
+  percentage = 0;
+  message = '';
+  type = '';
 
-  constructor(private communityPostService: CommunityPostService) {
+  constructor(
+    private communityPostService: CommunityPostService,
+    private modalService: NgbModal,
+    private router: Router
+  ) {
     this.searchCtrl = new FormControl('');
     this.searchCtrl.valueChanges
       .pipe(distinctUntilChanged(), debounceTime(500))
@@ -58,6 +69,48 @@ export class CommunityPostComponent implements OnInit {
   }
 
   openCommunityPost(id) {}
-  deleteCommunity(Id) {}
+  deleteCommunityPost(Id): void {
+    const modalRef = this.modalService.open(DeleteDialogComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.title = 'Community Post';
+    modalRef.componentInstance.userId = Id;
+    modalRef.componentInstance.message =
+      'Are you sure want to delete this post?';
+    modalRef.result.then((res) => {
+      if (res === 'success') {
+        this.communityPostService.deletePost(Id).subscribe(
+          (res: any) => {
+            if (res) {
+              this.visible = true;
+              this.type = 'success';
+              this.message = res.message;
+              modalRef.close();
+              this.getPostList();
+            }
+          },
+          (error) => {
+            this.visible = true;
+            this.type = 'danger';
+            this.message = error.err.message;
+            console.log(error);
+          }
+        );
+      }
+    });
+  }
+
+  onVisibleChange(event: boolean) {
+    console.log(event);
+    this.visible = event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
+
+  onTimerChange(event: number) {
+    this.percentage = event * 25;
+  }
   getPosts() {}
+  viewPost(id): void {
+    this.router.navigate([`community-post/${id}`]);
+  }
 }

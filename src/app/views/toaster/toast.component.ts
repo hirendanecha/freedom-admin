@@ -7,7 +7,7 @@ import {
   Renderer2,
 } from '@angular/core';
 
-import { ToastComponent, ToasterService } from '@coreui/angular';
+import { ToasterService } from '@coreui/angular';
 
 @Component({
   selector: 'app-toast-simple',
@@ -16,20 +16,20 @@ import { ToastComponent, ToasterService } from '@coreui/angular';
   providers: [
     {
       provide: ToastComponent,
-      useExisting: forwardRef(() => AppToastComponent),
+      useExisting: forwardRef(() => ToastComponent),
     },
   ],
 })
-export class AppToastComponent extends ToastComponent {
+export class ToastComponent {
   @Input() closeButton = true;
   @Input() title = '';
 
   constructor(
-    public override hostElement: ElementRef,
-    public override renderer: Renderer2,
-    public override toasterService: ToasterService,
-    public override changeDetectorRef: ChangeDetectorRef
+    public hostElement: ElementRef,
+    public renderer: Renderer2,
+    public toasterService: ToasterService,
+    public changeDetectorRef: ChangeDetectorRef
   ) {
-    super(hostElement, renderer, toasterService, changeDetectorRef);
+    // super(hostElement, renderer, toasterService, changeDetectorRef);
   }
 }

@@ -3,12 +3,38 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { TableComponent } from './components/table/table.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AvatarModule, CardModule, ButtonModule, GridModule, FormModule, TableModule, BadgeModule, PaginationModule, ModalModule, ToastModule, ProgressModule, NavModule, TabsModule } from '@coreui/angular';
+import {
+  AvatarModule,
+  CardModule,
+  ButtonModule,
+  GridModule,
+  FormModule,
+  TableModule,
+  BadgeModule,
+  PaginationModule,
+  ModalModule,
+  ToastModule,
+  ProgressModule,
+  NavModule,
+  TabsModule,
+  BreadcrumbModule,
+  FooterModule,
+  DropdownModule,
+  HeaderModule,
+  SidebarModule,
+  UtilitiesModule,
+  ButtonGroupModule,
+  ListGroupModule,
+} from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
+import { DeleteDialogComponent } from '../views/users/delete-confirmation-dialog/delete-dialog.component';
+import { ToastComponent } from '../views/toaster/toast.component';
 
 const sharedComponents = [
   PaginationComponent,
-  TableComponent
+  TableComponent,
+  DeleteDialogComponent,
+  ToastComponent,
 ];
 
 const sharedModules = [
@@ -28,15 +54,21 @@ const sharedModules = [
   ToastModule,
   ProgressModule,
   NavModule,
-  TabsModule
+  TabsModule,
+  BreadcrumbModule,
+  FooterModule,
+  DropdownModule,
+  HeaderModule,
+  SidebarModule,
+  IconModule,
+  UtilitiesModule,
+  ButtonGroupModule,
+  ListGroupModule,
 ];
 
 @NgModule({
   declarations: sharedComponents,
   imports: sharedModules,
-  exports: [
-    ...sharedModules,
-    ...sharedComponents
-  ]
+  exports: [...sharedModules, ...sharedComponents],
 })
-export class SharedModule { }
+export class SharedModule {}

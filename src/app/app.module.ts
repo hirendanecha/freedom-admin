@@ -6,7 +6,7 @@ import {
 } from '@angular/common';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
@@ -15,29 +15,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Import app component
 import { AppComponent } from './app.component';
-
-import {
-  AvatarModule,
-  BadgeModule,
-  BreadcrumbModule,
-  ButtonGroupModule,
-  ButtonModule,
-  CardModule,
-  DropdownModule,
-  FooterModule,
-  FormModule,
-  GridModule,
-  HeaderModule,
-  ListGroupModule,
-  ModalModule,
-  NavModule,
-  ProgressModule,
-  SharedModule,
-  SidebarModule,
-  TabsModule,
-  UtilitiesModule,
-} from '@coreui/angular';
-
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginModule } from './views/login/login.module';
@@ -45,6 +22,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { FooterComponent } from './containers/default-layout/footer/footer.component';
 import { HeaderComponent } from './containers/default-layout/header/header.component';
 import { LayoutComponent } from './containers/default-layout/layout.component';
+import { SharedModule } from './@shared/shared.module';
 
 // const APP_CONTAINERS = [
 
@@ -61,33 +39,11 @@ import { LayoutComponent } from './containers/default-layout/layout.component';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AvatarModule,
-    BreadcrumbModule,
-    FooterModule,
-    DropdownModule,
-    GridModule,
-    HeaderModule,
-    SidebarModule,
-    IconModule,
-    NavModule,
-    ButtonModule,
-    FormModule,
-    UtilitiesModule,
-    ButtonGroupModule,
-    ReactiveFormsModule,
-    SidebarModule,
-    SharedModule,
-    TabsModule,
-    ListGroupModule,
-    ProgressModule,
-    BadgeModule,
-    ListGroupModule,
-    CardModule,
-    ModalModule,
     NgScrollbarModule,
     HttpClientModule,
     FormsModule,
     LoginModule,
+    SharedModule,
     // NgMultiSelectDropDownModule.forRoot(),
   ],
   providers: [

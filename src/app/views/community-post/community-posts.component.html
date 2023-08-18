@@ -19,8 +19,8 @@
           <th class="text-center">No</th>
           <th>Profile Pic</th>
           <th>UserName</th>
-          <th>Description</th>
-          <th>Image Url</th>
+          <!-- <th>Description</th> -->
+          <!-- <th>Image Url</th> -->
           <th>Created Date</th>
           <th>Post Type</th>
           <th>Like Count</th>
@@ -42,16 +42,16 @@
               />
             </td>
             <td>{{ post.Username }}</td>
-            <td>
+            <!-- <td>
               {{ post.description }}
-            </td>
-            <td>
+            </td> -->
+            <!-- <td>
               <img
                 class="post-img"
                 [src]="post.imageUrl"
                 onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-room.png';"
               />
-            </td>
+            </td> -->
             <td>{{ post.createdDate | date : "d-MM-YYYY" }}</td>
             <td>{{ post.postType }}</td>
             <td>{{ post.likeCount }}</td>
@@ -60,9 +60,16 @@
               <button
                 class="bg-transparent border-0"
                 size="sm"
-                (click)="openCommunityPost(post.Id)"
+                (click)="viewPost(post.Id)"
               >
-                <svg cIcon name="cilArrowRight" size="md"></svg>
+                <svg cIcon name="cilLowVision" size="md"></svg>
+              </button>
+              <button
+                class="bg-transparent border-0"
+                size="sm"
+                (click)="deleteCommunityPost(post.Id)"
+              >
+                <svg cIcon name="cil-trash" size="md"></svg>
               </button>
             </td>
           </tr>
@@ -79,3 +86,22 @@
     />
   </c-card-body>
 </c-card>
+
+<c-toaster [placement]="'top-end'" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="visible"
+    class="text-bg-{{ type }}"
+  >
+    <c-toast-header>
+      <toast-sample-icon></toast-sample-icon>
+    </c-toast-header>
+    <c-toast-body>
+      <p class="text-white">{{ message }}</p>
+      <c-progress thin>
+        <c-progress-bar [value]="percentage"></c-progress-bar>
+      </c-progress>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>
