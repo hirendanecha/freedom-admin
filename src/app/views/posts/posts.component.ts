@@ -88,8 +88,8 @@ export class PostsComponent {
     modalRef.result.then((res) => {
       console.log(res);
       if (res === 'success') {
-        this.postService.deletePost(Id).subscribe(
-          (res: any) => {
+        this.postService.deletePost(Id).subscribe({
+          next: (res: any) => {
             if (res) {
               this.visible = true;
               this.type = 'success';
@@ -98,13 +98,13 @@ export class PostsComponent {
               this.getPostList();
             }
           },
-          (error) => {
+          error: (error) => {
             this.visible = true;
             this.type = 'danger';
             this.message = error.err.message;
             console.log(error);
-          }
-        );
+          },
+        });
       }
     });
   }

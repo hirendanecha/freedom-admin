@@ -59,13 +59,18 @@ export class UnApproveCommunityComponent implements OnInit, AfterViewInit {
         this.pagination.perPage,
         this.searchCtrl.value
       )
-      .subscribe((res: any) => {
-        console.log(res);
-        if (res.data) {
-          this.communityList = res.data;
-          this.pagination.totalItems = res?.pagination?.totalItems;
-          this.pagination.perPage = res?.pagination?.pageSize;
-        }
+      .subscribe({
+        next: (res: any) => {
+          console.log(res);
+          if (res.data) {
+            this.communityList = res.data;
+            this.pagination.totalItems = res?.pagination?.totalItems;
+            this.pagination.perPage = res?.pagination?.pageSize;
+          }
+        },
+        error: (error) => {
+          console.log(error);
+        },
       });
     // this.socketService.getUnApproveCommunity(
     //   { currrentPage: currrentPage, size: size },
@@ -81,20 +86,22 @@ export class UnApproveCommunityComponent implements OnInit, AfterViewInit {
     //   });
     // });
   }
-  approveCommunity(id, status): void {
-    this.communityService.changeCommunityStatus(id, status).subscribe(
-      (res) => {
-        this.visible = true;
-        this.message = res.message;
-        this.type = 'success';
-        this.getCommunities();
-      },
-      (error) => {
-        this.type = 'danger';
-        this.visible = true;
-        this.message = error.err.message;
-      }
-    );
+  approveCommunity(id, profileId, status): void {
+    this.communityService
+      .changeCommunityStatus(id, profileId, status)
+      .subscribe({
+        next: (res) => {
+          this.visible = true;
+          this.message = res.message;
+          this.type = 'success';
+          this.getCommunities();
+        },
+        error: (error) => {
+          this.type = 'danger';
+          this.visible = true;
+          this.message = error.err.message;
+        },
+      });
   }
 
   deleteCommunity(Id): void {
@@ -108,21 +115,21 @@ export class UnApproveCommunityComponent implements OnInit, AfterViewInit {
     modalRef.result.then((res) => {
       console.log(res);
       if (res === 'success') {
-        this.communityService.deleteCommunity(Id).subscribe(
-          (res) => {
+        this.communityService.deleteCommunity(Id).subscribe({
+          next: (res) => {
             this.visible = true;
             this.type = 'success';
             this.message = res.message;
             modalRef.close();
             this.getCommunities();
           },
-          (error) => {
+          error: (error) => {
             this.visible = true;
             this.type = 'danger';
             this.message = error.err.message;
             console.log(error);
-          }
-        );
+          },
+        });
       }
     });
   }

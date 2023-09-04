@@ -26,11 +26,12 @@ export class CommunityService {
     );
   }
 
-  changeCommunityStatus(id, status): Observable<any> {
+  changeCommunityStatus(id, pId, status): Observable<any> {
     const communityId = id;
+    const profileId = pId;
     const IsApprove = status;
     return this.http.get(
-      `${this.baseUrl}/status/${communityId}?IsApprove=${IsApprove}`
+      `${this.baseUrl}/status/${communityId}?IsApprove=${IsApprove}&profileId=${profileId}`
     );
   }
 
@@ -50,7 +51,10 @@ export class CommunityService {
     );
   }
 
-  createCommunityAdmin(data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/create-community-admin`, data);
+  createCommunityAdminByMA(data: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/create-community-admin-by-MA`,
+      data
+    );
   }
 }

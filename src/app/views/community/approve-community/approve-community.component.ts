@@ -53,13 +53,18 @@ export class ApproveCommunityComponent implements OnInit {
         this.pagination.perPage,
         this.searchCtrl.value
       )
-      .subscribe((res: any) => {
-        if (res.data) {
-          console.log(res);
-          this.communityList = res.data;
-          this.pagination.totalItems = res?.pagination?.totalItems;
-          this.pagination.perPage = res?.pagination?.pageSize;
-        }
+      .subscribe({
+        next: (res: any) => {
+          if (res.data) {
+            console.log(res);
+            this.communityList = res.data;
+            this.pagination.totalItems = res?.pagination?.totalItems;
+            this.pagination.perPage = res?.pagination?.pageSize;
+          }
+        },
+        error: (error) => {
+          console.log(error);
+        },
       });
 
     // this.socketService.getApproveCommunity(
@@ -73,20 +78,22 @@ export class ApproveCommunityComponent implements OnInit {
     // });
   }
 
-  upApproveCommunity(id, status): void {
-    this.communityService.changeCommunityStatus(id, status).subscribe(
-      (res) => {
-        this.visible = true;
-        this.message = res.message;
-        this.type = 'success';
-        this.getCommunities();
-      },
-      (error) => {
-        this.type = 'danger';
-        this.visible = true;
-        this.message = error.err.message;
-      }
-    );
+  upApproveCommunity(id, profileId, status): void {
+    this.communityService
+      .changeCommunityStatus(id, profileId, status)
+      .subscribe({
+        next: (res) => {
+          this.visible = true;
+          this.message = res.message;
+          this.type = 'success';
+          this.getCommunities();
+        },
+        error: (error) => {
+          this.type = 'danger';
+          this.visible = true;
+          this.message = error.err.message;
+        },
+      });
   }
 
   deleteCommunity(Id): void {}
@@ -102,16 +109,16 @@ export class ApproveCommunityComponent implements OnInit {
       isActive: 'Y',
       isAdmin: 'Y',
     };
-    this.communityService.createCommunityAdmin(data).subscribe(
-      (res: any) => {
+    this.communityService.createCommunityAdminByMA(data).subscribe({
+      next: (res: any) => {
         if (res) {
           return res;
         }
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
-      }
-    );
+      },
+    });
   }
 
   onPageChange(config: Pagination): void {

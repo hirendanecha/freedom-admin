@@ -31,16 +31,16 @@ export class ViewPostComponent implements OnInit, AfterViewInit {
   getPostDetails(): void {
     // const userId = this.userId;
     console.log(this.postId);
-    this.postService.viewPost(this.postId).subscribe(
-      (res: any) => {
+    this.postService.viewPost(this.postId).subscribe({
+      next: (res: any) => {
         if (res) {
           this.postDetails = res[0];
           console.log(this.postDetails);
         }
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
-      }
-    );
+      },
+    });
   }
 }

@@ -24,7 +24,7 @@ export class ViewCommunityDialogComponent implements OnInit, AfterViewInit {
     this.communityId = this.route.snapshot.paramMap.get('id');
     this.dropdownSettings = {
       singleSelection: true,
-      idField: 'Id',
+      idField: 'ID',
       textField: 'Username',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
@@ -43,31 +43,31 @@ export class ViewCommunityDialogComponent implements OnInit, AfterViewInit {
   getUserDetails(): void {
     // const userId = this.userId;
     console.log(this.communityId);
-    this.communityService.getCommunityById(this.communityId).subscribe(
-      (res: any) => {
+    this.communityService.getCommunityById(this.communityId).subscribe({
+      next: (res: any) => {
         if (res) {
           this.communityDetails = res[0];
           console.log(this.communityDetails);
         }
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
-      }
-    );
+      },
+    });
   }
 
   getUserList(): void {
-    this.userService.getUserList().subscribe(
-      (res: any) => {
+    this.userService.getUserList().subscribe({
+      next: (res: any) => {
         if (res.data) {
           this.dropdownList = res.data;
           console.log(this.dropdownList);
         }
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
-      }
-    );
+      },
+    });
   }
 
   onItemSelect(e) {
@@ -81,21 +81,21 @@ export class ViewCommunityDialogComponent implements OnInit, AfterViewInit {
   saveChanges(): void {
     console.log(this.selectedItems);
     const data = {
-      userId: this.selectedItems[0]?.Id,
-      communityId: this.communityId,
-      IsActive: 'Y',
-      IsAdmin: 'Y',
+      profileId: this.selectedItems[0]?.ID,
+      communityId: Number(this.communityId),
+      isActive: 'Y',
+      isAdmin: 'Y',
     };
-    this.communityService.createCommunityAdmin(data).subscribe(
-      (res: any) => {
+    this.communityService.createCommunityAdminByMA(data).subscribe({
+      next: (res: any) => {
         if (res) {
           console.log(res);
           this.router.navigate(['/community']);
         }
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
-      }
-    );
+      },
+    });
   }
 }

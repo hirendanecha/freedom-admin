@@ -56,8 +56,8 @@ export class LoginComponent {
 
   onSubmit(): void {
     // this.spinner.show();
-    this.userService.login(this.loginForm.value).subscribe(
-      (data: any) => {
+    this.userService.login(this.loginForm.value).subscribe({
+      next: (data: any) => {
         console.log(data);
         if (data) {
           // this.spinner.hide();
@@ -84,7 +84,7 @@ export class LoginComponent {
 
         //this.reloadPage();
       },
-      (err) => {
+      error: (err) => {
         // this.spinner.hide();
         console.log(err.error);
         this.visible = true;
@@ -92,7 +92,7 @@ export class LoginComponent {
         this.errorMessage = err.error.message; //err.error.message;
         // this.isLoginFailed = true;
         // this.errorCode = err.error.errorCode;
-      }
-    );
+      },
+    });
   }
 }

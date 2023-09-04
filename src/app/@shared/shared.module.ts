@@ -29,6 +29,7 @@ import {
 import { IconModule } from '@coreui/icons-angular';
 import { DeleteDialogComponent } from '../views/users/delete-confirmation-dialog/delete-dialog.component';
 import { ToastComponent } from '../views/toaster/toast.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 const sharedComponents = [
   PaginationComponent,
@@ -64,6 +65,7 @@ const sharedModules = [
   UtilitiesModule,
   ButtonGroupModule,
   ListGroupModule,
+  NgMultiSelectDropDownModule,
 ];
 
 @NgModule({

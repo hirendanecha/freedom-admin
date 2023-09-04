@@ -21,16 +21,16 @@ export class EditUserDialogComponent implements OnInit {
 
   getUserDetails(): void {
     const userId = this.userId;
-    this.userService.getUserDetailsById(userId).subscribe(
-      (res: any) => {
+    this.userService.getUserDetailsById(userId).subscribe({
+      next: (res: any) => {
         if (res) {
           this.userDetails = res[0];
           console.log(this.userDetails);
         }
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
-      }
-    );
+      },
+    });
   }
 }

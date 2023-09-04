@@ -40,7 +40,9 @@
         </td>
         <td>{{ community.creationDate | date : "d-MM-YYYY" }}</td>
         <td>
-          <c-badge color="danger" (click)="approveCommunity(community.Id, 'Y')"
+          <c-badge
+            color="danger"
+            (click)="approveCommunity(community.Id, community.profileId, 'Y')"
             >UnApprove</c-badge
           >
         </td>

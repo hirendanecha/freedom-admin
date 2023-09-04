@@ -48,8 +48,8 @@ export class CommunityPostComponent implements OnInit {
         this.pagination.perPage,
         this.searchCtrl.value
       )
-      .subscribe(
-        (res: any) => {
+      .subscribe({
+        next: (res: any) => {
           if (res) {
             this.postList = res.data;
             this.pagination.totalItems = res.pagination.totalItems;
@@ -57,10 +57,10 @@ export class CommunityPostComponent implements OnInit {
             console.log(this.postList);
           }
         },
-        (error) => {
+        error: (error) => {
           console.log(error);
-        }
-      );
+        },
+      });
   }
 
   onPageChange(config: Pagination): void {
@@ -79,8 +79,8 @@ export class CommunityPostComponent implements OnInit {
       'Are you sure want to delete this post?';
     modalRef.result.then((res) => {
       if (res === 'success') {
-        this.communityPostService.deletePost(Id).subscribe(
-          (res: any) => {
+        this.communityPostService.deletePost(Id).subscribe({
+          next: (res: any) => {
             if (res) {
               this.visible = true;
               this.type = 'success';
@@ -89,13 +89,13 @@ export class CommunityPostComponent implements OnInit {
               this.getPostList();
             }
           },
-          (error) => {
+          error: (error) => {
             this.visible = true;
             this.type = 'danger';
             this.message = error.err.message;
             console.log(error);
-          }
-        );
+          },
+        });
       }
     });
   }
