@@ -22,7 +22,9 @@ export class UserService {
   }
 
   userList(page: number, size: number, search: string = ''): Observable<any> {
-    return this.http.get(`${this.baseUrl}?page=${page}&size=${size}&search=${search}`);
+    return this.http.get(
+      `${this.baseUrl}?page=${page}&size=${size}&search=${search}`
+    );
   }
 
   getUserDetailsById(Id: any): Observable<any> {
@@ -54,7 +56,7 @@ export class UserService {
   }
 
   deleteUser(id): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+    return this.http.delete(`${this.baseUrl}/${id}`, { responseType: 'text' });
   }
 
   getUserList(): Observable<any> {

@@ -23,26 +23,6 @@ export class DeleteDialogComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  deleteUser(): void {
-    const userId = this.userId;
-    this.userService.deleteUser(userId).subscribe({
-      next: (res: any) => {
-        if (res) {
-          this.visible = true;
-          this.type = 'success';
-          this.resMessage = res.message;
-          this.activateModal.close();
-        }
-      },
-      error: (error) => {
-        this.visible = true;
-        this.type = 'danger';
-        this.resMessage = error.err.message;
-        console.log(error);
-      },
-    });
-  }
-
   onVisibleChange(event: boolean) {
     console.log(event);
     this.visible = event;
