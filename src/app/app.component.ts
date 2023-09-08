@@ -4,6 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { IconSetService } from '@coreui/icons-angular';
 import { iconSubset } from './icons/icon-subset';
 import { Title } from '@angular/platform-browser';
+import { TokenStorageService } from './services/token-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private titleService: Title,
-    private iconSetService: IconSetService
+    private iconSetService: IconSetService,
+    private tokenStorageService: TokenStorageService
   ) {
     titleService.setTitle(this.title);
     // iconSet singleton
@@ -25,6 +27,9 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
+        return;
+      } else if (!this.tokenStorageService.getUser()) {
+        this.router.navigateByUrl('/login');
         return;
       }
     });
