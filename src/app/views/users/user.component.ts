@@ -87,11 +87,11 @@ export class UserComponent implements OnInit {
       console.log(res);
       if (res === 'success') {
         this.userService.deleteUser(userId).subscribe({
-          next: (res: any) => {
-            if (res) {
+          next: (data: any) => {
+            if (data) {
               this.visible = true;
               this.type = 'success';
-              this.message = res.message;
+              this.message = 'User deleted successfully';
               modalRef.close();
               this.getUserList();
             }
