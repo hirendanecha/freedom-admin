@@ -3,19 +3,8 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { TableComponent } from './components/table/table.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CardModule, ButtonModule, GridModule, FormModule, TableModule, BadgeModule, PaginationModule, ModalModule, ToastModule, ProgressModule } from '@coreui/angular';
-import { IconModule } from '@coreui/icons-angular';
-
-const sharedComponents = [
-  PaginationComponent,
-  TableComponent
-];
-
-const sharedModules = [
-  FormsModule,
-  ReactiveFormsModule,
-  CommonModule,
-  IconModule,
+import {
+  AvatarModule,
   CardModule,
   ButtonModule,
   GridModule,
@@ -26,14 +15,62 @@ const sharedModules = [
   ModalModule,
   ToastModule,
   ProgressModule,
+  NavModule,
+  TabsModule,
+  BreadcrumbModule,
+  FooterModule,
+  DropdownModule,
+  HeaderModule,
+  SidebarModule,
+  UtilitiesModule,
+  ButtonGroupModule,
+  ListGroupModule,
+} from '@coreui/angular';
+import { IconModule } from '@coreui/icons-angular';
+import { DeleteDialogComponent } from '../views/users/delete-confirmation-dialog/delete-dialog.component';
+import { ToastComponent } from '../views/toaster/toast.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
+const sharedComponents = [
+  PaginationComponent,
+  TableComponent,
+  DeleteDialogComponent,
+  ToastComponent,
+];
+
+const sharedModules = [
+  FormsModule,
+  ReactiveFormsModule,
+  CommonModule,
+  IconModule,
+  AvatarModule,
+  CardModule,
+  ButtonModule,
+  GridModule,
+  FormModule,
+  TableModule,
+  BadgeModule,
+  PaginationModule,
+  ModalModule,
+  ToastModule,
+  ProgressModule,
+  NavModule,
+  TabsModule,
+  BreadcrumbModule,
+  FooterModule,
+  DropdownModule,
+  HeaderModule,
+  SidebarModule,
+  IconModule,
+  UtilitiesModule,
+  ButtonGroupModule,
+  ListGroupModule,
+  NgMultiSelectDropDownModule,
 ];
 
 @NgModule({
   declarations: sharedComponents,
   imports: sharedModules,
-  exports: [
-    ...sharedModules,
-    ...sharedComponents
-  ]
+  exports: [...sharedModules, ...sharedComponents],
 })
-export class SharedModule { }
+export class SharedModule {}

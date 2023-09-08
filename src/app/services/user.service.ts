@@ -21,8 +21,8 @@ export class UserService {
     });
   }
 
-  getAllUserList(page: number, size: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/?page=${page}&size=${size}`);
+  userList(page: number, size: number, search: string = ''): Observable<any> {
+    return this.http.get(`${this.baseUrl}?page=${page}&size=${size}&search=${search}`);
   }
 
   getUserDetailsById(Id: any): Observable<any> {
@@ -55,14 +55,6 @@ export class UserService {
 
   deleteUser(id): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
-  }
-
-  searchUser(searchText, page, size): Observable<any> {
-    return this.http.get(
-      `${
-        this.baseUrl
-      }/search/?searchText=${searchText.trim()}&?page=${page}&size=${size}`
-    );
   }
 
   getUserList(): Observable<any> {

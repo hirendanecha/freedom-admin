@@ -25,8 +25,8 @@ export class DeleteDialogComponent implements OnInit {
 
   deleteUser(): void {
     const userId = this.userId;
-    this.userService.deleteUser(userId).subscribe(
-      (res: any) => {
+    this.userService.deleteUser(userId).subscribe({
+      next: (res: any) => {
         if (res) {
           this.visible = true;
           this.type = 'success';
@@ -34,13 +34,13 @@ export class DeleteDialogComponent implements OnInit {
           this.activateModal.close();
         }
       },
-      (error) => {
+      error: (error) => {
         this.visible = true;
         this.type = 'danger';
         this.resMessage = error.err.message;
         console.log(error);
-      }
-    );
+      },
+    });
   }
 
   onVisibleChange(event: boolean) {

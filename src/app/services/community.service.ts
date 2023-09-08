@@ -14,23 +14,24 @@ export class CommunityService {
   private baseUrl = environment.serverUrl + 'community';
   constructor(private http: HttpClient) {}
 
-  getApproveCommunity(page: number, size: number): Observable<any> {
+  getApproveCommunity(page: number, size: number, search): Observable<any> {
     return this.http.get(
-      `${this.baseUrl}/approve-community/?page=${page}&size=${size}`
+      `${this.baseUrl}/approve-community/?page=${page}&size=${size}&search=${search}`
     );
   }
 
-  getUnApproveCommunity(page: number, size: number): Observable<any> {
+  getUnApproveCommunity(page: number, size: number, search): Observable<any> {
     return this.http.get(
-      `${this.baseUrl}/un-approve-community/?page=${page}&size=${size}`
+      `${this.baseUrl}/un-approve-community/?page=${page}&size=${size}&search=${search}`
     );
   }
 
-  changeCommunityStatus(id, status): Observable<any> {
+  changeCommunityStatus(id, pId, status): Observable<any> {
     const communityId = id;
+    const profileId = pId;
     const IsApprove = status;
     return this.http.get(
-      `${this.baseUrl}/status/${communityId}?IsApprove=${IsApprove}`
+      `${this.baseUrl}/status/${communityId}?IsApprove=${IsApprove}&profileId=${profileId}`
     );
   }
 
@@ -50,7 +51,10 @@ export class CommunityService {
     );
   }
 
-  createCommunityAdmin(data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/create-community-admin`, data);
+  createCommunityAdminByMA(data: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/create-community-admin-by-MA`,
+      data
+    );
   }
 }

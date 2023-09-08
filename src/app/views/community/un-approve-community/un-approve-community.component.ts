@@ -4,6 +4,9 @@ import { SocketService } from 'src/app/services/socket.service';
 import { DeleteDialogComponent } from '../../users/delete-confirmation-dialog/delete-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ViewCommunityDialogComponent } from '../view-community/edit-community.component';
+import { FormControl } from '@angular/forms';
+import { distinctUntilChanged, debounceTime } from 'rxjs';
+import { Pagination } from 'src/app/@shared/interface/pagination';
 
 @Component({
   selector: 'app-un-approve-community',
@@ -24,12 +27,24 @@ export class UnApproveCommunityComponent implements OnInit, AfterViewInit {
   percentage = 0;
   message = '';
   type = '';
-  searchText = '';
+  searchCtrl: FormControl;
+  pagination: Pagination = {
+    activePage: 1,
+    perPage: 15,
+    totalItems: 0,
+  };
   constructor(
     private communityService: CommunityService,
     private modalService: NgbModal,
     private socketService: SocketService
-  ) {}
+  ) {
+    this.searchCtrl = new FormControl('');
+    this.searchCtrl.valueChanges
+      .pipe(distinctUntilChanged(), debounceTime(500))
+      .subscribe((val: string) => {
+        this.getCommunities();
+      });
+  }
 
   ngOnInit(): void {}
 
@@ -37,48 +52,56 @@ export class UnApproveCommunityComponent implements OnInit, AfterViewInit {
     this.getCommunities();
   }
 
-  getCommunities(page?): void {
-    const currrentPage = page || this.activePage;
-    const size = 100;
-    // this.communityService
-    //   .getUnApproveCommunity(currrentPage, size)
-    //   .subscribe((res: any) => {
-    //     console.log(res);
-    //     if (res.data) {
-    //       this.communityList = res.data;
-    //       this.paggination = res.paggination;
-    //       this.totalItems = res?.pagination?.totalItems;
-    //       this.pageSize = res?.pagination?.pageSize;
+  getCommunities(): void {
+    this.communityService
+      .getUnApproveCommunity(
+        this.pagination.activePage,
+        this.pagination.perPage,
+        this.searchCtrl.value
+      )
+      .subscribe({
+        next: (res: any) => {
+          console.log(res);
+          if (res.data) {
+            this.communityList = res.data;
+            this.pagination.totalItems = res?.pagination?.totalItems;
+            this.pagination.perPage = res?.pagination?.pageSize;
+          }
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+    // this.socketService.getUnApproveCommunity(
+    //   { currrentPage: currrentPage, size: size },
+    //   (data) => {
+    //     console.log(data);
+    //   }
+    // );
+    // this.socketService.socket.on('get-unApprove-community', (res: any) => {
+    //   res.forEach((element) => {
+    //     if (element.Id) {
+    //       this.communityList.push(element);
     //     }
     //   });
-    this.socketService.getUnApproveCommunity(
-      { currrentPage: currrentPage, size: size },
-      (data) => {
-        console.log(data);
-      }
-    );
-    this.socketService.socket.on('get-unApprove-community', (res: any) => {
-      res.forEach((element) => {
-        if (element.Id) {
-          this.communityList.push(element);
-        }
-      });
-    });
+    // });
   }
-  approveCommunity(id, status): void {
-    this.communityService.changeCommunityStatus(id, status).subscribe(
-      (res) => {
-        this.visible = true;
-        this.message = res.message;
-        this.type = 'success';
-        this.getCommunities(this.activePage);
-      },
-      (error) => {
-        this.type = 'danger';
-        this.visible = true;
-        this.message = error.err.message;
-      }
-    );
+  approveCommunity(id, profileId, status): void {
+    this.communityService
+      .changeCommunityStatus(id, profileId, status)
+      .subscribe({
+        next: (res) => {
+          this.visible = true;
+          this.message = res.message;
+          this.type = 'success';
+          this.getCommunities();
+        },
+        error: (error) => {
+          this.type = 'danger';
+          this.visible = true;
+          this.message = error.err.message;
+        },
+      });
   }
 
   deleteCommunity(Id): void {
@@ -92,105 +115,37 @@ export class UnApproveCommunityComponent implements OnInit, AfterViewInit {
     modalRef.result.then((res) => {
       console.log(res);
       if (res === 'success') {
-        this.communityService.deleteCommunity(Id).subscribe(
-          (res) => {
+        this.communityService.deleteCommunity(Id).subscribe({
+          next: (res) => {
             this.visible = true;
             this.type = 'success';
             this.message = res.message;
             modalRef.close();
-            this.getCommunities(this.activePage);
+            this.getCommunities();
           },
-          (error) => {
+          error: (error) => {
             this.visible = true;
             this.type = 'danger';
             this.message = error.err.message;
             console.log(error);
-          }
-        );
+          },
+        });
       }
     });
   }
 
-  // openCommunity(Id): void {
-  //   const modalRef = this.modalService.open(ViewCommunityDialogComponent, {
-  //     centered: true,
-  //     size: 'lg',
-  //   });
-  //   modalRef.componentInstance.communityId = Id;
-  // }
-
-  calculateTotalPages(): void {
-    this.totalPages = Math.ceil(this.totalItems / this.pageSize);
-    console.log('pages', this.totalPages);
-    this.calculatePageGroup();
+  onPageChange(config: Pagination): void {
+    this.pagination = config;
+    this.getCommunities();
   }
 
-  onPageChange(page: any): void {
-    console.log(page);
-    if (page < 1) {
-      this.activePage = 1;
-    } else if (page > this.totalPages) {
-      this.activePage = this.totalPages;
-    } else {
-      this.activePage = page;
-    }
-    // this.activePage = page;
-    console.log(this.activePage);
-    this.getCommunities(this.activePage);
-
-    // this.calculatePageGroup();
+  onVisibleChange(event: boolean) {
+    console.log(event);
+    this.visible = event;
+    this.percentage = !this.visible ? 0 : this.percentage;
   }
 
-  getPagesArray(): number[] {
-    const totalPages = this.totalPages;
-    // this.calculatePageGroup();
-    console.log(Array.from({ length: totalPages }, (_, i) => i + 1));
-    return Array.from({ length: totalPages }, (_, i) => i + 1);
-  }
-
-  onNextGroup(): void {
-    const lastPageInGroup = this.pageGroup[this.pageGroup.length - 1];
-    this.onPageChange(lastPageInGroup + 1);
-  }
-
-  onPreviousGroup(): void {
-    const firstPageInGroup = this.pageGroup[0];
-    this.onPageChange(firstPageInGroup - 1);
-  }
-
-  calculatePageGroup(): void {
-    const currentGroup = Math.ceil(this.activePage / this.pagesToShow);
-    const lastGroup = Math.ceil(this.totalPages / this.pagesToShow);
-    const start = (currentGroup - 1) * this.pagesToShow + 1;
-    const end =
-      currentGroup === lastGroup
-        ? this.totalPages
-        : currentGroup * this.pagesToShow;
-    this.pageGroup = Array.from(
-      { length: end - start + 1 },
-      (_, i) => i + start
-    );
-  }
-
-  getCommunityList(): void {
-    const currrentPage = this.activePage;
-    const size = 100;
-    console.log(this.searchText);
-    if (this.searchText) {
-      this.communityService
-        .searchCommunity(this.searchText, currrentPage, size)
-        .subscribe(
-          (res) => {
-            if (res) {
-              this.communityList = res.data;
-            }
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-    } else {
-      this.getCommunities(this.activePage);
-    }
+  onTimerChange(event: number) {
+    this.percentage = event * 25;
   }
 }

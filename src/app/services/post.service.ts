@@ -10,18 +10,12 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root',
 })
-export class CommunityPostService {
-  private baseUrl = environment.serverUrl + 'community-post';
+export class PostService {
+  private baseUrl = environment.serverUrl + 'posts';
   constructor(private http: HttpClient) {}
 
   deletePost(id): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
-  }
-
-  searchUser(page, size, search): Observable<any> {
-    return this.http.get(
-      `${this.baseUrl}/?page=${page}&size=${size}&search=${search}`
-    );
   }
 
   getPostList(page, size, search): Observable<any> {
@@ -29,7 +23,7 @@ export class CommunityPostService {
       `${this.baseUrl}/?page=${page}&size=${size}&search=${search}`
     );
   }
-  
+
   viewPost(id): Observable<any> {
     return this.http.get(`${this.baseUrl}/get/${id}`);
   }

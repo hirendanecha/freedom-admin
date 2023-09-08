@@ -17,7 +17,7 @@ export class UserComponent implements OnInit {
   pagination: Pagination = {
     activePage: 1,
     perPage: 100,
-    totalItems: 0
+    totalItems: 0,
   };
   visible = false;
   percentage = 0;
@@ -30,50 +30,40 @@ export class UserComponent implements OnInit {
     private modalService: NgbModal
   ) {
     this.searchCtrl = new FormControl('');
-    this.searchCtrl.valueChanges.pipe(distinctUntilChanged(), debounceTime(500)).subscribe((val: string) => {
-      if (val) {
-        this.searchUsers(val);
-      } else {
-        this.getUserDetails();
-      }
-    })
+    this.searchCtrl.valueChanges
+      .pipe(distinctUntilChanged(), debounceTime(500))
+      .subscribe((val: string) => {
+        this.getUserList();
+      });
   }
 
   ngOnInit(): void {
-    this.getUserDetails();
+    this.getUserList();
   }
 
   onPageChange(config: Pagination): void {
     this.pagination = config;
-    this.getUserDetails();
+    this.getUserList();
   }
 
-  getUserDetails(): void {
-    this.userService.getAllUserList(this.pagination.activePage, this.pagination.perPage).subscribe(
-      (res: any) => {
-        if (res.data) {
-          this.userData = res.data;
-          this.pagination.totalItems = res.pagination.totalItems;
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
-  searchUsers(search: string): void {
-    this.userService.searchUser(search, this.pagination.activePage, this.pagination.perPage).subscribe({
-      next: (res) => {
-        if (res.data) {
-          this.userData = res.data;
-          this.pagination.totalItems = res.pagination.totalItems;
-        }
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
+  getUserList(): void {
+    this.userService
+      .userList(
+        this.pagination.activePage,
+        this.pagination.perPage,
+        this.searchCtrl.value
+      )
+      .subscribe({
+        next: (res: any) => {
+          if (res.data) {
+            this.userData = res.data;
+            this.pagination.totalItems = res.pagination.totalItems;
+          }
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
   openEditUserPopup(userId: any) {
@@ -96,59 +86,59 @@ export class UserComponent implements OnInit {
     modalRef.result.then((res) => {
       console.log(res);
       if (res === 'success') {
-        this.userService.deleteUser(userId).subscribe(
-          (res: any) => {
+        this.userService.deleteUser(userId).subscribe({
+          next: (res: any) => {
             if (res) {
               this.visible = true;
               this.type = 'success';
               this.message = res.message;
               modalRef.close();
-              this.getUserDetails();
+              this.getUserList();
             }
           },
-          (error) => {
+          error: (error) => {
             this.visible = true;
             this.type = 'danger';
             this.message = error.err.message;
             console.log(error);
-          }
-        );
+          },
+        });
       }
     });
   }
 
   changeAccountType(Id: any, status: any): void {
-    this.userService.changeAccountType(Id, status).subscribe(
-      (res) => {
+    this.userService.changeAccountType(Id, status).subscribe({
+      next: (res) => {
         console.log(res);
         this.visible = true;
         this.message = res.message;
         this.type = 'success';
-        this.getUserDetails();
+        this.getUserList();
       },
-      (error) => {
+      error: (error) => {
         this.type = 'danger';
         this.visible = true;
         this.message = error.err.message;
-      }
-    );
+      },
+    });
   }
 
   changeIsActiveStatus(Id: any, status: any): void {
-    this.userService.changeUserStatus(Id, status).subscribe(
-      (res) => {
+    this.userService.changeUserStatus(Id, status).subscribe({
+      next: (res) => {
         console.log(res);
         this.visible = true;
         this.type = 'success';
         this.message = res.message;
-        this.getUserDetails();
+        this.getUserList();
       },
-      (error) => {
+      error: (error) => {
         this.visible = true;
         this.type = 'danger';
         this.message = error.err.message;
-      }
-    );
+      },
+    });
   }
 
   suspendUser(Id: any, status: any): void {
@@ -158,13 +148,13 @@ export class UserComponent implements OnInit {
         this.visible = true;
         this.message = res.message;
         this.type = 'success';
-        this.getUserDetails();
+        this.getUserList();
       },
       error: (error) => {
         this.type = 'danger';
         this.visible = true;
         this.message = error.err.message;
-      }
+      },
     });
   }
 
