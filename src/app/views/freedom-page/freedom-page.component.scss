@@ -1,0 +1,13 @@
+.app-community {
+  c-nav .nav-link {
+    border-radius: 0px;
+
+    &.active {
+      border-top: 3px solid #000;
+
+      &:first-child {
+        border-left: 1px solid transparent;
+      }
+    }
+  }
+}

@@ -14,11 +14,12 @@
     <tr class="text-center">
       <th class="text-center">No</th>
       <th>Logo</th>
-      <th>Community Name</th>
+      <th>Page Name</th>
       <th>Slug Name</th>
       <th>Description</th>
       <th>DateCreation</th>
       <th>Status</th>
+      <th>Members</th>
       <th>Action</th>
     </tr>
   </thead>
@@ -43,18 +44,19 @@
         <td>{{ community.creationDate | date : "d-MM-YYYY" }}</td>
         <td>
           <c-badge
-            color="danger"
-            (click)="approveCommunity(community.Id, community.profileId, 'Y')"
-            >UnApprove</c-badge
+            color="success"
+            (click)="upApproveCommunity(community.Id, community.profileId, 'N')"
+            >Approve</c-badge
           >
         </td>
+        <td>{{ community.members }}</td>
         <td>
           <button
             class="bg-transparent border-0"
             size="sm"
-            (click)="deleteCommunity(community.Id)"
+            (click)="openCommunity(community.Id)"
           >
-            <svg cIcon name="cil-trash" size="md"></svg>
+            <svg cIcon name="cilArrowRight" size="md"></svg>
           </button>
         </td>
       </tr>
