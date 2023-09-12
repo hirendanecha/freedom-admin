@@ -1,0 +1,14 @@
+// .avatar-img {
+//   width: 2.5rem;
+//   height: 2.5rem;
+// }
+
+::ng-deep .multiselect-dropdown {
+  .dropdown-btn {
+    .selected-item-container {
+      .selected-item {
+        max-width: fit-content !important;
+      }
+    }
+  }
+}

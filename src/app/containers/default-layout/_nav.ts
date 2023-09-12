@@ -247,6 +247,11 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-bookmark' },
   },
   {
+    name: 'Freedom Page',
+    url: '/pages',
+    iconComponent: { name: 'cil-layers' },
+  },
+  {
     name: 'Post List',
     url: '/post-list',
     iconComponent: { name: 'cil-basket' },
@@ -254,7 +259,7 @@ export const navItems: INavData[] = [
   {
     name: 'Community Post List',
     url: '/community-post',
-    iconComponent: { name: 'cil-basket' },
+    iconComponent: { name: 'cil-library' },
   },
   {
     name: 'Users',

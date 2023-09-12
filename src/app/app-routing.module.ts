@@ -27,11 +27,11 @@ const routes: Routes = [
             (m) => m.DashboardModule
           ),
       },
-      {
-        path: 'pages',
-        loadChildren: () =>
-          import('./views/pages/pages.module').then((m) => m.PagesModule),
-      },
+      // {
+      //   path: 'pages',
+      //   loadChildren: () =>
+      //     import('./views/pages/pages.module').then((m) => m.PagesModule),
+      // },
       {
         path: 'post-list',
         loadChildren: () =>
@@ -53,6 +53,11 @@ const routes: Routes = [
         path: 'user',
         loadChildren: () =>
           import('./views/users/user.module').then((m) => m.UserModule),
+      },
+      {
+        path: 'pages',
+        loadChildren: () =>
+          import('./views/freedom-page/freedom-page.module').then((m) => m.FreedomPageModule),
       },
     ],
   },
@@ -98,4 +103,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
