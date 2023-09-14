@@ -41,12 +41,23 @@
           {{ community.CommunityDescription }}
         </td>
         <td>{{ community.creationDate | date : "d-MM-YYYY" }}</td>
-        <td>
+        <!-- <td>
           <c-badge
             color="danger"
             (click)="approveCommunity(community.Id, community.profileId, 'Y')"
             >UnApprove</c-badge
           >
+        </td> -->
+        <td class="form-switch">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            [checked]="community.isApprove === 'Y'"
+            (change)="
+            approveCommunity(community.Id, community.profileId, 'N')
+            "
+          />
         </td>
         <td>
           <button

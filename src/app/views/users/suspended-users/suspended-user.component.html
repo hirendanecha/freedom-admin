@@ -1,0 +1,112 @@
+<c-row class="pb-3">
+  <c-col xs="3">
+    <input
+      cFormControl
+      placeholder="Search..."
+      name="search"
+      [formControl]="searchCtrl"
+    />
+  </c-col>
+</c-row>
+
+<app-table>
+  <thead cTableColor="light">
+    <tr class="text-center">
+      <th class="text-center">Id</th>
+      <th>Profile</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>AccountType</th>
+      <th>DateCreation</th>
+      <th>Status</th>
+      <th>Suspended</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr class="text-center" *ngFor="let user of userData; let i = index">
+      <td>
+        {{ user.Id }}
+      </td>
+      <td>
+        <img
+          class="avatar-img"
+          [src]="user.ProfilePicName"
+          onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-user.png';"
+        />
+      </td>
+      <td>{{ user.Username }}</td>
+      <td>
+        {{ user.Email }}
+      </td>
+      <td>
+        {{ user.AccountType }}
+      </td>
+      <td>{{ user.DateCreation | date : "d-MM-YYYY" }}</td>
+      <td>
+        <ng-container *ngIf="user.IsActive === 'Y'">
+          <c-badge color="success">Verified</c-badge>
+          <!-- (click)="changeIsActiveStatus(user.Id, 'N')" -->
+        </ng-container>
+        <ng-container *ngIf="user.IsActive === 'N'">
+          <c-badge color="danger">Unverified</c-badge>
+        </ng-container>
+      </td>
+      <td class="form-switch">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          role="switch"
+          [checked]="user.IsSuspended === 'Y'"
+          (change)="suspendUser(user.Id, user.IsSuspended === 'Y' ? 'N' : 'Y')"
+        />
+      </td>
+      <td>
+        <button
+          class="bg-transparent border-0"
+          size="sm"
+          (click)="openEditUserPopup(user.profileId)"
+        >
+        <svg cIcon name="cilLowVision" size="md"></svg>
+        </button>
+
+        <button
+          class="bg-transparent border-0"
+          size="sm"
+          (click)="deleteUser(user.Id)"
+        >
+          <svg cIcon name="cil-trash" size="md"></svg>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+
+  <h6 *ngIf="!userData.length" class="text-center p-5 m-0">
+    No User available
+  </h6>
+</app-table>
+
+<app-pagination
+  [items]="pagination?.totalItems"
+  (onPageChange)="onPageChange($event)"
+/>
+
+<c-toaster [placement]="'top-end'" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="visible"
+    class="text-bg-{{ type }}"
+  >
+    <c-toast-header>
+      <toast-sample-icon></toast-sample-icon>
+    </c-toast-header>
+    <c-toast-body>
+      <p class="text-white">{{ message }}</p>
+      <c-progress thin>
+        <c-progress-bar [value]="percentage"></c-progress-bar>
+      </c-progress>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>

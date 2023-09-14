@@ -12,7 +12,7 @@ const httpOptions = {
 })
 export class PostService {
   private baseUrl = environment.serverUrl + 'posts';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   deletePost(id): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
@@ -24,7 +24,15 @@ export class PostService {
     );
   }
 
-  viewPost(id): Observable<any> {
+  getPostDetails(id): Observable<any> {
     return this.http.get(`${this.baseUrl}/get/${id}`);
+  }
+
+  viewPost(id): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${id}`);
+  }
+
+  getComments(id): Observable<any> {
+    return this.http.get(`${this.baseUrl}/comments/${id}`);
   }
 }

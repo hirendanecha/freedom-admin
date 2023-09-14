@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { TableComponent } from './components/table/table.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgSwitch } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   AvatarModule,
@@ -73,4 +73,4 @@ const sharedModules = [
   imports: sharedModules,
   exports: [...sharedModules, ...sharedComponents],
 })
-export class SharedModule {}
+export class SharedModule { }

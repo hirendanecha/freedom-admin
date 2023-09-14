@@ -256,11 +256,11 @@ export const navItems: INavData[] = [
     url: '/post-list',
     iconComponent: { name: 'cil-basket' },
   },
-  {
-    name: 'Community Post List',
-    url: '/community-post',
-    iconComponent: { name: 'cil-library' },
-  },
+  // {
+  //   name: 'Community Post List',
+  //   url: '/community-post',
+  //   iconComponent: { name: 'cil-library' },
+  // },
   {
     name: 'Users',
     url: '/user',
