@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserComponent } from './user.component';
+import { ViewUserPostComponent } from './view-post-list/post-list.component';
 
 const routes: Routes = [
   {
@@ -9,6 +10,13 @@ const routes: Routes = [
     data: {
       title: 'User Page',
     },
+  },
+  {
+    path: ':id',
+    component: ViewUserPostComponent,
+    data: {
+      title: 'User Posts',
+    },
   }
 ];
 
@@ -16,4 +24,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class UserRoutingModule {}
+export class UserRoutingModule { }

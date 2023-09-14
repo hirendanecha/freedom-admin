@@ -12,7 +12,7 @@ const httpOptions = {
 })
 export class UserService {
   private baseUrl = environment.serverUrl + 'customers';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(login: any): Observable<Object> {
     return this.http.post(`${this.baseUrl}/login`, {
@@ -21,9 +21,9 @@ export class UserService {
     });
   }
 
-  userList(page: number, size: number, search: string = ''): Observable<any> {
+  userList(page: number, size: number, search: string = '', isSuspended: string): Observable<any> {
     return this.http.get(
-      `${this.baseUrl}?page=${page}&size=${size}&search=${search}`
+      `${this.baseUrl}?page=${page}&size=${size}&search=${search}&isSuspended=${isSuspended}`
     );
   }
 

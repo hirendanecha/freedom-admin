@@ -37,11 +37,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/posts/post.module').then((m) => m.PostModule),
       },
-      {
-        path: 'community-post',
-        loadChildren: () =>
-          import('./views/community-post/community-post.module').then((m) => m.CommunityPostModule),
-      },
+      // {
+      //   path: 'community-post',
+      //   loadChildren: () =>
+      //     import('./views/community-post/community-post.module').then((m) => m.CommunityPostModule),
+      // },
       {
         path: 'community',
         loadChildren: () =>
