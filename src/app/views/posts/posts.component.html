@@ -11,6 +11,20 @@
           [formControl]="searchCtrl"
         />
       </c-col>
+      <c-col lg="3">
+        <input cFormControl type="date" [(ngModel)]="fromDate" />
+      </c-col>
+      <c-col lg="3">
+        <input
+          cFormControl
+          type="date"
+          placeholder="Search..."
+          [(ngModel)]="toDate"
+        />
+      </c-col>
+      <c-col lg="1">
+        <button cButton color="primary" (click)="searchData()">Search</button>
+      </c-col>
     </c-row>
 
     <app-table>

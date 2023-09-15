@@ -47,6 +47,7 @@
       <td>
         <ng-container *ngIf="user.IsActive === 'Y'">
           <c-badge color="success">Verified</c-badge>
+          <!-- (click)="changeIsActiveStatus(user.Id, 'N')" -->
         </ng-container>
         <ng-container *ngIf="user.IsActive === 'N'">
           <c-badge color="danger">Unverified</c-badge>
@@ -85,12 +86,12 @@
     No User available
   </h6>
 </app-table>
-
-<app-pagination
-  [items]="pagination?.totalItems"
-  (onPageChange)="onPageChange($event)"
-/>
-
+<ng-container *ngIf="userData?.length">
+  <app-pagination
+    [items]="pagination?.totalItems"
+    (onPageChange)="onPageChange($event)"
+  />
+</ng-container>
 <c-toaster [placement]="'top-end'" class="p-3" position="fixed">
   <c-toast
     (timer)="onTimerChange($event)"

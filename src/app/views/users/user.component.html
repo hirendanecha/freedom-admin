@@ -17,13 +17,19 @@
   </c-card-header>
 
   <c-card-body>
-    <c-tab-content #tabContent="cTabContent">
+    <c-tab-content
+      #tabContent="cTabContent"
+      (activeTabPaneIdxChange)="onTabChange($event)"
+    >
       <c-tab-pane>
-        <app-un-suspended-user />
+        <ng-container *ngIf="activeTab === 0">
+          <app-user-card [activeTab]="activeTab" />
+        </ng-container>
       </c-tab-pane>
-
       <c-tab-pane>
-        <app-suspended-user />
+        <ng-container *ngIf="activeTab == 1">
+          <app-user-card [activeTab]="activeTab" />
+        </ng-container>
       </c-tab-pane>
     </c-tab-content>
   </c-card-body>

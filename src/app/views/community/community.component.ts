@@ -7,5 +7,10 @@ import { Component } from '@angular/core';
 })
 export class CommunityComponent {
   activeTab = 1;
-  constructor() {}
+  constructor() { }
+
+  onTabChange(event): void {
+    this.activeTab = event
+    console.log('tab event ==>', event);
+  }
 }

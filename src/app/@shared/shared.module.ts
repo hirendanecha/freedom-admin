@@ -24,18 +24,21 @@ import {
   SidebarModule,
   UtilitiesModule,
   ButtonGroupModule,
-  ListGroupModule,
+  ListGroupModule
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { DeleteDialogComponent } from '../views/users/delete-confirmation-dialog/delete-dialog.component';
 import { ToastComponent } from '../views/toaster/toast.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { PageCardComponent } from './components/page-card/page-card.component';
 
 const sharedComponents = [
   PaginationComponent,
   TableComponent,
   DeleteDialogComponent,
   ToastComponent,
+  PageCardComponent
 ];
 
 const sharedModules = [
@@ -66,6 +69,7 @@ const sharedModules = [
   ButtonGroupModule,
   ListGroupModule,
   NgMultiSelectDropDownModule,
+  NgbDatepickerModule
 ];
 
 @NgModule({

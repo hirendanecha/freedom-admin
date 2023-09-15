@@ -16,13 +16,20 @@
   </c-card-header>
 
   <c-card-body>
-    <c-tab-content #tabContent="cTabContent">
+    <c-tab-content
+      #tabContent="cTabContent"
+      (activeTabPaneIdxChange)="onTabChange($event)"
+    >
       <c-tab-pane>
-        <app-approve-page></app-approve-page>
+        <ng-container *ngIf="activeTab === 0">
+          <app-page-card [activeTab]="activeTab" pageType="page"></app-page-card>
+        </ng-container>
       </c-tab-pane>
 
       <c-tab-pane>
-        <app-un-approve-page></app-un-approve-page>
+        <ng-container *ngIf="activeTab === 1">
+          <app-page-card [activeTab]="activeTab"></app-page-card>
+        </ng-container>
       </c-tab-pane>
     </c-tab-content>
   </c-card-body>
