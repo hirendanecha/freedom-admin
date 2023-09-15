@@ -12,17 +12,17 @@ const httpOptions = {
 })
 export class CommunityService {
   private baseUrl = environment.serverUrl + 'community';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getApproveCommunity(page: number, size: number, search): Observable<any> {
+  getApproveCommunity(page: number, size: number, search, pageType: string): Observable<any> {
     return this.http.get(
-      `${this.baseUrl}/approve-community/?page=${page}&size=${size}&search=${search}`
+      `${this.baseUrl}/approve-community/?page=${page}&size=${size}&search=${search}&pageType=${pageType}`
     );
   }
 
-  getUnApproveCommunity(page: number, size: number, search): Observable<any> {
+  getUnApproveCommunity(page: number, size: number, search, pageType: string): Observable<any> {
     return this.http.get(
-      `${this.baseUrl}/un-approve-community/?page=${page}&size=${size}&search=${search}`
+      `${this.baseUrl}/un-approve-community/?page=${page}&size=${size}&search=${search}&pageType=${pageType}`
     );
   }
 
@@ -45,8 +45,7 @@ export class CommunityService {
 
   searchCommunity(searchText, page, size): Observable<any> {
     return this.http.get(
-      `${
-        this.baseUrl
+      `${this.baseUrl
       }/search/?searchText=${searchText.trim()}&?page=${page}&size=${size}`
     );
   }

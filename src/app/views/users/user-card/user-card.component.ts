@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl } from '@angular/forms';
@@ -8,11 +8,13 @@ import { Pagination } from 'src/app/@shared/interface/pagination';
 import { DeleteDialogComponent } from '../delete-confirmation-dialog/delete-dialog.component';
 
 @Component({
-  selector: 'app-un-suspended-user',
-  templateUrl: './un-suspended-user.component.html',
-  styleUrls: ['./un-suspended-user.component.scss'],
+  selector: 'app-user-card',
+  templateUrl: './user-card.component.html',
+  styleUrls: ['./user-card.component.scss'],
 })
-export class UnSuspendedUserComponent implements OnInit {
+export class UserCardComponent implements OnInit, AfterViewInit {
+
+  @Input('activeTab') activeTab: number;
   userData: any = [];
   pagination: Pagination = {
     activePage: 1,
@@ -34,6 +36,7 @@ export class UnSuspendedUserComponent implements OnInit {
     this.searchCtrl.valueChanges
       .pipe(distinctUntilChanged(), debounceTime(500))
       .subscribe((val: string) => {
+        // this.getUser.emit();
         this.getUserList();
       });
   }
@@ -42,31 +45,49 @@ export class UnSuspendedUserComponent implements OnInit {
     this.getUserList();
   }
 
-  onPageChange(config: Pagination): void {
-    this.pagination = config;
-    this.getUserList();
+  getUserList(): void {
+    let getUsersList = null;
+    this.userData = []
+    if (this.activeTab === 1) {
+      const isSuspended = 'Y'
+      getUsersList = this.userService
+        .userList(
+          this.pagination.activePage,
+          this.pagination.perPage,
+          this.searchCtrl.value,
+          isSuspended
+        )
+    } else {
+      const isSuspended = 'N'
+      getUsersList = this.userService
+        .userList(
+          this.pagination.activePage,
+          this.pagination.perPage,
+          this.searchCtrl.value,
+          isSuspended
+        )
+    }
+    getUsersList?.subscribe({
+      next: (res: any) => {
+        if (res?.data) {
+          this.userData = res?.data;
+          console.log(this.userData);
+          // this.pagination.totalItems = res.pagination.totalItems;
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
-  getUserList(): void {
-    const isSuspended = 'N';
-    this.userService
-      .userList(
-        this.pagination.activePage,
-        this.pagination.perPage,
-        this.searchCtrl.value,
-        isSuspended
-      )
-      .subscribe({
-        next: (res: any) => {
-          if (res.data) {
-            this.userData = res.data;
-            this.pagination.totalItems = res.pagination.totalItems;
-          }
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
+  ngAfterViewInit(): void {
+  }
+
+  onPageChange(config: Pagination): void {
+    this.pagination = config;
+    // this.getUser.emit();
+    this.getUserList();
   }
 
   openEditUserPopup(profileId: any) {
@@ -98,6 +119,7 @@ export class UnSuspendedUserComponent implements OnInit {
               this.message = 'User deleted successfully';
               modalRef.close();
               this.getUserList();
+
             }
           },
           error: (error) => {
@@ -118,6 +140,7 @@ export class UnSuspendedUserComponent implements OnInit {
         this.visible = true;
         this.message = res.message;
         this.type = 'success';
+        // this.getUser.emit();
         this.getUserList();
       },
       error: (error) => {
@@ -135,6 +158,7 @@ export class UnSuspendedUserComponent implements OnInit {
         this.visible = true;
         this.type = 'success';
         this.message = res.message;
+        // this.getUser.emit();
         this.getUserList();
       },
       error: (error) => {
@@ -154,6 +178,7 @@ export class UnSuspendedUserComponent implements OnInit {
         this.message = res.message;
         this.type = 'success';
         this.getUserList();
+
       },
       error: (error) => {
         this.type = 'danger';

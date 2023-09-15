@@ -24,6 +24,8 @@ export class PostsComponent {
   message = '';
   type = '';
   searchCtrl: FormControl;
+  fromDate: Date
+  toDate: Date
 
   constructor(
     private modalService: NgbModal,
@@ -66,6 +68,10 @@ export class PostsComponent {
           console.log(error);
         },
       });
+  }
+
+  searchData(): void {
+    console.log(this.fromDate, this.toDate)
   }
 
   // openEditUserPopup(userId: any) {

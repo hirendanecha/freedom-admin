@@ -193,7 +193,7 @@ export const iconSubset = {
   cilThumbDown,
   cilMoodVeryGood,
   cilLibrary,
-  cilCommentBubble
+  cilCommentBubble,
 };
 
 export enum IconSubset {

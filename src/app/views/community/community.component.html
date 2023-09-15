@@ -1,19 +1,38 @@
 <c-card class="app-community mb-3">
   <c-card-header class="p-0 border-0">
     <c-nav variant="tabs" class="m-0 p-0">
-      <a [active]="true" [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="0" cNavLink>Approve Community</a>
-      <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink>Un Approve Community</a>
+      <a
+        [active]="true"
+        [cTabContent]="tabContent"
+        [routerLink]
+        [tabPaneIdx]="0"
+        cNavLink
+        >Approve Community</a
+      >
+      <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink
+        >Un Approve Community</a
+      >
     </c-nav>
   </c-card-header>
 
   <c-card-body>
-    <c-tab-content #tabContent="cTabContent">
+    <c-tab-content
+      #tabContent="cTabContent"
+      (activeTabPaneIdxChange)="onTabChange($event)"
+    >
       <c-tab-pane>
-        <app-approve-community></app-approve-community>
+        <ng-container *ngIf="activeTab === 0">
+          <app-page-card
+            [activeTab]="activeTab"
+            pageType="community"
+          ></app-page-card>
+        </ng-container>
       </c-tab-pane>
 
       <c-tab-pane>
-        <app-un-approve-community></app-un-approve-community>
+        <ng-container *ngIf="activeTab === 1">
+          <app-page-card [activeTab]="activeTab" pageType="community"></app-page-card>
+        </ng-container>
       </c-tab-pane>
     </c-tab-content>
   </c-card-body>

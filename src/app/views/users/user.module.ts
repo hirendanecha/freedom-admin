@@ -9,13 +9,12 @@ import { SharedModule } from 'src/app/@shared/shared.module';
 import { UserComponent } from './user.component';
 import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
 import { ViewUserPostComponent } from './view-post-list/post-list.component';
-import { UnSuspendedUserComponent } from './un-suspended-users/un-suspended-user.component';
-import { SuspendedUserComponent } from './suspended-users/suspended-user.component';
+import { UserCardComponent } from './user-card/user-card.component';
 
 @NgModule({
-  declarations: [UserComponent, EditUserDialogComponent, ViewUserPostComponent, UnSuspendedUserComponent, SuspendedUserComponent],
+  declarations: [UserComponent, EditUserDialogComponent, ViewUserPostComponent, UserCardComponent],
   imports: [SharedModule, UserRoutingModule],
-  exports: [UnSuspendedUserComponent, SuspendedUserComponent],
+  exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class UserModule { }

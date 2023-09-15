@@ -14,163 +14,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./user.component.scss'],
 })
 export class UserComponent implements OnInit {
-  userData: any = [];
-  pagination: Pagination = {
-    activePage: 1,
-    perPage: 100,
-    totalItems: 0,
-  };
-  visible = false;
-  percentage = 0;
-  message = '';
-  type = '';
-  searchCtrl: FormControl;
+  activeTab = 0;
 
   constructor(
-    private userService: UserService,
-    private modalService: NgbModal,
-    private router: Router
   ) {
-    this.searchCtrl = new FormControl('');
-    this.searchCtrl.valueChanges
-      .pipe(distinctUntilChanged(), debounceTime(500))
-      .subscribe((val: string) => {
-        this.getUserList();
-      });
   }
 
   ngOnInit(): void {
-    this.getUserList();
   }
-
-  onPageChange(config: Pagination): void {
-    this.pagination = config;
-    this.getUserList();
-  }
-
-  getUserList(): void {
-    const isSuspended = 'N';
-    this.userService
-      .userList(
-        this.pagination.activePage,
-        this.pagination.perPage,
-        this.searchCtrl.value,
-        isSuspended
-      )
-      .subscribe({
-        next: (res: any) => {
-          if (res.data) {
-            this.userData = res.data;
-            this.pagination.totalItems = res.pagination.totalItems;
-          }
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
-  }
-
-  openEditUserPopup(profileId: any) {
-    // console.log(userId);
-    // const modalRef = this.modalService.open(EditUserDialogComponent, {
-    //   centered: true,
-    // });
-    // modalRef.componentInstance.userId = userId;
-    this.router.navigate([`user/${profileId}`])
-  }
-
-  deleteUser(userId: any) {
-    console.log(userId);
-    const modalRef = this.modalService.open(DeleteDialogComponent, {
-      centered: true,
-    });
-    modalRef.componentInstance.title = 'User';
-    modalRef.componentInstance.userId = userId;
-    modalRef.componentInstance.message =
-      'Are you sure want to delete this user?';
-    modalRef.result.then((res) => {
-      console.log(res);
-      if (res === 'success') {
-        this.userService.deleteUser(userId).subscribe({
-          next: (data: any) => {
-            if (data) {
-              this.visible = true;
-              this.type = 'success';
-              this.message = 'User deleted successfully';
-              modalRef.close();
-              this.getUserList();
-            }
-          },
-          error: (error) => {
-            this.visible = true;
-            this.type = 'danger';
-            this.message = error.err.message;
-            console.log(error);
-          },
-        });
-      }
-    });
-  }
-
-  changeAccountType(Id: any, status: any): void {
-    this.userService.changeAccountType(Id, status).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.visible = true;
-        this.message = res.message;
-        this.type = 'success';
-        this.getUserList();
-      },
-      error: (error) => {
-        this.type = 'danger';
-        this.visible = true;
-        this.message = error.err.message;
-      },
-    });
-  }
-
-  changeIsActiveStatus(Id: any, status: any): void {
-    this.userService.changeUserStatus(Id, status).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.visible = true;
-        this.type = 'success';
-        this.message = res.message;
-        this.getUserList();
-      },
-      error: (error) => {
-        this.visible = true;
-        this.type = 'danger';
-        this.message = error.err.message;
-      },
-    });
-  }
-
-  suspendUser(id: any, status: any): void {
-    console.log(id, status)
-    this.userService.suspendUser(id, status).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.visible = true;
-        this.message = res.message;
-        this.type = 'success';
-        this.getUserList();
-      },
-      error: (error) => {
-        this.type = 'danger';
-        this.visible = true;
-        this.message = error.err.message;
-      },
-    });
-  }
-
-  onVisibleChange(event: boolean) {
-    console.log(event);
-    this.visible = event;
-    this.percentage = !this.visible ? 0 : this.percentage;
-  }
-
-  onTimerChange(event: number) {
-    this.percentage = event * 25;
+  onTabChange(event): void {
+    this.activeTab = event
+    console.log('tab event ==>', event);
   }
 }

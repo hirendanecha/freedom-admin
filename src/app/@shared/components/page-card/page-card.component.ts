@@ -1,26 +1,21 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommunityService } from 'src/app/services/community.service';
-import { SocketService } from 'src/app/services/socket.service';
-import { DeleteDialogComponent } from '../../users/delete-confirmation-dialog/delete-dialog.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { distinctUntilChanged, debounceTime } from 'rxjs';
 import { Pagination } from 'src/app/@shared/interface/pagination';
+import { DeleteDialogComponent } from '../../../views/users/delete-confirmation-dialog/delete-dialog.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-un-approve-page',
-  templateUrl: './un-approve-page.component.html',
-  styleUrls: ['./un-approve-page.component.scss'],
+  selector: 'app-page-card',
+  templateUrl: './page-card.component.html',
+  styleUrls: ['./page-card.component.scss'],
 })
-export class UnApprovePageComponent implements OnInit, AfterViewInit {
+export class PageCardComponent implements OnInit {
+  @Input('activeTab') activeTab: number;
+  @Input('pageType') pageType: string;
   communityList: any = [];
-  paggination: any;
-  totalPages: any;
-  activePage = 1;
-  totalItems: any;
-  pageSize: any;
-  pagesToShow = 1; // Number of page links to show at a tim
-  pageGroup: any;
   position = 'top-end';
   visible = false;
   percentage = 0;
@@ -32,10 +27,11 @@ export class UnApprovePageComponent implements OnInit, AfterViewInit {
     perPage: 15,
     totalItems: 0,
   };
+
   constructor(
     private communityService: CommunityService,
-    private modalService: NgbModal,
-    private socketService: SocketService
+    private router: Router,
+    private modalService: NgbModal
   ) {
     this.searchCtrl = new FormControl('');
     this.searchCtrl.valueChanges
@@ -45,49 +41,48 @@ export class UnApprovePageComponent implements OnInit, AfterViewInit {
       });
   }
 
-  ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.getCommunities();
   }
 
   getCommunities(): void {
-    this.communityService
-      .getUnApproveCommunity(
-        this.pagination.activePage,
-        this.pagination.perPage,
-        this.searchCtrl.value
-      )
-      .subscribe({
-        next: (res: any) => {
+    let communityObs = null;
+    this.communityList = [];
+    if (this.activeTab === 1) {
+      communityObs = this.communityService
+        ?.getApproveCommunity(
+          this.pagination.activePage,
+          this.pagination.perPage,
+          this.searchCtrl.value,
+          this.pageType,
+        );
+    } else {
+      communityObs = this.communityService
+        ?.getUnApproveCommunity(
+          this.pagination.activePage,
+          this.pagination.perPage,
+          this.searchCtrl.value,
+          this.pageType
+        );
+    }
+    communityObs?.subscribe({
+      next: (res: any) => {
+        if (res.data) {
           console.log(res);
-          if (res.data) {
-            this.communityList = res.data;
-            this.pagination.totalItems = res?.pagination?.totalItems;
-            this.pagination.perPage = res?.pagination?.pageSize;
-          }
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
-    // this.socketService.getUnApproveCommunity(
-    //   { currrentPage: currrentPage, size: size },
-    //   (data) => {
-    //     console.log(data);
-    //   }
-    // );
-    // this.socketService.socket.on('get-unApprove-community', (res: any) => {
-    //   res.forEach((element) => {
-    //     if (element.Id) {
-    //       this.communityList.push(element);
-    //     }
-    //   });
-    // });
+          this.communityList = res.data;
+          this.pagination.totalItems = res?.pagination?.totalItems;
+          this.pagination.perPage = res?.pagination?.pageSize;
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
-  approveCommunity(id, profileId, status): void {
+
+  changeCommunityStatus(community, status): void {
     this.communityService
-      .changeCommunityStatus(id, profileId, status)
+      .changeCommunityStatus(community.Id, community.profileId, status)
       .subscribe({
         next: (res) => {
           this.visible = true;
@@ -130,6 +125,29 @@ export class UnApprovePageComponent implements OnInit, AfterViewInit {
           },
         });
       }
+    });
+  }
+
+  openCommunity(id: any): void {
+    this.router.navigate([`community/edit/${id}`]);
+  }
+
+  createCommunityAdmin(userId, communityId): void {
+    const data = {
+      userId: userId,
+      communityId: communityId,
+      isActive: 'Y',
+      isAdmin: 'Y',
+    };
+    this.communityService.createCommunityAdminByMA(data).subscribe({
+      next: (res: any) => {
+        if (res) {
+          return res;
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      },
     });
   }
 

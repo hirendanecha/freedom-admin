@@ -14,7 +14,7 @@
     <tr class="text-center">
       <th class="text-center">No</th>
       <th>Logo</th>
-      <th>Community Name</th>
+      <th>Page Name</th>
       <th>Slug Name</th>
       <th>Description</th>
       <th>DateCreation</th>
@@ -56,7 +56,7 @@
             role="switch"
             [checked]="community.isApprove === 'Y'"
             (change)="
-              upApproveCommunity(community.Id, community.profileId, 'N')
+              changeCommunityStatus(community,community.isApprove === 'Y' ? 'N' : 'Y')
             "
           />
         </td>
@@ -67,7 +67,14 @@
             size="sm"
             (click)="openCommunity(community.Id)"
           >
-            <svg cIcon name="cilArrowRight" size="md"></svg>
+            <svg cIcon name="cilLowVision" size="md"></svg>
+          </button>
+          <button
+            class="bg-transparent border-0"
+            size="sm"
+            (click)="deleteCommunity(community.Id)"
+          >
+            <svg cIcon name="cil-trash" size="md"></svg>
           </button>
         </td>
       </tr>
@@ -75,7 +82,7 @@
   </tbody>
 
   <h6 *ngIf="!communityList.length" class="text-center p-5 m-0">
-    No community available
+    No Page available
   </h6>
 </app-table>
 <app-pagination
@@ -91,7 +98,7 @@
     class="text-bg-{{ type }}"
   >
     <c-toast-header>
-      <toast-sample-icon></toast-sample-icon>
+      <!-- <toast-sample-icon></toast-sample-icon> -->
     </c-toast-header>
     <c-toast-body>
       <p class="text-white">{{ message }}</p>
