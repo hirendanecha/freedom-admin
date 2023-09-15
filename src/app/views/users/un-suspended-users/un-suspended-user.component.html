@@ -67,7 +67,10 @@
           size="sm"
           (click)="openEditUserPopup(user.profileId)"
         >
-          <svg cIcon name="cilLowVision" size="md"></svg>
+          <!-- <svg cIcon name="cilLowVision" size="md"></svg> -->
+          <span class="material-symbols-outlined">
+            visibility
+            </span>
         </button>
 
         <button
@@ -75,7 +78,10 @@
           size="sm"
           (click)="deleteUser(user.Id)"
         >
-          <svg cIcon name="cil-trash" size="md"></svg>
+          <!-- <svg cIcon name="cil-trash" size="md"></svg> -->
+          <span class="material-symbols-outlined">
+            delete
+            </span>
         </button>
       </td>
     </tr>

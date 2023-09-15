@@ -42,13 +42,19 @@
                       <img src="assets/images/avatar-2.png" alt="image" />
                     </li> -->
                     <li>
-                      <svg cIcon name="cilThumbUp"></svg>
+                      <!-- <svg cIcon name="cilThumbUp"></svg> -->
+                      <span class="material-symbols-outlined">
+                        thumb_up
+                        </span>
                       <span class="mdtxt d-center ms-1">{{
                         postDetails?.likescount > 0 ? postDetails?.likescount : 0
                       }}</span>
                     </li>
                     <li>
-                      <svg cIcon name="cilHeart"></svg>
+                      <!-- <svg cIcon name="cilHeart"></svg> -->
+                      <span class="material-symbols-outlined">
+                        favorite
+                        </span>
                       <span class="mdtxt d-center ms-1">{{
                         postDetails?.lovecount > 0 ? postDetails?.lovecount : 0
                       }}</span>
@@ -68,7 +74,10 @@
                       }}</span>
                     </li>
                     <li>
-                      <svg cIcon name="cilThumbDown"></svg>
+                      <!-- <svg cIcon name="cilThumbDown"></svg> -->
+                      <span class="material-symbols-outlined">
+                        thumb_down
+                        </span>
                       <span class="mdtxt d-center ms-1">{{
                         postDetails?.dislikecount > 0
                           ? postDetails?.dislikecount

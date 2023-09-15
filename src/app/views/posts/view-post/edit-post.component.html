@@ -41,14 +41,20 @@
                     <!-- <li *ngIf="postDetails.likescount > 0">
                       <img src="assets/images/avatar-2.png" alt="image" />
                     </li> -->
-                    <li>
-                      <svg cIcon name="cilThumbUp"></svg>
+                    <li class="d-flex align-items-center">
+                      <!-- <svg cIcon name="cilThumbUp"></svg> -->
+                      <span class="material-symbols-outlined">
+                        thumb_up
+                        </span>
                       <span class="mdtxt d-center ms-1">{{
                         postDetails.likescount > 0 ? postDetails.likescount : 0
                       }}</span>
                     </li>
-                    <li (click)="viewComments(postDetails.id)">
-                      <svg cIcon name="cilCommentBubble"></svg>
+                    <li class="d-flex align-items-center" (click)="viewComments(postDetails.id)">
+                      <!-- <svg cIcon name="cilCommentBubble"></svg> -->
+                      <span class="material-symbols-outlined">
+                        chat
+                        </span>
                       <span class="mdtxt d-center ms-1">Comments</span>
                     </li>
                   </ul>
@@ -100,11 +106,14 @@
 
                               <ul class="d-flex gap-6 py-2 px-4 m-0">
                                 <li class="d-center">
-                                  <svg
+                                  <span class="material-symbols-outlined" [ngClass]="{ active: comment.react == 'L' }">
+                                    thumb_up
+                                    </span>
+                                  <!-- <svg
                                     cIcon
                                     name="cilThumbUp"
                                     [ngClass]="{ active: comment.react == 'L' }"
-                                  ></svg>
+                                  ></svg> -->
                                   {{
                                     comment?.likeCount > 0
                                       ? comment?.likeCount
@@ -170,13 +179,18 @@
                                           >
                                             thumb_up
                                           </i> -->
-                                          <svg
+                                          <span class="material-symbols-outlined" [ngClass]="{
+                                            active: comment.react == 'L'
+                                          }">
+                                            thumb_up
+                                            </span>
+                                          <!-- <svg
                                             cIcon
                                             name="cilThumbUp"
                                             [ngClass]="{
                                               active: comment.react == 'L'
                                             }"
-                                          ></svg>
+                                          ></svg> -->
                                           <span class="ms-1 text-center">{{
                                             reply?.likeCount > 0
                                               ? reply?.likeCount
