@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
 
 @Component({
   selector: 'app-user',
@@ -15,6 +16,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./user.component.scss'],
 })
 export class UserComponent implements OnInit {
+  @ViewChild(FilterComponent) filterComponent: FilterComponent;
   userData: any = [];
   pagination: Pagination = {
     activePage: 1,
@@ -202,5 +204,14 @@ export class UserComponent implements OnInit {
         this.message = error.err.message;
       },
     });
+  }
+  onSearch(): void {
+    const searchTerm = this.filterComponent.searchCtrl.value;
+    const startDate = this.filterComponent.startDate;
+    const toDate = this.filterComponent.toDate;
+
+    // Perform actions with the values obtained from the filter component
+    console.log('Searching for:', searchTerm);
+    console.log('Date Range: From', startDate, 'To', toDate);
   }
 }

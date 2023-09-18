@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostService } from '../../../services/post.service';
 import { UserService } from '../../../services/user.service';
 import { DeleteDialogComponent } from '../delete-confirmation-dialog/delete-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
@@ -11,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ViewUserPostComponent implements OnInit, AfterViewInit {
   // @Input() communityId: any;
+  @ViewChild(FilterComponent) filterComponent: FilterComponent;
   postList: any = [];
   profileId: string;
   isOpenCommentsPostId = '';
@@ -20,6 +22,8 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
   percentage = 0;
   message = '';
   type = '';
+  shouldShowSearchInput: boolean = false;
+
   constructor(
     private postService: PostService,
     private userService: UserService,
@@ -120,5 +124,15 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
 
   onTimerChange(event: number) {
     this.percentage = event * 25;
+  }
+
+  onSearch(): void {
+    const searchTerm = this.filterComponent.searchCtrl.value;
+    const startDate = this.filterComponent.startDate;
+    const toDate = this.filterComponent.toDate;
+
+    // Perform actions with the values obtained from the filter component
+    console.log('Searching for:', searchTerm);
+    console.log('Date Range: From', startDate, 'To', toDate);
   }
 }

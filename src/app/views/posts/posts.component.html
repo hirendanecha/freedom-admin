@@ -3,7 +3,7 @@
 
   <c-card-body>
     <c-row class="pb-3">
-      <c-col xs="3">
+      <!-- <c-col xs="3">
         <input
           cFormControl
           placeholder="Search..."
@@ -24,7 +24,10 @@
       </c-col>
       <c-col lg="1">
         <button cButton color="primary" (click)="searchData()">Search</button>
-      </c-col>
+      </c-col> -->
+      
+      <app-filter (searchClick)="onSearch()"></app-filter>
+
     </c-row>
 
     <app-table>
