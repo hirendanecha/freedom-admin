@@ -24,14 +24,17 @@
         <ng-container *ngIf="activeTab === 0">
           <app-page-card
             [activeTab]="activeTab"
-            pageType="community"
+            [pageType]="'community'"
           ></app-page-card>
         </ng-container>
       </c-tab-pane>
 
       <c-tab-pane>
         <ng-container *ngIf="activeTab === 1">
-          <app-page-card [activeTab]="activeTab" pageType="community"></app-page-card>
+          <app-page-card
+            [activeTab]="activeTab"
+            [pageType]="'community'"
+          ></app-page-card>
         </ng-container>
       </c-tab-pane>
     </c-tab-content>

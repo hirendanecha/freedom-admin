@@ -6,6 +6,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { Router } from '@angular/router';
 import { Pagination } from 'src/app/@shared/interface/pagination';
 import { DeleteDialogComponent } from '../delete-confirmation-dialog/delete-dialog.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-user-card',
@@ -30,7 +31,8 @@ export class UserCardComponent implements OnInit, AfterViewInit {
   constructor(
     private userService: UserService,
     private modalService: NgbModal,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) {
     this.searchCtrl = new FormControl('');
     this.searchCtrl.valueChanges
@@ -45,7 +47,11 @@ export class UserCardComponent implements OnInit, AfterViewInit {
     this.getUserList();
   }
 
+  ngAfterViewInIit(): void {
+  }
+
   getUserList(): void {
+    this.spinner.show()
     let getUsersList = null;
     this.userData = []
     if (this.activeTab === 1) {
@@ -69,13 +75,14 @@ export class UserCardComponent implements OnInit, AfterViewInit {
     }
     getUsersList?.subscribe({
       next: (res: any) => {
+        this.spinner.hide()
         if (res?.data) {
           this.userData = res?.data;
-          console.log(this.userData);
-          // this.pagination.totalItems = res.pagination.totalItems;
+          this.pagination.totalItems = res?.pagination?.totalItems;
         }
       },
       error: (error) => {
+        this.spinner.hide()
         console.log(error);
       },
     });
