@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -6,6 +6,7 @@ import { Pagination } from 'src/app/@shared/interface/pagination';
 import { PostService } from 'src/app/services/post.service';
 import { DeleteDialogComponent } from '../users/delete-confirmation-dialog/delete-dialog.component';
 import { Router } from '@angular/router';
+import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
 
 @Component({
   selector: 'app-posts',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./posts.component.scss'],
 })
 export class PostsComponent {
+  @ViewChild(FilterComponent) filterComponent: FilterComponent;
   postList: any = [];
   pagination: Pagination = {
     activePage: 1,
@@ -126,5 +128,15 @@ export class PostsComponent {
 
   onTimerChange(event: number) {
     this.percentage = event * 25;
+  }
+
+  onSearch(): void {
+    const searchTerm = this.filterComponent.searchCtrl.value;
+    const startDate = this.filterComponent.startDate;
+    const toDate = this.filterComponent.toDate;
+
+    // Perform actions with the values obtained from the filter component
+    console.log('Searching for:', searchTerm);
+    console.log('Date Range: From', startDate, 'To', toDate);
   }
 }

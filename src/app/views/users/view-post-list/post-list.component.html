@@ -1,5 +1,6 @@
 <div class="bg-light flex-row align-items-center min-vh-100">
   <c-container>
+    <app-filter [showSearchInput]="shouldShowSearchInput" (searchClick)="onSearch()"></app-filter>
     <c-row class="justify-content-center">
       <c-col md="7" *ngFor="let post of postList" class="mb-2">
         <c-card class="p-3 post-card">

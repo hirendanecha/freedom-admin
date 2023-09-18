@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
 import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
 @Component({
@@ -9,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ViewPostComponent implements OnInit, AfterViewInit {
   // @Input() communityId: any;
+  @ViewChild(FilterComponent) filterComponent: FilterComponent;
   postDetails: any = {};
   postId: string;
   isOpenCommentsPostId = '';
@@ -22,7 +24,7 @@ export class ViewPostComponent implements OnInit, AfterViewInit {
   ) {
     this.postId = this.route.snapshot.paramMap.get('id');
   }
-
+  
   ngOnInit(): void {
     this.getPostDetails();
   }
@@ -69,5 +71,14 @@ export class ViewPostComponent implements OnInit, AfterViewInit {
         console.log(error);
       },
     });
+  }
+  onSearch(): void {
+    const searchTerm = this.filterComponent.searchCtrl.value;
+    const startDate = this.filterComponent.startDate;
+    const toDate = this.filterComponent.toDate;
+
+    // Perform actions with the values obtained from the filter component
+    console.log('Searching for:', searchTerm);
+    console.log('Date Range: From', startDate, 'To', toDate);
   }
 }

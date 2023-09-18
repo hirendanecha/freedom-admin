@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -6,6 +6,7 @@ import { Pagination } from 'src/app/@shared/interface/pagination';
 import { CommunityService } from 'src/app/services/community.service';
 import { DeleteDialogComponent } from '../users/delete-confirmation-dialog/delete-dialog.component';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
 
 @Component({
   selector: 'app-community',
@@ -13,6 +14,8 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
   styleUrls: ['./community.component.scss'],
 })
 export class CommunityComponent implements OnInit, AfterViewInit {
+  @ViewChild(FilterComponent) filterComponent: FilterComponent;
+
   activeTab = 1;
   communityList: any = [];
   position = 'top-end';
@@ -152,5 +155,15 @@ export class CommunityComponent implements OnInit, AfterViewInit {
 
   onTimerChange(event: number) {
     this.percentage = event * 25;
+  }
+
+  onSearch(): void {
+    const searchTerm = this.filterComponent.searchCtrl.value;
+    const startDate = this.filterComponent.startDate;
+    const toDate = this.filterComponent.toDate;
+
+    // Perform actions with the values obtained from the filter component
+    console.log('Searching for:', searchTerm);
+    console.log('Date Range: From', startDate, 'To', toDate);
   }
 }
