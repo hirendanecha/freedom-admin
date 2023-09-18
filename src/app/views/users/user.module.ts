@@ -9,10 +9,9 @@ import { SharedModule } from 'src/app/@shared/shared.module';
 import { UserComponent } from './user.component';
 import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
 import { ViewUserPostComponent } from './view-post-list/post-list.component';
-import { UserCardComponent } from './user-card/user-card.component';
 
 @NgModule({
-  declarations: [UserComponent, EditUserDialogComponent, ViewUserPostComponent, UserCardComponent],
+  declarations: [UserComponent, EditUserDialogComponent, ViewUserPostComponent],
   imports: [SharedModule, UserRoutingModule],
   exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

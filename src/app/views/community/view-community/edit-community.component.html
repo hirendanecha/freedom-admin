@@ -47,7 +47,10 @@
           type="text"
           disabled
         /> -->
-        <img [src]="communityDetails.coverImg" onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-room.png';" />
+        <img
+          [src]="communityDetails.coverImg"
+          onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-room.png';"
+        />
       </c-col>
     </c-row>
     <c-row class="justify-content-center">
@@ -72,7 +75,7 @@
         />
       </c-col>
     </c-row>
-    <h3>User Deatils</h3>
+    <h3>User Details</h3>
     <c-row class="justify-content-center">
       <c-col md="6">
         <label>Username</label>
