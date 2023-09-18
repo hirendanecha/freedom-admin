@@ -27,7 +27,9 @@ export class UserComponent implements OnInit {
   percentage = 0;
   message = '';
   type = '';
-  searchCtrl: FormControl;
+  searchCtrl: '';
+  startDate: any;
+  endDate: any;
 
   constructor(
     private userService: UserService,
@@ -35,12 +37,12 @@ export class UserComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService
   ) {
-    this.searchCtrl = new FormControl('');
-    this.searchCtrl.valueChanges
-      .pipe(distinctUntilChanged(), debounceTime(500))
-      .subscribe((val: string) => {
-        this.getUserList();
-      });
+    // this.searchCtrl = new FormControl('');
+    // this.searchCtrl.valueChanges
+    //   .pipe(distinctUntilChanged(), debounceTime(500))
+    //   .subscribe((val: string) => {
+    //     this.getUserList();
+    //   });
   }
 
   ngOnInit(): void {
@@ -50,13 +52,15 @@ export class UserComponent implements OnInit {
   ngAfterViewInIit(): void {
   }
 
-  getUserList(): void {
+  getUserList(startDate?, toDate?): void {
     this.spinner.show();
     this.userService
       .userList(
         this.pagination.activePage,
         this.pagination.perPage,
-        this.searchCtrl.value
+        this.searchCtrl,
+        this.startDate,
+        this.endDate
       ).subscribe({
         next: (res: any) => {
           this.spinner.hide()
@@ -206,12 +210,11 @@ export class UserComponent implements OnInit {
     });
   }
   onSearch(): void {
-    const searchTerm = this.filterComponent.searchCtrl.value;
-    const startDate = this.filterComponent.startDate;
-    const toDate = this.filterComponent.toDate;
-
+    this.searchCtrl = this.filterComponent.searchCtrl.value;
+    this.startDate = this.filterComponent.startDate;
+    this.endDate = this.filterComponent.toDate;
+    this.getUserList()
     // Perform actions with the values obtained from the filter component
-    console.log('Searching for:', searchTerm);
-    console.log('Date Range: From', startDate, 'To', toDate);
+    // console.log('Searching for:', searchTerm);
   }
 }

@@ -23,24 +23,26 @@ export class CommunityComponent {
   percentage = 0;
   message = '';
   type = '';
-  searchCtrl: FormControl;
+  searchCtrl: '';
   pagination: Pagination = {
     activePage: 1,
     perPage: 15,
     totalItems: 0,
   };
-  pageType = 'page'
+  pageType = 'page';
+  startDate: any;
+  endDate: any;
   constructor(
     private communityService: CommunityService,
     private router: Router,
     private modalService: NgbModal
   ) {
-    this.searchCtrl = new FormControl('');
-    this.searchCtrl.valueChanges
-      .pipe(distinctUntilChanged(), debounceTime(500))
-      .subscribe((val: string) => {
-        this.getCommunities();
-      });
+    // this.searchCtrl = new FormControl('');
+    // this.searchCtrl.valueChanges
+    //   .pipe(distinctUntilChanged(), debounceTime(500))
+    //   .subscribe((val: string) => {
+    //     this.getCommunities();
+    //   });
   }
 
   ngOnInit(): void {
@@ -56,8 +58,10 @@ export class CommunityComponent {
       ?.getAllCommunity(
         this.pagination.activePage,
         this.pagination.perPage,
-        this.searchCtrl.value,
-        this.pageType
+        this.searchCtrl,
+        this.pageType,
+        this.startDate,
+        this.endDate
       )?.subscribe({
         next: (res: any) => {
           if (res.data) {
@@ -158,12 +162,9 @@ export class CommunityComponent {
   }
 
   onSearch(): void {
-    const searchTerm = this.filterComponent.searchCtrl.value;
-    const startDate = this.filterComponent.startDate;
-    const toDate = this.filterComponent.toDate;
-
-    // Perform actions with the values obtained from the filter component
-    console.log('Searching for:', searchTerm);
-    console.log('Date Range: From', startDate, 'To', toDate);
+    this.searchCtrl = this.filterComponent.searchCtrl.value;
+    this.startDate = this.filterComponent.startDate;
+    this.endDate = this.filterComponent.toDate;
+    this.getCommunities();
   }
 }
