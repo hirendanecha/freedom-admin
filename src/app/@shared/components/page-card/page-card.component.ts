@@ -42,6 +42,10 @@ export class PageCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    console.log('page type', this.pageType);
     this.getCommunities();
   }
 
@@ -68,8 +72,7 @@ export class PageCardComponent implements OnInit {
     communityObs?.subscribe({
       next: (res: any) => {
         if (res.data) {
-          console.log(res);
-          this.communityList = res.data;
+          this.communityList = res?.data;
           this.pagination.totalItems = res?.pagination?.totalItems;
           this.pagination.perPage = res?.pagination?.pageSize;
         }

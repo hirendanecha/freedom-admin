@@ -68,7 +68,8 @@
           size="sm"
           (click)="openEditUserPopup(user.profileId)"
         >
-          <svg cIcon name="cilLowVision" size="md"></svg>
+          <!-- <svg cIcon name="cilLowVision" size="md"></svg> -->
+          <i class="material-symbols-outlined"> visibility </i>
         </button>
 
         <button
@@ -76,7 +77,8 @@
           size="sm"
           (click)="deleteUser(user.Id)"
         >
-          <svg cIcon name="cil-trash" size="md"></svg>
+          <!-- <svg cIcon name="cil-trash" size="md"></svg> -->
+          <i class="material-symbols-outlined"> delete </i>
         </button>
       </td>
     </tr>
@@ -86,12 +88,10 @@
     No User available
   </h6>
 </app-table>
-<ng-container *ngIf="userData?.length">
-  <app-pagination
-    [items]="pagination?.totalItems"
-    (onPageChange)="onPageChange($event)"
-  />
-</ng-container>
+<app-pagination
+  [items]="pagination?.totalItems"
+  (onPageChange)="onPageChange($event)"
+/>
 <c-toaster [placement]="'top-end'" class="p-3" position="fixed">
   <c-toast
     (timer)="onTimerChange($event)"

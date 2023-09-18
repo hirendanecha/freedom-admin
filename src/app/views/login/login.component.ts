@@ -27,7 +27,7 @@ export class LoginComponent {
     private fb: FormBuilder,
     private router: Router,
     private userService: UserService
-  ) {}
+  ) { }
 
   toggleToast() {
     this.visible = !this.visible;
@@ -55,22 +55,16 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-    // this.spinner.show();
     this.userService.login(this.loginForm.value).subscribe({
       next: (data: any) => {
         console.log(data);
         if (data) {
-          // this.spinner.hide();
           this.tokenStorage.saveToken(data?.accessToken);
           this.tokenStorage.saveUser(data.user);
-          // window.sessionStorage.user_level_id = 2;
-          // window.sessionStorage.user_level_id = 2;
           window.sessionStorage['user_id'] = data.user.Id;
           window.sessionStorage['user_country'] = data.user.Country;
           window.sessionStorage['user_zip'] = data.user.Zip;
           this.isLoggedIn = true;
-          // let lastloc = Utils.getLastLoc();
-          // this.router.navigate([lastloc ? lastloc : 'home']);
           this.type = 'success';
           this.errorMessage = 'Login successfully';
           this.router.navigate([`/dashboard`]);
@@ -81,17 +75,12 @@ export class LoginComponent {
           this.errorMessage =
             'Invalid Email and Password. Kindly try again !!!!';
         }
-
-        //this.reloadPage();
       },
       error: (err) => {
-        // this.spinner.hide();
         console.log(err.error);
         this.visible = true;
         this.type = 'danger';
-        this.errorMessage = err.error.message; //err.error.message;
-        // this.isLoginFailed = true;
-        // this.errorCode = err.error.errorCode;
+        this.errorMessage = err.error.message;
       },
     });
   }
