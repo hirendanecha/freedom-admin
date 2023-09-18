@@ -21,9 +21,9 @@ export class UserService {
     });
   }
 
-  userList(page: number, size: number, search: string = '', isSuspended: string): Observable<any> {
+  userList(page: number, size: number, search: string = ''): Observable<any> {
     return this.http.get(
-      `${this.baseUrl}?page=${page}&size=${size}&search=${search}&isSuspended=${isSuspended}`
+      `${this.baseUrl}?page=${page}&size=${size}&search=${search}`
     );
   }
 
@@ -52,6 +52,14 @@ export class UserService {
     const IsSuspended = status;
     return this.http.get(
       `${this.baseUrl}/suspend-user/${userId}?IsSuspended=${IsSuspended}`
+    );
+  }
+
+  activateMedia(id, status): Observable<any> {
+    const userId = id;
+    const IsSuspended = status;
+    return this.http.get(
+      `${this.baseUrl}/activate-media/${userId}?MediaApproved=${IsSuspended}`
     );
   }
 

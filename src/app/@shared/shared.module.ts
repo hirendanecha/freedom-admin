@@ -31,7 +31,6 @@ import { DeleteDialogComponent } from '../views/users/delete-confirmation-dialog
 import { ToastComponent } from '../views/toaster/toast.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
-import { PageCardComponent } from './components/page-card/page-card.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 const sharedComponents = [
@@ -39,7 +38,6 @@ const sharedComponents = [
   TableComponent,
   DeleteDialogComponent,
   ToastComponent,
-  PageCardComponent
 ];
 
 const sharedModules = [

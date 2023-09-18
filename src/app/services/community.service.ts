@@ -14,9 +14,9 @@ export class CommunityService {
   private baseUrl = environment.serverUrl + 'community';
   constructor(private http: HttpClient) { }
 
-  getApproveCommunity(page: number, size: number, search, pageType: string): Observable<any> {
+  getAllCommunity(page: number, size: number, search, pageType: string): Observable<any> {
     return this.http.get(
-      `${this.baseUrl}/approve-community/?page=${page}&size=${size}&search=${search}&pageType=${pageType}`
+      `${this.baseUrl}/all-community/?page=${page}&size=${size}&search=${search}&pageType=${pageType}`
     );
   }
 
