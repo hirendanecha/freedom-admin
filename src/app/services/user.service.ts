@@ -21,9 +21,16 @@ export class UserService {
     });
   }
 
-  userList(page: number, size: number, search: string = ''): Observable<any> {
-    return this.http.get(
-      `${this.baseUrl}?page=${page}&size=${size}&search=${search}`
+  userList(page: number, size: number, search: string = '', startDate, endDate): Observable<any> {
+    const data = {
+      page: page,
+      size: size,
+      search: search,
+      startDate: startDate,
+      endDate: endDate
+    }
+    return this.http.post(
+      `${this.baseUrl}`, data
     );
   }
 
