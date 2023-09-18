@@ -1,36 +1,169 @@
 <c-card class="app-user mb-3">
-  <c-card-header class="p-0 border-0">
-    <c-nav variant="tabs" class="m-0 p-0">
-      <a
-        [active]="true"
-        [cTabContent]="tabContent"
-        [routerLink]
-        [tabPaneIdx]="0"
-        cNavLink
-        >Un Suspended Users</a
-      >
-      <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink
-        >Suspended Users</a
-      >
-      <a></a>
-    </c-nav>
-  </c-card-header>
+  <c-card-header> User </c-card-header>
 
   <c-card-body>
-    <c-tab-content
-      #tabContent="cTabContent"
-      (activeTabPaneIdxChange)="onTabChange($event)"
-    >
-      <c-tab-pane>
-        <ng-container *ngIf="activeTab === 0">
-          <app-user-card [activeTab]="activeTab" />
-        </ng-container>
-      </c-tab-pane>
-      <c-tab-pane>
-        <ng-container *ngIf="activeTab == 1">
-          <app-user-card [activeTab]="activeTab" />
-        </ng-container>
-      </c-tab-pane>
-    </c-tab-content>
+    <c-row class="pb-3">
+      <c-col xs="3">
+        <input
+          cFormControl
+          placeholder="Search..."
+          name="search"
+          [formControl]="searchCtrl"
+        />
+      </c-col>
+    </c-row>
+
+    <app-table>
+      <thead cTableColor="light">
+        <tr class="text-center">
+          <th>Profile</th>
+          <th>UserId</th>
+          <!-- <th>ProfileId</th> -->
+          <th>Firstname</th>
+          <!-- <th>Lastname</th> -->
+          <th>Username</th>
+          <th>Email</th>
+          <!-- <th>AccountType</th> -->
+          <th>Phone</th>
+          <th>DateCreation</th>
+          <th>Country</th>
+          <th>State</th>
+          <th>Zip</th>
+          <!-- <th>Status</th> -->
+          <!-- <th>Suspended</th> -->
+          <th>Action</th>
+          <!-- <th>Activate Media</th> -->
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr class="text-center" *ngFor="let user of userData; let i = index">
+          <td>
+            <img
+              class="avatar-img"
+              [src]="user.ProfilePicName"
+              onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-user.png';"
+            />
+          </td>
+          <td>
+            {{ user.Id }}
+          </td>
+          <!-- <td>
+            {{ user.profileId || "-" }}
+          </td> -->
+          <td>
+            {{ user.FirstName || "-" }}
+          </td>
+          <!-- <td>
+            {{ user.LastName || "-" }}
+          </td> -->
+
+          <td>{{ user.Username || "-" }}</td>
+          <td>
+            {{ user.Email || "-" }}
+          </td>
+          <td>
+            {{ user.MobileNo || "-" }}
+          </td>
+          <td>{{ user.DateCreation | date : "d-MM-YYYY" }}</td>
+          <td>
+            <svg
+              *ngIf="user.Country"
+              cIcon
+              id="{{ user.Country }}"
+              name="cif-{{ user?.Country || null | lowercase }}"
+              size="xl"
+              title="{{ user?.Country }}"
+            ></svg>
+            <span *ngIf="!user.Country">{{ "-" }}</span>
+          </td>
+          <td>{{ user.State || "-" }}</td>
+          <td>{{ user.Zip || "-" }}</td>
+          <td>
+            <button
+              class="btn btn-sm text-white"
+              [ngClass]="
+                user.IsSuspended === 'N' ? ' btn-danger' : 'btn-success'
+              "
+              (click)="
+                suspendUser(user.Id, user.IsSuspended === 'N' ? 'Y' : 'N')
+              "
+            >
+              {{ user.IsSuspended === "N" ? "Suspend" : "re-active" }}
+            </button>
+            <button
+              class="btn btn-sm text-white ms-2"
+              [ngClass]="
+                user.MediaApproved === 0 || user.MediaApproved === null
+                  ? 'btn-success'
+                  : 'btn-danger'
+              "
+              (click)="
+                changeMediaType(
+                  user.profileId,
+                  user.MediaApproved === 0 || user.MediaApproved === null
+                    ? 1
+                    : 0
+                )
+              "
+            >
+              {{
+                user.MediaApproved === 0 || user.MediaApproved === null
+                  ? "Activate Media"
+                  : "De-activate"
+              }}
+            </button>
+            <button
+              class="btn btn-sm btn-info text-white ms-2"
+              size="sm"
+              (click)="openEditUserPopup(user.profileId)"
+            >
+              View Post
+              <!-- <svg cIcon name="cilLowVision" size="md"></svg> -->
+              <!-- <i class="material-symbols-outlined"> visibility </i> -->
+            </button>
+
+            <button
+              class="btn btn-sm btn-info ms-2 text-white"
+              size="sm"
+              (click)="deleteUser(user.Id)"
+            >
+              Delete All Data
+              <!-- <svg cIcon name="cil-trash" size="md"></svg> -->
+              <!-- <i class="material-symbols-outlined"> delete </i> -->
+            </button>
+          </td>
+          <!-- <td>
+            
+          </td> -->
+        </tr>
+      </tbody>
+
+      <h6 *ngIf="!userData.length" class="text-center p-5 m-0">
+        No User available
+      </h6>
+    </app-table>
+    <app-pagination
+      [items]="pagination?.totalItems"
+      (onPageChange)="onPageChange($event)"
+    />
+    <c-toaster [placement]="'top-end'" class="p-3" position="fixed">
+      <c-toast
+        (timer)="onTimerChange($event)"
+        (visibleChange)="onVisibleChange($event)"
+        [visible]="visible"
+        class="text-bg-{{ type }}"
+      >
+        <c-toast-header>
+          <toast-sample-icon></toast-sample-icon>
+        </c-toast-header>
+        <c-toast-body>
+          <p class="text-white">{{ message }}</p>
+          <c-progress thin>
+            <c-progress-bar [value]="percentage"></c-progress-bar>
+          </c-progress>
+        </c-toast-body>
+      </c-toast>
+    </c-toaster>
   </c-card-body>
 </c-card>

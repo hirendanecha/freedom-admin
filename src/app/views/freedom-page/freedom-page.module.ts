@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommunityComponent } from './freedom-page.component';
-import { PageCardComponent } from '../../@shared/components/page-card/page-card.component';
 import { ViewPageDialogComponent } from './view-page/edit-page.component';
 import { FreedomPageRoutingModule } from './freedom-page-routing.module';
 import { SharedModule } from 'src/app/@shared/shared.module';
