@@ -24,7 +24,7 @@ import {
   SidebarModule,
   UtilitiesModule,
   ButtonGroupModule,
-  ListGroupModule
+  ListGroupModule,
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { DeleteDialogComponent } from '../views/users/delete-confirmation-dialog/delete-dialog.component';
@@ -73,7 +73,7 @@ const sharedModules = [
   ListGroupModule,
   NgMultiSelectDropDownModule,
   NgbDatepickerModule,
-  NgxSpinnerModule
+  NgxSpinnerModule,
 ];
 
 @NgModule({
