@@ -23,6 +23,8 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
   message = '';
   type = '';
   shouldShowSearchInput: boolean = false;
+  startDate: any;
+  endDate: any;
 
   constructor(
     private postService: PostService,
@@ -44,10 +46,10 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
   getPostLists(): void {
     // const userId = this.userId;
     console.log(this.profileId);
-    this.postService.viewPost(this.profileId).subscribe({
+    this.postService.viewPost(this.profileId, this.startDate, this.endDate).subscribe({
       next: (res: any) => {
         if (res) {
-          this.postList = res;
+          this.postList = res.data;
           console.log(this.postList);
         }
       },
@@ -127,12 +129,10 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
   }
 
   onSearch(): void {
-    const searchTerm = this.filterComponent.searchCtrl.value;
-    const startDate = this.filterComponent.startDate;
-    const toDate = this.filterComponent.toDate;
-
+    // const searchTerm = this.filterComponent.searchCtrl.value;
+    this.startDate = this.filterComponent.startDate;
+    this.endDate = this.filterComponent.toDate;
+    this.getPostLists()
     // Perform actions with the values obtained from the filter component
-    console.log('Searching for:', searchTerm);
-    console.log('Date Range: From', startDate, 'To', toDate);
   }
 }
