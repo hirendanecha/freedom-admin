@@ -1,8 +1,15 @@
 <c-card class="app-user mb-3">
-  <c-card-header> User </c-card-header>
+  <c-card-header class="d-flex align-items-center justify-content-between"> User
+    <div class="d-flex filter-table-action btn btn-outline-secondary" (click)="toggleActionColumn()">
+      <span class="material-symbols-outlined">
+        filter_list
+        </span>
+      <span>&nbsp;Filter</span>
+    </div>  
+  </c-card-header>
 
   <c-card-body>
-    <c-row class="pb-3">
+    <c-row class="pb-3" >
       <!-- <c-col xs="3">
         <input
           cFormControl
@@ -11,12 +18,12 @@
           [formControl]="searchCtrl"
         />
       </c-col> -->
-    <app-filter (searchClick)="onSearch()"></app-filter>
+        <app-filter (searchClick)="onSearch()"></app-filter>
     </c-row>
 
     <app-table>
       <thead cTableColor="light">
-        <tr class="text-center">
+        <tr class="text-center align-middle">
           <th>Profile</th>
           <th>UserId</th>
           <!-- <th>ProfileId</th> -->
@@ -26,19 +33,19 @@
           <th>Email</th>
           <!-- <th>AccountType</th> -->
           <th>Phone</th>
-          <th>DateCreation</th>
+          <th>Date Creation</th>
           <th>Country</th>
           <th>State</th>
           <th>Zip</th>
           <!-- <th>Status</th> -->
           <!-- <th>Suspended</th> -->
-          <th>Action</th>
+          <th *ngIf="showActionColumn">Action</th>
           <!-- <th>Activate Media</th> -->
         </tr>
       </thead>
 
       <tbody>
-        <tr class="text-center" *ngFor="let user of userData; let i = index">
+        <tr class="text-center align-middle" *ngFor="let user of userData; let i = index">
           <td>
             <img
               class="avatar-img"
@@ -80,9 +87,11 @@
           </td>
           <td>{{ user.State || "-" }}</td>
           <td>{{ user.Zip || "-" }}</td>
-          <td>
+          <td *ngIf="showActionColumn">
+            <tr>
             <button
-              class="btn btn-sm text-white"
+              class="btn btn-sm text-white m-1 custom-btn"
+              size="sm"
               [ngClass]="
                 user.IsSuspended === 'N' ? ' btn-danger' : 'btn-success'
               "
@@ -90,10 +99,11 @@
                 suspendUser(user.Id, user.IsSuspended === 'N' ? 'Y' : 'N')
               "
             >
-              {{ user.IsSuspended === "N" ? "Suspend" : "re-active" }}
+              {{ user.IsSuspended === "N" ? "Suspend" : "Re-active" }}
             </button>
             <button
-              class="btn btn-sm text-white ms-2"
+              class="btn btn-sm text-white m-1 custom-btn"
+              size="sm"
               [ngClass]="
                 user.MediaApproved === 0 || user.MediaApproved === null
                   ? 'btn-success'
@@ -115,7 +125,7 @@
               }}
             </button>
             <button
-              class="btn btn-sm btn-info text-white ms-2"
+              class="btn btn-sm btn-info text-white m-1 custom-btn"
               size="sm"
               (click)="openEditUserPopup(user.profileId)"
             >
@@ -125,7 +135,7 @@
             </button>
 
             <button
-              class="btn btn-sm btn-info ms-2 text-white"
+              class="btn btn-sm btn-info m-1 custom-btn text-white"
               size="sm"
               (click)="deleteUser(user.Id)"
             >
@@ -133,6 +143,7 @@
               <!-- <svg cIcon name="cil-trash" size="md"></svg> -->
               <!-- <i class="material-symbols-outlined"> delete </i> -->
             </button>
+          </tr>
           </td>
           <!-- <td>
             
@@ -140,7 +151,7 @@
         </tr>
       </tbody>
 
-      <h6 *ngIf="!userData.length" class="text-center p-5 m-0">
+      <h6 *ngIf="!userData.length" class="text-center align-middle p-5 m-0">
         No User available
       </h6>
     </app-table>

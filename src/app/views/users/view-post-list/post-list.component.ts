@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostService } from '../../../services/post.service';
 import { UserService } from '../../../services/user.service';
@@ -17,7 +23,7 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
   profileId: string;
   isOpenCommentsPostId = '';
   isExpand = false;
-  commentList = []
+  commentList = [];
   visible = false;
   percentage = 0;
   message = '';
@@ -32,7 +38,6 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private modalService: NgbModal
-
   ) {
     this.profileId = this.route.snapshot.paramMap.get('id');
   }
@@ -44,7 +49,7 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void { }
 
   getPostLists(): void {
-    // const userId = this.userId;
+// const userId = this.userId;
     console.log(this.profileId);
     this.postService.viewPost(this.profileId, this.startDate, this.endDate).subscribe({
       next: (res: any) => {

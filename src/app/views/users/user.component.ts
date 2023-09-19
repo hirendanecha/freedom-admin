@@ -30,6 +30,7 @@ export class UserComponent implements OnInit {
   searchCtrl: '';
   startDate: any;
   endDate: any;
+  showActionColumn: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -216,5 +217,9 @@ export class UserComponent implements OnInit {
     this.getUserList()
     // Perform actions with the values obtained from the filter component
     // console.log('Searching for:', searchTerm);
+  }
+
+  toggleActionColumn() {
+    this.showActionColumn = !this.showActionColumn;
   }
 }
