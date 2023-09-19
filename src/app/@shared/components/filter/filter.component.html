@@ -1,4 +1,4 @@
-<c-row class="pb-3 justify-content-center">
+<c-row [ngClass]="{'pb-3 justify-content-center': !showSearchInput}">
   <ng-container *ngIf="showSearchInput">
     <c-col xs="3">
       <input

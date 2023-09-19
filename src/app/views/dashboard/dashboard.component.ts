@@ -4,6 +4,7 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
 import { Router } from '@angular/router';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
+import { DashboardService } from 'src/app/services/dashboard.service';
 
 interface IUser {
   name: string;
@@ -24,10 +25,12 @@ interface IUser {
   styleUrls: ['dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
+  dashboardData: any;
   constructor(
     private chartsData: DashboardChartsData,
     private tokenStorage: TokenStorageService,
-    private router: Router
+    private router: Router,
+    private dashboardService: DashboardService
   ) {}
 
   public users: IUser[] = [
@@ -110,6 +113,7 @@ export class DashboardComponent implements OnInit {
       color: 'dark',
     },
   ];
+
   public mainChart: IChartProps = {};
   public chart: Array<IChartProps> = [];
   public trafficRadioGroup = new UntypedFormGroup({
@@ -117,12 +121,16 @@ export class DashboardComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    if (this.tokenStorage.getToken()) {
-      this.router.navigate([`/dashboard`]);
-    } else {
-      this.router.navigate([`/login`]);
-    }
-    this.initCharts();
+    this.dashboardService.getDashboardData().subscribe(data => {
+      this.dashboardData = data;
+      console.log('Dashboard Data:', this.dashboardData);
+    });
+    // if (this.tokenStorage.getToken()) {
+    //   this.router.navigate([`/dashboard`]);
+    // } else {
+    //   this.router.navigate([`/login`]);
+    // }
+    // this.initCharts();
   }
 
   initCharts(): void {
@@ -133,5 +141,15 @@ export class DashboardComponent implements OnInit {
     this.trafficRadioGroup.setValue({ trafficRadio: value });
     this.chartsData.initMainChart(value);
     this.initCharts();
+  }
+}
+
+export function numberFormat(value: number): string {
+  if (value >= 1000000) {
+    return `${(value / 1000000).toFixed(2)}M`;
+  } else if (value >= 1000) {
+    return `${(value / 1000).toFixed(2)}K`;
+  } else {
+    return value.toString();
   }
 }

@@ -2,12 +2,10 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
 import { CommunityRoutingModule } from './community-routing.module';
 import { CommunityComponent } from './community.component';
-import { ViewCommunityDialogComponent } from './view-community/edit-community.component';
 import { SharedModule } from 'src/app/@shared/shared.module';
 @NgModule({
   declarations: [
-    CommunityComponent,
-    ViewCommunityDialogComponent,
+    CommunityComponent
   ],
   imports: [
     SharedModule,
