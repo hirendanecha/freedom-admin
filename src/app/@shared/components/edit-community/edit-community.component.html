@@ -1,0 +1,215 @@
+<div class="bg-light flex-row align-items-center edit-content">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col md="6">
+        <label>Community Name</label>
+        <input
+          cFormControl
+          name="uname"
+          [(ngModel)]="communityDetails.CommunityName"
+          type="text"
+        />
+      </c-col>
+      <c-col md="6">
+        <label>Description</label>
+        <input
+          cFormControl
+          name="uname"
+          [(ngModel)]="communityDetails.CommunityDescription"
+          type="text"
+        />
+      </c-col>
+    </c-row>
+    <c-row class="justify-content-center mt-2">
+      <c-col md="6" class="d-grid">
+        <label>Logo</label>
+        <!-- <c-avatar
+          cFormControl
+          name="uname"
+          [(ngModel)]="communityDetails.profileId"
+          type="text"
+          disabled
+        /> -->
+        <img
+          class="w-100-px"
+          [src]="communityDetails.logoImg"
+          onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-user.png';"
+        />
+        <!-- <c-avtar></c-avtar> -->
+      </c-col>
+      <c-col md="6" class="d-grid">
+        <label>Cover Image</label>
+        <!-- <input
+          cFormControl
+          name="uname"
+          [(ngModel)]="communityDetails.AccountType"
+          type="text"
+          disabled
+        /> -->
+        <img
+          class="w-200-px"
+          [src]="communityDetails.coverImg"
+          onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-room.png';"
+        />
+      </c-col>
+    </c-row>
+    <!-- <c-row class="justify-content-center mt-2">
+      <c-col md="6">
+        <label>Is Approve</label>
+        <input
+          cFormControl
+          name="uname"
+          [(ngModel)]="communityDetails.isApprove"
+          type="text"
+        />
+      </c-col>
+      <c-col md="6">
+        <label>Zip</label>
+        <input
+          cFormControl
+          name="uname"
+          [(ngModel)]="memberDetails.Zip"
+          type="text"
+          disabled
+        />
+      </c-col>
+    </c-row> -->
+    <h3>User Details</h3>
+    <c-row class="justify-content-center mt-2">
+      <c-col md="6">
+        <label>First Name</label>
+        <input
+          cFormControl
+          name="uname"
+          [(ngModel)]="memberDetails.FirstName"
+          type="text"
+        />
+      </c-col>
+      <c-col md="6">
+        <label>Last Name</label>
+        <input
+          cFormControl
+          name="uname"
+          [(ngModel)]="memberDetails.LastName"
+          type="text"
+        />
+      </c-col>
+    </c-row>
+    <c-row class="justify-content-center mt-2">
+      <c-col md="6">
+        <label>Username</label>
+        <input
+          cFormControl
+          name="uname"
+          [(ngModel)]="memberDetails.Username"
+          type="text"
+        />
+      </c-col>
+      <c-col md="6">
+        <label>Email</label>
+        <input
+          cFormControl
+          name="uname"
+          [(ngModel)]="memberDetails.Email"
+          type="text"
+        />
+      </c-col>
+    </c-row>
+    <c-row class="justify-content-center mt-2">
+      <c-col md="6">
+        <label>Zip</label>
+        <input
+          cFormControl
+          name="uname"
+          [(ngModel)]="memberDetails.Zip"
+          type="text"
+        />
+      </c-col>
+      <c-col md="6" class="d-grid">
+        <label>Country</label>
+        <!-- <input
+          cFormControl
+          name="uname"
+          [(ngModel)]="memberDetails.Country"
+          type="text"
+          disabled
+        /> -->
+        <svg
+          class="flag"
+          *ngIf="memberDetails.Country"
+          cIcon
+          id="{{ memberDetails.Country }}"
+          name="cif-{{ memberDetails?.Country || null | lowercase }}"
+          title="{{ memberDetails?.Country }}"
+        ></svg>
+      </c-col>
+    </c-row>
+    <c-row class="justify-content-center mt-2">
+      <c-col md="6">
+        <label>Phone</label>
+        <input
+          cFormControl
+          name="uname"
+          [(ngModel)]="memberDetails.MobileNo"
+          type="text"
+        />
+      </c-col>
+      <c-col md="6" class="d-grid">
+        <label>City</label>
+        <input
+          cFormControl
+          name="uname"
+          [(ngModel)]="memberDetails.City"
+          type="text"
+        />
+      </c-col>
+    </c-row>
+    <c-row class="justify-content-center mt-2" *ngIf="!isPage">
+      <c-col md="12">
+        <label for="">Make Community Admin</label>
+        <ng-multiselect-dropdown
+          [placeholder]="'Select user'"
+          [settings]="dropdownSettings"
+          [data]="dropdownList"
+          [(ngModel)]="selectedItems"
+          (onSelect)="onItemSelect($event)"
+        >
+        </ng-multiselect-dropdown>
+        <!-- <div
+          #postMessageInput
+          contenteditable
+          placeholder=""
+          cFormControl
+          class="post-message-input input-area c-text"
+          (keyup)="messageOnKeyEvent()"
+        ></div>
+
+        <div #userSearchDropdownRef ngbDropdown>
+          <div ngbDropdownMenu class="user-dropdown-menu w-100 overflow-auto">
+            <ng-container *ngFor="let user of userList">
+              <div
+                ngbDropdownItem
+                class="d-flex gap-3 pe-auto overflow-hidden"
+                role="button"
+                (click)="selectTagUser(user)"
+              >
+                <img
+                  class="w-32-px h-32-px rounded"
+                  src="{{ user.ProfilePicName }}"
+                  [alt]="user.Username"
+                  onerror="this.onerror=null;this.src='/assets/images/avtar/placeholder-user.png';"
+                />
+                <span>{{ user.Username }}</span>
+              </div>
+            </ng-container>
+          </div>
+        </div> -->
+      </c-col>
+    </c-row>
+    <c-row class="float-end mt-3">
+      <button cButton color="primary" (click)="saveChanges()">
+        {{ selectedItems.length ? "Save changes" : "Edit" }}
+      </button>
+    </c-row>
+  </c-container>
+</div>

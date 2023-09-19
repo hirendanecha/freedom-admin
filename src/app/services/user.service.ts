@@ -77,4 +77,10 @@ export class UserService {
   getUserList(): Observable<any> {
     return this.http.get(`${this.baseUrl}/get`);
   }
+
+  getProfileList(searchText): Observable<object> {
+    return this.http.get(
+      `${this.baseUrl}/search-user?searchText=${searchText}`
+    );
+  }
 }

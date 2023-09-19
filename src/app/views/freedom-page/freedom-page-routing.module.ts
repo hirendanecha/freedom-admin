@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommunityComponent } from './freedom-page.component';
-import { ViewPageDialogComponent } from './view-page/edit-page.component';
+import { EditCommunityComponent } from '../../@shared/components/edit-community/edit-community.component';
 
 const routes: Routes = [
   {
@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'edit/:id',
-    component: ViewPageDialogComponent,
+    component: EditCommunityComponent,
     data: {
       title: 'edit Page',
     },
