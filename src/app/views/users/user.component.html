@@ -2,9 +2,8 @@
   <c-card-header class="d-flex align-items-center justify-content-between"> User
     <div class="d-flex filter-table-action btn btn-outline-secondary" (click)="toggleActionColumn()">
       <span class="material-symbols-outlined">
-        filter_list
+        menu
         </span>
-      <span>&nbsp;Filter</span>
     </div>  
   </c-card-header>
 
@@ -25,7 +24,7 @@
       <thead cTableColor="light">
         <tr class="text-center align-middle">
           <th>Profile</th>
-          <th>UserId</th>
+          <th>User&nbsp;ID</th>
           <!-- <th>ProfileId</th> -->
           <th>Firstname</th>
           <!-- <th>Lastname</th> -->
@@ -33,13 +32,13 @@
           <th>Email</th>
           <!-- <th>AccountType</th> -->
           <th>Phone</th>
-          <th>Date Creation</th>
+          <th>Date&nbsp;Creation</th>
           <th>Country</th>
           <th>State</th>
           <th>Zip</th>
           <!-- <th>Status</th> -->
           <!-- <th>Suspended</th> -->
-          <th *ngIf="showActionColumn">Action</th>
+          <th *ngIf="!showActionColumn">Action</th>
           <!-- <th>Activate Media</th> -->
         </tr>
       </thead>
@@ -87,7 +86,7 @@
           </td>
           <td>{{ user.State || "-" }}</td>
           <td>{{ user.Zip || "-" }}</td>
-          <td *ngIf="showActionColumn">
+          <td *ngIf="!showActionColumn">
             <tr>
             <button
               class="btn btn-sm text-white m-1 custom-btn"
