@@ -30,7 +30,7 @@ export class UserComponent implements OnInit {
   searchCtrl: '';
   startDate: any;
   endDate: any;
-  showActionColumn: boolean = false;
+  currentView: 'list' | 'table' = 'list';
 
   constructor(
     private userService: UserService,
@@ -219,7 +219,11 @@ export class UserComponent implements OnInit {
     // console.log('Searching for:', searchTerm);
   }
 
-  toggleActionColumn() {
-    this.showActionColumn = !this.showActionColumn;
+  showListView() {
+    this.currentView = 'list';
+  }
+
+  showTableView() {
+    this.currentView = 'table';
   }
 }

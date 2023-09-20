@@ -20,12 +20,46 @@ td {
   }
 }
 
-.filter-table-action{
+.filter-table-action {
   cursor: pointer;
 }
 
-.custom-btn{
+.custom-btn {
   width: 105px;
   font-size: 13px;
   white-space: nowrap;
+}
+.c-fix-width {
+  min-width: 241px;
+}
+.c-width {
+  width: 275px;
+}
+
+.c-rows {
+  .c-broder {
+    border: 1px solid #e0e0e0;
+    border-radius: 7px;
+    overflow: auto;
+    margin: 15px 0;
+  }
+
+  .c-text-area {
+    padding: 10px 0;
+    min-width: 280px;
+    h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #000;
+    }
+  }
+  .c-list-btn {
+    max-width: 300px;
+    min-width: 125px;
+    width: 100%;
+    align-self: center;
+    .custom-btn-list {
+      font-size: 15px;
+    }
+  }
 }
