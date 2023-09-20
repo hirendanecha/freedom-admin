@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { debounceTime, fromEvent } from 'rxjs';
 import { CommunityService } from 'src/app/services/community.service';
 import { UserService } from 'src/app/services/user.service';
 @Component({
@@ -10,92 +11,104 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./edit-community.component.scss'],
 })
 export class EditCommunityComponent implements OnInit, AfterViewInit {
-  // @Input() communityId: any;
   communityDetails: any = {};
   memberDetails: any = {};
-  dropdownSettings: IDropdownSettings = {};
-  dropdownList = [];
   selectedItems = [];
   communityId: any;
   isPage = false;
   searchText = ''
   userNameSearch = '';
   userList = [];
-  @ViewChild('userSearchDropdownRef', { static: false, read: NgbDropdown }) userSearchNgbDropdown: NgbDropdown;
-  @ViewChild('postMessageInput', { static: false }) postMessageInput: ElementRef;
+  users: any;
+  userForm = new FormGroup({
+    FirstName: new FormControl(''),
+    LastName: new FormControl(''),
+    Username: new FormControl('', Validators.required),
+    Country: new FormControl('', Validators.required),
+    Zip: new FormControl('', Validators.required),
+    MobileNo: new FormControl(''),
+    City: new FormControl(''),
+    Email: new FormControl('', Validators.required),
+    State: new FormControl(''),
+  });
+  allCountryData: any;
+  @ViewChild('zipCode') zipCode: ElementRef;
 
   constructor(
     private communityService: CommunityService,
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
-    private renderer: Renderer2
+    private spinner: NgxSpinnerService
   ) {
     this.communityId = this.route.snapshot.paramMap.get('id');
-    console.log(this.router);
-    this.isPage = this.router.routerState.snapshot.url.includes('pages')
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'ID',
-      textField: 'Username',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: true,
-      enableCheckAll: false
-    };
+    this.isPage = this.router.routerState.snapshot.url.includes('pages');
+
   }
 
   ngOnInit(): void {
     this.getUserDetails();
+    this.getAllCountries()
   }
   ngAfterViewInit(): void {
     this.getUserList();
+    fromEvent(this.zipCode.nativeElement, 'input')
+      .pipe(debounceTime(1000))
+      .subscribe((event) => {
+        const val = event['target'].value;
+        if (val.length > 3) {
+          this.onZipChange(val);
+        }
+      });
   }
 
   getUserDetails(): void {
-    // const userId = this.userId;
-    console.log(this.communityId);
+    this.spinner.show();
     this.communityService.getCommunityById(this.communityId).subscribe({
       next: (res: any) => {
+        this.spinner.hide();
         if (res) {
           this.communityDetails = res[0];
           this.memberDetails = res[0].memberList[0];
-          console.log(this.communityDetails);
+          const data = {
+            FirstName: this.memberDetails.FirstName,
+            LastName: this.memberDetails.LastName,
+            Username: this.memberDetails.Username,
+            Email: this.memberDetails.Email,
+            Country: this.memberDetails.Country,
+            Zip: this.memberDetails.Zip,
+            City: this.memberDetails.City,
+            State: this.memberDetails.State,
+            MobileNo: this.memberDetails.MobileNo
+          }
+          this.userForm.setValue(data);
         }
       },
       error: (error) => {
+        this.spinner.hide();
         console.log(error);
       },
     });
   }
 
-  getUserList(): void {
-    this.userService.getUserList().subscribe({
-      next: (res: any) => {
-        if (res.data) {
-          this.dropdownList = res.data;
-          console.log(this.dropdownList);
-        }
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-  }
-
-  onItemSelect(e) {
-    console.log(e);
-  }
-
-  onSelectAll(e) {
-    console.log(e);
+  onItemSelect(event) {
+    this.getUserList(event.term);
   }
 
   saveChanges(): void {
-    console.log(this.selectedItems);
+    if (this.userForm.valid) {
+      console.log(this.userForm.value)
+      if (this.selectedItems.length) {
+        this.selectedItems.forEach((e) => {
+          this.createAdmin(e)
+        })
+      }
+    }
+  }
+
+  createAdmin(profileId): void {
     const data = {
-      profileId: this.selectedItems[0]?.ID,
+      profileId: profileId,
       communityId: Number(this.communityId),
       isActive: 'Y',
       isAdmin: 'Y',
@@ -113,57 +126,65 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
     });
   }
 
-  messageOnKeyEvent(): void {
-
-    const text = this.postMessageInput.nativeElement.innerHTML;
-    const atSymbolIndex = text.lastIndexOf('@');
-
-    if (atSymbolIndex !== -1) {
-      this.userNameSearch = text.substring(atSymbolIndex + 1);
-      if (this.userNameSearch?.length > 2) {
-        // this.getUserList(this.userNameSearch);
-      } else {
-        this.clearUserSearchData();
-      }
-    } else {
-      this.clearUserSearchData();
-    }
-    // this.postData.postdescription = text;
+  getUserList(search: string = ''): void {
+    this.userService.getProfileList(search).subscribe({
+      next: (res: any) => {
+        if (res?.data?.length > 0) {
+          this.userList = res.data;
+        } else {
+          this.selectedItems = []
+          this.userList = []
+        }
+      },
+      error: (error) => {
+        console.log(error)
+      },
+    });
   }
 
-  clearUserSearchData(): void {
-    this.userNameSearch = '';
-    this.userList = [];
-    // this.userSearchNgbDropdown.close();
+  getAllCountries() {
+    this.userService.getCountriesData().subscribe(
+      {
+        next: (result) => {
+          this.allCountryData = result;
+        },
+        error:
+          (error) => {
+            console.log(error);
+          }
+      });
   }
 
-  // getUserList(search: string): void {
-  //   this.userService.getProfileList(search).subscribe({
-  //     next: (res: any) => {
-  //       if (res?.data?.length > 0) {
-  //         this.userList = res.data;
-  //         this.userSearchNgbDropdown.open();
-  //       } else {
-  //         this.clearUserSearchData();
-  //       }
-  //     },
-  //     error: () => {
-  //       this.clearUserSearchData();
-  //     },
-  //   });
-  // }
+  changeCountry(e) {
+    console.log(e.target.value)
+    this.userForm.get('Country').setValue(e.target.value)
+    this.userForm.get('Zip').setValue('');
+    this.userForm.get('State').setValue('');
+    this.userForm.get('City').setValue('');
+  }
 
-  selectTagUser(user): void {
-    const postHtml = this.postMessageInput.nativeElement.innerHTML;
-    const text = postHtml.replaceAll(
-      `@${this.userNameSearch}`,
-      `<a class="text-warning">@${user?.Username}</a>`
-    );
-    this.renderer.setProperty(
-      this.postMessageInput.nativeElement,
-      'innerHTML',
-      text
-    );
-    console.log(text)
+
+  onZipChange(event) {
+    this.spinner.show();
+    const country = this.userForm.value.Country;
+    this.userService.getZipData(event, country).subscribe(
+      {
+        next: (data) => {
+          this.spinner.hide();
+          const zip_data = data[0];
+          if (zip_data?.state) {
+            zip_data ? this.userForm.get('State').setValue(zip_data.state) : null;
+            zip_data ? this.userForm.get('City').setValue(zip_data.city) : null;
+          } else {
+            this.spinner.hide();
+            // this.toastService.danger('Please check and enter valid country or zip code.');
+          }
+        },
+        error:
+          (err) => {
+            this.spinner.hide();
+            console.log(err);
+          }
+      });
   }
 }

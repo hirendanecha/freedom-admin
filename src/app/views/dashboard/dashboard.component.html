@@ -4,40 +4,40 @@
       class="mb-4"
       color="primary"
       title="Users"
-      value="{{ dashboardData.data.userCount | numberFormat }}"
-    >    
-    <svg class="my-4 text-white" height="60"></svg>
+      [value]="dashboardData?.userCount | numberFormat"
+    >
+      <svg class="my-4 text-white" height="60"></svg>
     </c-widget-stat-a>
   </c-col>
 
   <c-col sm="6" xl="3">
     <c-widget-stat-a
-    class="mb-4"
-    color="info"
-    [title]="'Posts'"
-    value="{{ dashboardData.data.postCount | numberFormat }}"
+      class="mb-4"
+      color="info"
+      [title]="'Posts'"
+      [value]="dashboardData?.postCount | numberFormat"
     >
-    <svg class="my-4 text-white" height="60"></svg>
+      <svg class="my-4 text-white" height="60"></svg>
     </c-widget-stat-a>
   </c-col>
   <c-col sm="6" xl="3">
     <c-widget-stat-a
-    class="mb-4"
-    color="warning"
-    [title]="'Communities'"
-    value="{{ dashboardData.data.communityCount | numberFormat }}"
+      class="mb-4"
+      color="warning"
+      [title]="'Communities'"
+      [value]="dashboardData?.communityCount | numberFormat"
     >
-    <svg class="my-4 text-white" height="60"></svg>
+      <svg class="my-4 text-white" height="60"></svg>
     </c-widget-stat-a>
   </c-col>
   <c-col sm="6" xl="3">
     <c-widget-stat-a
-    class="mb-4"
-    color="danger"
-    [title]="'Freedom&nbsp;Pages'"
-    value="{{ dashboardData.data.pageCount | numberFormat }}"
+      class="mb-4"
+      color="danger"
+      [title]="'Freedom&nbsp;Pages'"
+      [value]="dashboardData?.pageCount | numberFormat"
     >
-    <svg class="my-4 text-white" height="60"></svg>
+      <svg class="my-4 text-white" height="60"></svg>
     </c-widget-stat-a>
   </c-col>
 </c-row>
