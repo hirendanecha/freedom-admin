@@ -15,10 +15,9 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Import app component
 import { AppComponent } from './app.component';
-import { IconModule, IconSetService } from '@coreui/icons-angular';
+import { IconSetService } from '@coreui/icons-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginModule } from './views/login/login.module';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { FooterComponent } from './containers/default-layout/footer/footer.component';
 import { HeaderComponent } from './containers/default-layout/header/header.component';
 import { LayoutComponent } from './containers/default-layout/layout.component';
@@ -44,7 +43,6 @@ import { SharedModule } from './@shared/shared.module';
     FormsModule,
     LoginModule,
     SharedModule,
-    // NgMultiSelectDropDownModule.forRoot(),
   ],
   providers: [
     // {
@@ -57,4 +55,4 @@ import { SharedModule } from './@shared/shared.module';
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule {}
+export class AppModule { }

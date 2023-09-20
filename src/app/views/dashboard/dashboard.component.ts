@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
     private tokenStorage: TokenStorageService,
     private router: Router,
     private dashboardService: DashboardService
-  ) {}
+  ) { }
 
   public users: IUser[] = [
     {
@@ -122,34 +122,8 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.dashboardService.getDashboardData().subscribe(data => {
-      this.dashboardData = data;
+      this.dashboardData = data.data;
       console.log('Dashboard Data:', this.dashboardData);
     });
-    // if (this.tokenStorage.getToken()) {
-    //   this.router.navigate([`/dashboard`]);
-    // } else {
-    //   this.router.navigate([`/login`]);
-    // }
-    // this.initCharts();
-  }
-
-  initCharts(): void {
-    this.mainChart = this.chartsData.mainChart;
-  }
-
-  setTrafficPeriod(value: string): void {
-    this.trafficRadioGroup.setValue({ trafficRadio: value });
-    this.chartsData.initMainChart(value);
-    this.initCharts();
-  }
-}
-
-export function numberFormat(value: number): string {
-  if (value >= 1000000) {
-    return `${(value / 1000000).toFixed(2)}M`;
-  } else if (value >= 1000) {
-    return `${(value / 1000).toFixed(2)}K`;
-  } else {
-    return value.toString();
   }
 }

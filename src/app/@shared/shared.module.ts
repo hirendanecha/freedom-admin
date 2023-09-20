@@ -25,15 +25,15 @@ import {
   UtilitiesModule,
   ButtonGroupModule,
   ListGroupModule,
+  WidgetModule,
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { DeleteDialogComponent } from '../views/users/delete-confirmation-dialog/delete-dialog.component';
 import { ToastComponent } from '../views/toaster/toast.component';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FilterComponent } from './components/filter/filter.component';
 import { EditCommunityComponent } from './components/edit-community/edit-community.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const sharedComponents = [
   PaginationComponent,
@@ -71,9 +71,9 @@ const sharedModules = [
   UtilitiesModule,
   ButtonGroupModule,
   ListGroupModule,
-  NgMultiSelectDropDownModule,
-  NgbDatepickerModule,
   NgxSpinnerModule,
+  NgSelectModule,
+  WidgetModule
 ];
 
 @NgModule({

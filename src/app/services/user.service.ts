@@ -78,9 +78,19 @@ export class UserService {
     return this.http.get(`${this.baseUrl}/get`);
   }
 
-  getProfileList(searchText): Observable<object> {
+  getProfileList(searchText: string = ''): Observable<object> {
     return this.http.get(
       `${this.baseUrl}/search-user?searchText=${searchText}`
     );
+  }
+
+  getCountriesData(): Observable<{ country_code: string; country: string }[]> {
+    return this.http.get<{ country_code: string; country: string }[]>(
+      `${this.baseUrl}/countries`
+    );
+  }
+
+  getZipData(zip: string, country: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/zip/${zip}?country=${country}`);
   }
 }
