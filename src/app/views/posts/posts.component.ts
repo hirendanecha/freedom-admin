@@ -7,6 +7,7 @@ import { PostService } from 'src/app/services/post.service';
 import { DeleteDialogComponent } from '../users/delete-confirmation-dialog/delete-dialog.component';
 import { Router } from '@angular/router';
 import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-posts',
@@ -32,7 +33,8 @@ export class PostsComponent {
   constructor(
     private modalService: NgbModal,
     private postService: PostService,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) {
     this.searchCtrl = new FormControl('');
     this.searchCtrl.valueChanges
@@ -52,6 +54,7 @@ export class PostsComponent {
   }
 
   getPostList(): void {
+    this.spinner.show();
     this.postService
       .getPostList(
         this.pagination.activePage,
@@ -60,6 +63,7 @@ export class PostsComponent {
       )
       .subscribe({
         next: (res: any) => {
+          this.spinner.hide();
           if (res.data) {
             console.log(res.data);
             this.postList = res.data;
@@ -67,6 +71,7 @@ export class PostsComponent {
           }
         },
         error: (error) => {
+          this.spinner.hide();
           console.log(error);
         },
       });

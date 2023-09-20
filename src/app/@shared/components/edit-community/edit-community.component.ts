@@ -97,6 +97,17 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
 
   saveChanges(): void {
     if (this.userForm.valid) {
+      // this.userService.updateProfile(this.memberDetails.profileId, this.userForm.value).subscribe({
+      //   next: (res: any) => {
+      //     this.spinner.hide();
+      //     // this.toastService.success('Update successfully');
+      //   },
+      //   error: (error) => {
+      //     this.spinner.hide();
+      //     // this.toastService.danger('Please try again');
+      //     console.log(error);
+      //   }
+      // });
       console.log(this.userForm.value)
       if (this.selectedItems.length) {
         this.selectedItems.forEach((e) => {
@@ -127,8 +138,10 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
   }
 
   getUserList(search: string = ''): void {
+    this.spinner.show();
     this.userService.getProfileList(search).subscribe({
       next: (res: any) => {
+        this.spinner.hide();
         if (res?.data?.length > 0) {
           this.userList = res.data;
         } else {
@@ -137,19 +150,23 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
         }
       },
       error: (error) => {
+        this.spinner.hide()
         console.log(error)
       },
     });
   }
 
   getAllCountries() {
+    this.spinner.show();
     this.userService.getCountriesData().subscribe(
       {
         next: (result) => {
+          this.spinner.hide();
           this.allCountryData = result;
         },
         error:
           (error) => {
+            this.spinner.hide();
             console.log(error);
           }
       });

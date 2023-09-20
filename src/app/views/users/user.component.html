@@ -44,42 +44,34 @@
           <div class="d-flex flex-column col-6 c-text-area">
             <div class="d-flex">
               <h4>First name:</h4>
-              &nbsp;
               {{ user.FirstName || "-" }}
             </div>
             <div class="d-flex">
-              <h4>Last name:</h4>
-              &nbsp;
+              <h4>Last name: </h4>
               {{ user.LastName || "-" }}
             </div>
             <div class="d-flex">
-              <h4>Username:</h4>
-              &nbsp;
+              <h4>Username: </h4>
               {{ user.Username || "-" }}
             </div>
             <div class="d-flex">
-              <h4>Profile Id:</h4>
-              &nbsp;
+              <h4>Profile Id: </h4>
               {{ user.profileId || "-" }}
             </div>
             <div class="d-flex">
-              <h4>User Id:</h4>
-              &nbsp;
+              <h4>User Id: </h4>
               {{ user.Id }}
             </div>
             <div class="d-flex">
-              <h4>Date Created:</h4>
-              &nbsp;
+              <h4>Date Created: </h4>
               {{ user.DateCreation | date : "d-MM-YYYY" }}
             </div>
             <div class="d-flex">
-              <h4>Email:</h4>
-              &nbsp;
+              <h4>Email: </h4>
               {{ user.Email || "-" }}
             </div>
             <div class="d-flex">
-              <h4>Phone:</h4>
-              &nbsp;
+              <h4>Phone: </h4>
               {{ user.MobileNo || "-" }}
             </div>
           </div>

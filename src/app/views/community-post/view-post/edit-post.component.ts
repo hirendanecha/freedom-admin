@@ -5,6 +5,7 @@ import { CommunityPostService } from 'src/app/services/community-post.service';
 import { CommunityService } from 'src/app/services/community.service';
 import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
+import { NgxSpinnerService } from 'ngx-spinner/lib/ngx-spinner.service';
 @Component({
   selector: 'app-edit-post',
   templateUrl: './edit-post.component.html',
@@ -18,7 +19,8 @@ export class ViewCommunityPostComponent implements OnInit, AfterViewInit {
     private communityPostService: CommunityPostService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) {
     this.postId = this.route.snapshot.paramMap.get('id');
   }
@@ -31,15 +33,18 @@ export class ViewCommunityPostComponent implements OnInit, AfterViewInit {
 
   getPostDetails(): void {
     // const userId = this.userId;
+    this.spinner.show();
     console.log(this.postId);
     this.communityPostService.viewPost(this.postId).subscribe(
       (res: any) => {
         if (res) {
+          this.spinner.hide();
           this.postDetails = res[0];
           console.log(this.postDetails);
         }
       },
       (error) => {
+        this.spinner.hide();
         console.log(error);
       }
     );
