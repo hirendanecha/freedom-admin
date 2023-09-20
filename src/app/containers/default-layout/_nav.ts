@@ -31,7 +31,7 @@ export const navItems: INavData[] = [
   //   iconComponent: { name: 'cil-library' },
   // },
   {
-    name: 'Users',
+    name: 'Search End User',
     url: '/user',
     iconComponent: { name: 'cil-user' },
   },

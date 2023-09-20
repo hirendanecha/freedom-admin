@@ -1,6 +1,9 @@
 <div class="bg-light flex-row align-items-center min-vh-100">
   <c-container>
-    <app-filter *ngIf="postList.length" [showSearchInput]="shouldShowSearchInput" (searchClick)="onSearch()"></app-filter>
+    <div>
+      <h5 *ngIf="postList.length" class="text-center">Filter Posts</h5>
+      <app-filter *ngIf="postList.length" [showSearchInput]="shouldShowSearchInput" (searchClick)="onSearch()"></app-filter>
+    </div>
     <c-row class="justify-content-center">
       <c-col md="7" *ngFor="let post of postList" class="mb-2">
         <c-card class="p-3 post-card">
@@ -18,7 +21,7 @@
                   @{{ post?.Username | lowercase }}
                 </p>
                 <button
-                  class="btn btn-sm btn-danger float-end"
+                  class="btn text-light btn-sm btn-danger float-end"
                   (click)="deletePost(post.id)"
                 >
                   Delete
@@ -45,18 +48,18 @@
                   >
                     <li class="d-flex align-items-center">
                       <!-- <svg cIcon name="cilThumbUp"></svg> -->
-                      <i class="material-symbols-outlined">
+                      <span class="material-symbols-outlined">
                         thumb_up
-                        </i>
-                      <i class="mdtxt d-center ms-1">{{
+                        </span>
+                      <span class="mdtxt d-center ms-1">{{
                         post.likescount > 0 ? post.likescount : 0
-                      }}</i>
+                      }}</span>
                     </li>
                     <li class="d-flex align-items-center" (click)="viewComments(post.id)">
                       <!-- <svg cIcon name="cilCommentBubble"></svg> -->
-                      <i class="material-symbols-outlined">
+                      <span class="material-symbols-outlined">
                         chat
-                        </i>
+                        </span>
                       <span class="mdtxt d-center ms-1">Comments</span>
                     </li>
                   </ul>
@@ -76,7 +79,7 @@
                           class="parent-comment d-flex gap-2 gap-sm-4"
                           *ngIf="comment.postId === post.id"
                         >
-                          <div class="d-center align-items-baseline">
+                          <div class="d-flex align-items-baseline">
                             <img
                               loading="lazy"
                               class="avatar-img rounded-3"
@@ -107,10 +110,10 @@
                               </div>
 
                               <ul class="d-flex gap-6 py-2 px-4 m-0">
-                                <li class="d-center">
-                                  <i class="material-symbols-outlined" [ngClass]="{ active: comment.react == 'L' }">
+                                <li class="d-flex">
+                                  <span class="material-symbols-outlined" [ngClass]="{ active: comment.react == 'L' }">
                                     thumb_up
-                                    </i>
+                                    </span>&nbsp;
                                   <!-- <svg
                                     cIcon
                                     name="cilThumbUp"
@@ -121,7 +124,7 @@
                                       ? comment?.likeCount
                                       : 0
                                   }}
-                                  Likes
+                                  <!-- Likes -->
                                 </li>
                               </ul>
                               <ng-container
@@ -170,7 +173,7 @@
                                         </div>
                                       </div>
                                       <ul class="d-flex gap-6 mt-2">
-                                        <li class="d-center">
+                                        <li class="d-flex">
                                           <!-- <i
                                             class="material-symbols-outlined mat-icon"
                                             [ngClass]="
@@ -181,11 +184,11 @@
                                           >
                                             thumb_up
                                           </i> -->
-                                          <i class="material-symbols-outlined" [ngClass]="{
+                                          <span class="material-symbols-outlined" [ngClass]="{
                                             active: comment.react == 'L'
                                           }">
                                             thumb_up
-                                            </i>
+                                            </span>
                                           <!-- <svg
                                             cIcon
                                             name="cilThumbUp"
