@@ -11,6 +11,8 @@ import { UserService } from '../../../services/user.service';
 import { DeleteDialogComponent } from '../delete-confirmation-dialog/delete-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
@@ -37,7 +39,8 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private spinner: NgxSpinnerService
   ) {
     this.profileId = this.route.snapshot.paramMap.get('id');
   }
@@ -50,15 +53,18 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
 
   getPostLists(): void {
 // const userId = this.userId;
+    this.spinner.show();
     console.log(this.profileId);
     this.postService.viewPost(this.profileId, this.startDate, this.endDate).subscribe({
       next: (res: any) => {
+        this.spinner.hide();
         if (res) {
           this.postList = res.data;
           console.log(this.postList);
         }
       },
       error: (error) => {
+        this.spinner.hide();
         console.log(error);
       },
     });

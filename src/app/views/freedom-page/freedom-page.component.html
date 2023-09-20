@@ -31,7 +31,7 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let page of pageList; let i = index">
-          <tr class="text-center" *ngIf="page.Id">
+          <tr class="text-center align-middle" *ngIf="page.Id">
             <td>
               {{ i + 1 }}
             </td>
@@ -63,14 +63,14 @@
             <td>{{ page.Zip || "-" }}</td>
             <td>
               <button
-                class="btn btn-sm btn-success text-white"
+                class="btn btn-sm btn-success text-white c-btn"
                 *ngIf="page.isApprove === 'N'"
                 (click)="changeCommunityStatus(page, 'Y')"
               >
                 Approve
               </button>
               <button
-                class="btn btn-sm btn-danger text-white"
+                class="btn btn-sm btn-danger text-white c-btn"
                 *ngIf="page.isApprove === 'Y'"
                 (click)="changeCommunityStatus(page, 'N')"
               >

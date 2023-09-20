@@ -54,7 +54,7 @@
 
     <app-table>
       <thead cTableColor="light">
-        <tr class="text-center">
+        <tr class="text-center align-middle">
           <th class="text-center">No</th>
           <th>Logo</th>
           <th>Community Name</th>
@@ -70,7 +70,7 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let community of communityList; let i = index">
-          <tr class="text-center" *ngIf="community.Id">
+          <tr class="text-center align-middle" *ngIf="community.Id">
             <td>
               {{ i + 1 }}
             </td>
@@ -102,14 +102,14 @@
             <td>{{ community.Zip || "-" }}</td>
             <td>
               <button
-                class="btn btn-sm btn-success text-white"
+                class="btn btn-sm btn-success text-white c-btn"
                 *ngIf="community.isApprove === 'N'"
                 (click)="changeCommunityStatus(community, 'Y')"
               >
                 Approve
               </button>
               <button
-                class="btn btn-sm btn-danger text-white"
+                class="btn btn-sm btn-danger text-white c-btn"
                 *ngIf="community.isApprove === 'Y'"
                 (click)="changeCommunityStatus(community, 'N')"
               >

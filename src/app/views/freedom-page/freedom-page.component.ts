@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { Pagination } from 'src/app/@shared/interface/pagination';
 import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 
 @Component({
   selector: 'app-freedom-page',
@@ -35,7 +37,8 @@ export class CommunityComponent {
   constructor(
     private communityService: CommunityService,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private spinner: NgxSpinnerService
   ) {
     // this.searchCtrl = new FormControl('');
     // this.searchCtrl.valueChanges
@@ -54,6 +57,7 @@ export class CommunityComponent {
   }
 
   getCommunities(): void {
+    this.spinner.show();
     this.communityService
       ?.getAllCommunity(
         this.pagination.activePage,
@@ -64,6 +68,7 @@ export class CommunityComponent {
         this.endDate
       )?.subscribe({
         next: (res: any) => {
+          this.spinner.hide();
           if (res.data) {
             this.pageList = res?.data;
             this.pagination.totalItems = res?.pagination?.totalItems;
@@ -71,6 +76,7 @@ export class CommunityComponent {
           }
         },
         error: (error) => {
+          this.spinner.hide();
           console.log(error);
         },
       });

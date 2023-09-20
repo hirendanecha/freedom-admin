@@ -7,6 +7,7 @@ import { CommunityService } from 'src/app/services/community.service';
 import { DeleteDialogComponent } from '../users/delete-confirmation-dialog/delete-dialog.component';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-community',
@@ -35,7 +36,8 @@ export class CommunityComponent implements OnInit, AfterViewInit {
   constructor(
     private communityService: CommunityService,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private spinner: NgxSpinnerService
   ) {
     // this.searchCtrl = new FormControl('');
     // this.searchCtrl.valueChanges
@@ -54,6 +56,7 @@ export class CommunityComponent implements OnInit, AfterViewInit {
   }
 
   getCommunities(): void {
+    this.spinner.show();
     this.communityService
       ?.getAllCommunity(
         this.pagination.activePage,
@@ -64,6 +67,7 @@ export class CommunityComponent implements OnInit, AfterViewInit {
         this.endDate
       )?.subscribe({
         next: (res: any) => {
+          this.spinner.hide();
           if (res.data) {
             this.communityList = res?.data;
             this.pagination.totalItems = res?.pagination?.totalItems;
@@ -71,12 +75,14 @@ export class CommunityComponent implements OnInit, AfterViewInit {
           }
         },
         error: (error) => {
+          this.spinner.hide();
           console.log(error);
         },
       });
   }
 
   changeCommunityStatus(community, status): void {
+    this.spinner.show();
     this.communityService
       .changeCommunityStatus(community.Id, community.profileId, status)
       .subscribe({

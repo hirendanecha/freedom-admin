@@ -127,8 +127,10 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
   }
 
   getUserList(search: string = ''): void {
+    this.spinner.show();
     this.userService.getProfileList(search).subscribe({
       next: (res: any) => {
+        this.spinner.hide();
         if (res?.data?.length > 0) {
           this.userList = res.data;
         } else {
@@ -137,19 +139,23 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
         }
       },
       error: (error) => {
+        this.spinner.hide()
         console.log(error)
       },
     });
   }
 
   getAllCountries() {
+    this.spinner.show();
     this.userService.getCountriesData().subscribe(
       {
         next: (result) => {
+          this.spinner.hide();
           this.allCountryData = result;
         },
         error:
           (error) => {
+            this.spinner.hide();
             console.log(error);
           }
       });

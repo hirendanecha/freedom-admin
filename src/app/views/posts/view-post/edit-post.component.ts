@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
 import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 @Component({
   selector: 'app-edit-post',
   templateUrl: './edit-post.component.html',
@@ -20,7 +22,8 @@ export class ViewPostComponent implements OnInit, AfterViewInit {
     private postService: PostService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) {
     this.postId = this.route.snapshot.paramMap.get('id');
   }
@@ -33,21 +36,25 @@ export class ViewPostComponent implements OnInit, AfterViewInit {
 
   getPostDetails(): void {
     // const userId = this.userId;
+    this.spinner.show();
     console.log(this.postId);
     this.postService.getPostDetails(this.postId).subscribe({
       next: (res: any) => {
+        this.spinner.hide();
         if (res) {
           this.postDetails = res[0];
           console.log(this.postDetails);
         }
       },
       error: (error) => {
+        this.spinner.hide();
         console.log(error);
       },
     });
   }
 
   viewComments(id): void {
+    this.spinner.show();
     this.isExpand = this.isOpenCommentsPostId == id ? false : true;
     this.isOpenCommentsPostId = id;
     if (!this.isExpand) {
@@ -58,6 +65,7 @@ export class ViewPostComponent implements OnInit, AfterViewInit {
 
     this.postService.getComments(id).subscribe({
       next: (res) => {
+        this.spinner.hide();
         if (res) {
           this.commentList = res.data.commmentsList.map((ele: any) => ({
             ...ele,
@@ -68,6 +76,7 @@ export class ViewPostComponent implements OnInit, AfterViewInit {
         }
       },
       error: (error) => {
+        this.spinner.hide();
         console.log(error);
       },
     });
