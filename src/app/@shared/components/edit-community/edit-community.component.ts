@@ -97,6 +97,17 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
 
   saveChanges(): void {
     if (this.userForm.valid) {
+      // this.userService.updateProfile(this.memberDetails.profileId, this.userForm.value).subscribe({
+      //   next: (res: any) => {
+      //     this.spinner.hide();
+      //     // this.toastService.success('Update successfully');
+      //   },
+      //   error: (error) => {
+      //     this.spinner.hide();
+      //     // this.toastService.danger('Please try again');
+      //     console.log(error);
+      //   }
+      // });
       console.log(this.userForm.value)
       if (this.selectedItems.length) {
         this.selectedItems.forEach((e) => {
