@@ -23,16 +23,18 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
   userForm = new FormGroup({
     FirstName: new FormControl(''),
     LastName: new FormControl(''),
-    Username: new FormControl('', Validators.required),
     Country: new FormControl('', Validators.required),
     Zip: new FormControl('', Validators.required),
     MobileNo: new FormControl(''),
     City: new FormControl(''),
-    Email: new FormControl('', Validators.required),
     State: new FormControl(''),
+    Email: new FormControl('', Validators.required),
+    Username: new FormControl('', Validators.required),
+    UserID: new FormControl('', Validators.required),
   });
   allCountryData: any;
   @ViewChild('zipCode') zipCode: ElementRef;
+  isEdit = false;
 
   constructor(
     private communityService: CommunityService,
@@ -73,13 +75,14 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
           const data = {
             FirstName: this.memberDetails.FirstName,
             LastName: this.memberDetails.LastName,
-            Username: this.memberDetails.Username,
-            Email: this.memberDetails.Email,
             Country: this.memberDetails.Country,
             Zip: this.memberDetails.Zip,
             City: this.memberDetails.City,
             State: this.memberDetails.State,
-            MobileNo: this.memberDetails.MobileNo
+            Username: this.memberDetails.Username,
+            Email: this.memberDetails.Email,
+            MobileNo: this.memberDetails.MobileNo,
+            UserID: this.memberDetails.UserID
           }
           this.userForm.setValue(data);
         }
@@ -97,17 +100,18 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
 
   saveChanges(): void {
     if (this.userForm.valid) {
-      // this.userService.updateProfile(this.memberDetails.profileId, this.userForm.value).subscribe({
-      //   next: (res: any) => {
-      //     this.spinner.hide();
-      //     // this.toastService.success('Update successfully');
-      //   },
-      //   error: (error) => {
-      //     this.spinner.hide();
-      //     // this.toastService.danger('Please try again');
-      //     console.log(error);
-      //   }
-      // });
+      this.userService.updateProfile(this.memberDetails.profileId, this.userForm.value).subscribe({
+        next: (res: any) => {
+          this.spinner.hide();
+          this.isEdit = false;
+          // this.toastService.success('Update successfully');
+        },
+        error: (error) => {
+          this.spinner.hide();
+          // this.toastService.danger('Please try again');
+          console.log(error);
+        }
+      });
       console.log(this.userForm.value)
       if (this.selectedItems.length) {
         this.selectedItems.forEach((e) => {
@@ -203,5 +207,10 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
             console.log(err);
           }
       });
+  }
+
+  onChangeData(): void {
+    this.isEdit = true;
+    console.log(this.isEdit)
   }
 }

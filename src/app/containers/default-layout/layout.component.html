@@ -18,17 +18,14 @@
       height: 46,
       alt: 'CoreUI Logo'
     }"
-    routerLink="./"
+    routerLink="/dashboard"
   />
 
   <ng-scrollbar pointerEventsMethod="scrollbar">
     <c-sidebar-nav [navItems]="navItems" dropdownMode="close" />
   </ng-scrollbar>
-  <c-sidebar-toggler
-    *ngIf="!sidebar.narrow"
-    cSidebarToggle="sidebar"
-    />
-    <!-- toggle="unfoldable" -->
+  <c-sidebar-toggler *ngIf="!sidebar.narrow" cSidebarToggle="sidebar" />
+  <!-- toggle="unfoldable" -->
 </c-sidebar>
 
 <!--main-->
