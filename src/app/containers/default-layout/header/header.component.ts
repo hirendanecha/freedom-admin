@@ -20,12 +20,12 @@ export class HeaderComponent {
   constructor(
     private classToggler: ClassToggleService,
     private tokenStorageService: TokenStorageService,
-    private router: Router
+    private router: Router 
   ) {
   }
 
   logout(): void {
-    // this.isCollapsed = true;
+// this.isCollapsed = true;
     this.tokenStorageService.signOut();
     this.router.navigate(['/login']);
     // this.sellService.cartData$.next(null);

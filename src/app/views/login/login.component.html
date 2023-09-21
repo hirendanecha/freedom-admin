@@ -1,23 +1,3 @@
-<c-toaster [placement]="position" class="p-3" position="fixed">
-  <c-toast
-    (timer)="onTimerChange($event)"
-    (visibleChange)="onVisibleChange($event)"
-    [visible]="visible"
-    class="text-bg-{{ type }}"
-  >
-    <c-toast-header>
-      <toast-sample-icon></toast-sample-icon>
-      <!-- CoreUI for Angular -->
-    </c-toast-header>
-    <c-toast-body>
-      <p class="text-white">{{ errorMessage }}</p>
-      <c-progress thin>
-        <c-progress-bar [value]="percentage"></c-progress-bar>
-      </c-progress>
-    </c-toast-body>
-  </c-toast>
-</c-toaster>
-
 <div class="bg-light min-vh-100 d-flex flex-row align-items-center">
   <c-container>
     <c-row class="justify-content-center">
