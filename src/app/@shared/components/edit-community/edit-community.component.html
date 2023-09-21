@@ -61,7 +61,11 @@
         </c-col>
       </c-row> -->
     <h3>User Details</h3>
-    <form [formGroup]="userForm" (ngSubmit)="saveChanges()">
+    <form
+      [formGroup]="userForm"
+      (ngSubmit)="saveChanges()"
+      (change)="onChangeData()"
+    >
       <c-row class="justify-content-center mt-2">
         <c-col md="6">
           <label>First Name</label>
@@ -88,32 +92,29 @@
           <input
             cFormControl
             name="uname"
-            formControlName="Username"
             type="text"
+            [(ngModel)]="memberDetails.Username"
+            [ngModelOptions]="{ standalone: true }"
+            disabled
           />
-          <div
-            class="srv-validation-message text-danger"
-            *ngIf="userForm.controls['Username'].invalid &&
-                  userForm.controls['Username'].errors?.['required']"
-          >
-            Username field is required.
-          </div>
         </c-col>
         <c-col md="6">
           <label>Email</label>
           <input
             cFormControl
             name="email"
-            formControlName="Email"
             type="email"
+            [(ngModel)]="memberDetails.Email"
+            [ngModelOptions]="{ standalone: true }"
+            disabled
           />
-          <div
+          <!-- <div
             class="srv-validation-message text-danger"
             *ngIf="userForm.controls['Email'].invalid &&
                   userForm.controls['Email'].errors?.['required']"
           >
             Email field is required.
-          </div>
+          </div> -->
         </c-col>
       </c-row>
       <c-row class="justify-content-center mt-2">
@@ -201,7 +202,7 @@
       </c-row>
       <c-row class="float-end mt-3">
         <button cButton color="primary" type="submit">
-          {{ selectedItems.length ? "Save changes" : "Edit" }}
+          {{ isEdit ? "Save changes" : "Edit" }}
         </button>
       </c-row>
     </form>
