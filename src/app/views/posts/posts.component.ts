@@ -8,6 +8,7 @@ import { DeleteDialogComponent } from '../users/delete-confirmation-dialog/delet
 import { Router } from '@angular/router';
 import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-posts',
@@ -34,7 +35,8 @@ export class PostsComponent {
     private modalService: NgbModal,
     private postService: PostService,
     private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toaster: ToastService
   ) {
     this.searchCtrl = new FormControl('');
     this.searchCtrl.valueChanges
@@ -65,14 +67,13 @@ export class PostsComponent {
         next: (res: any) => {
           this.spinner.hide();
           if (res.data) {
-            console.log(res.data);
             this.postList = res.data;
             this.pagination.totalItems = res.pagination?.totalItems;
           }
         },
         error: (error) => {
           this.spinner.hide();
-          console.log(error);
+          this.toaster.danger(error.message);
         },
       });
   }
@@ -104,18 +105,13 @@ export class PostsComponent {
         this.postService.deletePost(Id).subscribe({
           next: (res: any) => {
             if (res) {
-              this.visible = true;
-              this.type = 'success';
-              this.message = res.message;
+              this.toaster.success(res.message);
               modalRef.close();
               this.getPostList();
             }
           },
           error: (error) => {
-            this.visible = true;
-            this.type = 'danger';
-            this.message = error.err.message;
-            console.log(error);
+            this.toaster.danger(error.message);
           },
         });
       }

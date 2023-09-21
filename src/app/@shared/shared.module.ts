@@ -34,14 +34,15 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { FilterComponent } from './components/filter/filter.component';
 import { EditCommunityComponent } from './components/edit-community/edit-community.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-
+import { ToasterComponent } from 'src/app/@shared/toaster/toaster.component'
 const sharedComponents = [
   PaginationComponent,
   TableComponent,
   DeleteDialogComponent,
   ToastComponent,
   FilterComponent,
-  EditCommunityComponent
+  EditCommunityComponent,
+  ToasterComponent
 ];
 
 const sharedModules = [
@@ -73,7 +74,7 @@ const sharedModules = [
   ListGroupModule,
   NgxSpinnerModule,
   NgSelectModule,
-  WidgetModule
+  WidgetModule,
 ];
 
 @NgModule({

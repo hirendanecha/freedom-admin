@@ -1,10 +1,9 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { CommunityPostService } from 'src/app/services/community-post.service';
-import { CommunityService } from 'src/app/services/community.service';
-import { PostService } from 'src/app/services/post.service';
-import { UserService } from 'src/app/services/user.service';
+import { CommunityPostService } from '../../../services/community-post.service';
+import { CommunityService } from '../../../services/community.service';
+import { PostService } from '../../../services/post.service';
+import { UserService } from '../../../services/user.service';
 import { NgxSpinnerService } from 'ngx-spinner/lib/ngx-spinner.service';
 @Component({
   selector: 'app-edit-post',
@@ -14,8 +13,8 @@ import { NgxSpinnerService } from 'ngx-spinner/lib/ngx-spinner.service';
 export class ViewCommunityPostComponent implements OnInit, AfterViewInit {
   // @Input() communityId: any;
   postDetails: any = {};
-  postId: string;
-  constructor(
+  postId: string | null;
+  constructor(  
     private communityPostService: CommunityPostService,
     private userService: UserService,
     private route: ActivatedRoute,

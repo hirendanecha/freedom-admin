@@ -9,6 +9,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-user',
@@ -36,7 +37,8 @@ export class UserComponent implements OnInit {
     private userService: UserService,
     private modalService: NgbModal,
     private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toaster: ToastService 
   ) {
     // this.searchCtrl = new FormControl('');
     // this.searchCtrl.valueChanges
@@ -96,7 +98,6 @@ export class UserComponent implements OnInit {
   }
 
   deleteUser(userId: any) {
-    console.log(userId);
     const modalRef = this.modalService.open(DeleteDialogComponent, {
       centered: true,
     });
@@ -110,9 +111,7 @@ export class UserComponent implements OnInit {
         this.userService.deleteUser(userId).subscribe({
           next: (data: any) => {
             if (data) {
-              this.visible = true;
-              this.type = 'success';
-              this.message = 'User deleted successfully';
+              this.toaster.success('User deleted successfully')
               modalRef.close();
               this.getUserList();
 
@@ -132,16 +131,11 @@ export class UserComponent implements OnInit {
   changeAccountType(Id: any, status: string): void {
     this.userService.changeAccountType(Id, status).subscribe({
       next: (res) => {
-        console.log(res);
-        this.visible = true;
-        this.message = res.message;
-        this.type = 'success';
+        this.toaster.success(res.message);
         this.getUserList();
       },
       error: (error) => {
-        this.type = 'danger';
-        this.visible = true;
-        this.message = error.err.message;
+        this.toaster.danger(error.message);
       },
     });
   }
@@ -149,17 +143,12 @@ export class UserComponent implements OnInit {
   changeIsActiveStatus(Id: any, status: any): void {
     this.userService.changeUserStatus(Id, status).subscribe({
       next: (res) => {
-        console.log(res);
-        this.visible = true;
-        this.type = 'success';
-        this.message = res.message;
-        // this.getUser.emit();
+        this.toaster.success(res.message);
         this.getUserList();
       },
       error: (error) => {
-        this.visible = true;
-        this.type = 'danger';
-        this.message = error.err.message;
+        // this.toaster.danger(error.err.message);
+        this.toaster.danger(error.message);
       },
     });
   }
@@ -168,23 +157,17 @@ export class UserComponent implements OnInit {
     console.log(id, status)
     this.userService.suspendUser(id, status).subscribe({
       next: (res) => {
-        console.log(res);
-        this.visible = true;
-        this.message = res.message;
-        this.type = 'success';
+        this.toaster.success(res.message);
         this.getUserList();
 
       },
       error: (error) => {
-        this.type = 'danger';
-        this.visible = true;
-        this.message = error.err.message;
+        this.toaster.danger(error.message);
       },
     });
   }
 
   onVisibleChange(event: boolean) {
-    console.log(event);
     this.visible = event;
     this.percentage = !this.visible ? 0 : this.percentage;
   }
@@ -196,17 +179,12 @@ export class UserComponent implements OnInit {
   changeMediaType(id, status): void {
     this.userService.activateMedia(id, status).subscribe({
       next: (res) => {
-        console.log(res);
-        this.visible = true;
-        this.message = res.message;
-        this.type = 'success';
+        this.toaster.success(res.message);
         this.getUserList();
 
       },
       error: (error) => {
-        this.type = 'danger';
-        this.visible = true;
-        this.message = error.err.message;
+        this.toaster.danger(error.message);
       },
     });
   }

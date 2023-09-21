@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToasterComponent, ToasterPlacement } from '@coreui/angular';
+import { ToastService } from 'src/app/services/toast.service';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -20,13 +21,14 @@ export class LoginComponent {
   visible = false;
   percentage = 0;
   type = '';
-  @ViewChild(ToasterComponent) toaster!: ToasterComponent;
+
   placement = ToasterPlacement.TopEnd;
   constructor(
     private tokenStorage: TokenStorageService,
     private fb: FormBuilder,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private toaster: ToastService,
   ) { }
 
   toggleToast() {
@@ -64,23 +66,15 @@ export class LoginComponent {
           window.sessionStorage['user_id'] = data.user.Id;
           window.sessionStorage['user_country'] = data.user.Country;
           window.sessionStorage['user_zip'] = data.user.Zip;
-          this.isLoggedIn = true;
-          this.type = 'success';
-          this.errorMessage = 'Login successfully';
+          this.toaster.success('Login successfully');
           this.router.navigate([`/dashboard`]);
         } else {
           this.loginMessage = data.mesaage;
-          this.visible = true;
-          this.type = 'danger';
-          this.errorMessage =
-            'Invalid Email and Password. Kindly try again !!!!';
+          this.toaster.danger('Invalid Email and Password. Kindly try again !!!!');
         }
       },
       error: (err) => {
-        console.log(err.error);
-        this.visible = true;
-        this.type = 'danger';
-        this.errorMessage = err.error.message;
+        this.toaster.danger(err.message);
       },
     });
   }

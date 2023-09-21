@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 import { Pagination } from 'src/app/@shared/interface/pagination';
 import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastService } from 'src/app/services/toast.service';
 
 
 @Component({
@@ -38,7 +39,8 @@ export class CommunityComponent {
     private communityService: CommunityService,
     private router: Router,
     private modalService: NgbModal,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toaster: ToastService
   ) {
     // this.searchCtrl = new FormControl('');
     // this.searchCtrl.valueChanges
@@ -87,15 +89,11 @@ export class CommunityComponent {
       .changeCommunityStatus(community.Id, community.profileId, status)
       .subscribe({
         next: (res) => {
-          this.visible = true;
-          this.message = res.message;
-          this.type = 'success';
+          this.toaster.success(res.message);
           this.getCommunities();
         },
         error: (error) => {
-          this.type = 'danger';
-          this.visible = true;
-          this.message = error.err.message;
+          this.toaster.danger(error.message);
         },
       });
   }
@@ -112,17 +110,12 @@ export class CommunityComponent {
       if (res === 'success') {
         this.communityService.deleteCommunity(Id).subscribe({
           next: (res) => {
-            this.visible = true;
-            this.type = 'success';
-            this.message = res.message;
+            this.toaster.success(res.message);
             modalRef.close();
             this.getCommunities();
           },
           error: (error) => {
-            this.visible = true;
-            this.type = 'danger';
-            this.message = error.err.message;
-            console.log(error);
+            this.toaster.danger(error.message);
           },
         });
       }

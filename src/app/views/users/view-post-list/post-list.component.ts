@@ -12,6 +12,7 @@ import { DeleteDialogComponent } from '../delete-confirmation-dialog/delete-dial
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-post-list',
@@ -40,7 +41,8 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private modalService: NgbModal,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toaster: ToastService
   ) {
     this.profileId = this.route.snapshot.paramMap.get('id');
   }
@@ -111,18 +113,13 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
         this.postService.deletePost(Id).subscribe({
           next: (res: any) => {
             if (res) {
-              this.visible = true;
-              this.type = 'success';
-              this.message = res.message;
+              this.toaster.success(res.message);
               modalRef.close();
               this.getPostLists();
             }
           },
           error: (error) => {
-            this.visible = true;
-            this.type = 'danger';
-            this.message = error.err.message;
-            console.log(error);
+            this.toaster.danger(error.message);
           },
         });
       }
@@ -130,7 +127,6 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
   }
 
   onVisibleChange(event: boolean) {
-    console.log(event);
     this.visible = event;
     this.percentage = !this.visible ? 0 : this.percentage;
   }

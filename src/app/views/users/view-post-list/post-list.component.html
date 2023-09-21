@@ -231,22 +231,4 @@
       </ng-container>
     </c-row>
   </c-container>
-</div>
-<c-toaster [placement]="'top-end'" class="p-3" position="fixed">
-  <c-toast
-    (timer)="onTimerChange($event)"
-    (visibleChange)="onVisibleChange($event)"
-    [visible]="visible"
-    class="text-bg-{{ type }}"
-  >
-    <c-toast-header>
-      <toast-sample-icon></toast-sample-icon>
-    </c-toast-header>
-    <c-toast-body>
-      <p class="text-white">{{ message }}</p>
-      <c-progress thin>
-        <c-progress-bar [value]="percentage"></c-progress-bar>
-      </c-progress>
-    </c-toast-body>
-  </c-toast>
-</c-toaster>
+</div>    
