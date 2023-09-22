@@ -1,7 +1,6 @@
 <div class="bg-light flex-row align-items-center min-vh-100">
   <c-container>
     <div>
-      <h5 *ngIf="postList.length" class="text-center">Filter Posts</h5>
       <app-filter *ngIf="postList.length" [showSearchInput]="shouldShowSearchInput" (searchClick)="onSearch()"></app-filter>
     </div>
     <c-row class="justify-content-center">
@@ -95,14 +94,19 @@
                               <div
                                 class="justify-content-between align-items-center w-100 comment-box"
                               >
+                              <div class="d-flex justify-content-between">
                                 <h6 class="m-0">{{ comment.Username }}</h6>
+                                <span class="material-symbols-outlined" (click)="deleteComments(comment.id)">
+                                  delete
+                                  </span>
+                              </div>
                                 <p
                                   class="mdtxt mb-0 mt-1"
                                   [innerHTML]="comment.comment"
                                 ></p>
                                 <img
                                   *ngIf="comment.imageUrl"
-                                  class="h-48-px w-48-px"
+                                  class="h-52-px w-52-px rounded-2 mt-1 ng-star-inserted"
                                   loading="lazy"
                                   [src]="comment.imageUrl"
                                   alt=""
@@ -157,16 +161,21 @@
                                         class="pt-1 pb-1 ps-3 gap-3 comment-box"
                                       >
                                         <div class="">
-                                          <h6 class="m-0 mb-3">
-                                            <a>{{ reply?.Username }}</a>
-                                          </h6>
+                                          <div class="d-flex justify-content-between">
+                                            <h6 class="m-0 mb-3">
+                                              <a>{{ reply?.Username }}</a>
+                                            </h6>
+                                            <span class="material-symbols-outlined" (click)="deleteComments(reply.id)">
+                                              delete
+                                              </span>
+                                          </div>
                                           <p
                                             class="mdtxt mb-0"
                                             [innerHTML]="reply?.comment"
                                           ></p>
                                           <img
                                             *ngIf="reply.imageUrl"
-                                            class="h-52-px w-52-px rounded-0 mt-1"
+                                            class="h-52-px w-52-px rounded-2 mt-1"
                                             [src]="reply.imageUrl"
                                             alt=""
                                           />

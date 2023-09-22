@@ -51,25 +51,27 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
     this.getPostLists();
   }
 
-  ngAfterViewInit(): void { }
+  ngAfterViewInit(): void {}
 
   getPostLists(): void {
-// const userId = this.userId;
+    // const userId = this.userId;
     this.spinner.show();
     console.log(this.profileId);
-    this.postService.viewPost(this.profileId, this.startDate, this.endDate).subscribe({
-      next: (res: any) => {
-        this.spinner.hide();
-        if (res) {
-          this.postList = res.data;
-          console.log(this.postList);
-        }
-      },
-      error: (error) => {
-        this.spinner.hide();
-        console.log(error);
-      },
-    });
+    this.postService
+      .viewPost(this.profileId, this.startDate, this.endDate)
+      .subscribe({
+        next: (res: any) => {
+          this.spinner.hide();
+          if (res) {
+            this.postList = res.data;
+            console.log(this.postList);
+          }
+        },
+        error: (error) => {
+          this.spinner.hide();
+          console.log(error);
+        },
+      });
   }
 
   viewComments(id): void {
@@ -139,7 +141,33 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
     // const searchTerm = this.filterComponent.searchCtrl.value;
     this.startDate = this.filterComponent.startDate;
     this.endDate = this.filterComponent.toDate;
-    this.getPostLists()
+    this.getPostLists();
     // Perform actions with the values obtained from the filter component
+  }
+
+  deleteComments(id): void {
+    const modalRef = this.modalService.open(DeleteDialogComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.title = 'Comment';
+    modalRef.componentInstance.userId = id;
+    modalRef.componentInstance.message =
+      'Are you sure want to delete this comment?';
+    modalRef.result.then((res) => {
+      if (res === 'success') {
+        this.postService.deleteComments(id).subscribe({
+          next: (res: any) => {
+            this.toaster.success(res.message);
+            this.viewComments(id);
+            this.isOpenCommentsPostId = id;
+            this.isExpand = true;
+          },
+          error: (error) => {
+            console.log(error);
+            this.toaster.danger(error.message);
+          },
+        });
+      }
+    });
   }
 }

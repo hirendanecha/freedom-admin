@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
 import { ToastService } from 'src/app/services/toast.service';
+import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'app-user',
@@ -35,6 +36,7 @@ export class UserComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private postService: PostService,
     private modalService: NgbModal,
     private router: Router,
     private spinner: NgxSpinnerService,
@@ -121,6 +123,36 @@ export class UserComponent implements OnInit {
             this.visible = true;
             this.type = 'danger';
             this.message = error.err.message;
+            console.log(error);
+          },
+        });
+      }
+    });
+  }
+
+  deleteAllData(id: any) {
+    const modalRef = this.modalService.open(DeleteDialogComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.title = 'User Data';
+    modalRef.componentInstance.userId = id;
+    modalRef.componentInstance.message =
+      'Are you sure want to delete this user data?';
+    modalRef.result.then((res) => {
+      console.log(res);
+      if (res === 'success') {
+        this.postService.deleteAllData(id).subscribe({
+          next: (data: any) => {
+            if (data) {
+              this.toaster.success('User data deleted successfully')
+              modalRef.close();
+              this.getUserList();
+
+            }
+          },
+          error: (error) => {
+            // this.message = error.err.message;
+            this.toaster.danger('Please try again')
             console.log(error);
           },
         });
