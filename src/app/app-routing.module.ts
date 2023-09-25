@@ -55,6 +55,11 @@ const routes: Routes = [
           import('./views/users/user.module').then((m) => m.UserModule),
       },
       {
+        path: 'marketing',
+        loadChildren: () =>
+          import('./views/marketing-page/marketing.module').then((m) => m.MarketingModule),
+      },
+      {
         path: 'pages',
         loadChildren: () =>
           import('./views/freedom-page/freedom-page.module').then((m) => m.FreedomPageModule),

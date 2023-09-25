@@ -1,7 +1,12 @@
 <div class="bg-light flex-row align-items-center min-vh-100">
   <c-container>
     <div>
-      <app-filter *ngIf="postList.length" [showSearchInput]="shouldShowSearchInput" (searchClick)="onSearch()"></app-filter>
+      <app-filter
+        [class]="'justify-content-center mb-3'"
+        *ngIf="postList.length"
+        [showSearchInput]="shouldShowSearchInput"
+        (searchClick)="onSearch()"
+      ></app-filter>
     </div>
     <c-row class="justify-content-center">
       <c-col md="7" *ngFor="let post of postList" class="mb-2">
@@ -47,18 +52,17 @@
                   >
                     <li class="d-flex align-items-center">
                       <!-- <svg cIcon name="cilThumbUp"></svg> -->
-                      <span class="material-symbols-outlined">
-                        thumb_up
-                        </span>
+                      <span class="material-symbols-outlined"> thumb_up </span>
                       <span class="mdtxt d-center ms-1">{{
                         post.likescount > 0 ? post.likescount : 0
                       }}</span>
                     </li>
-                    <li class="d-flex align-items-center" (click)="viewComments(post.id)">
+                    <li
+                      class="d-flex align-items-center"
+                      (click)="viewComments(post.id)"
+                    >
                       <!-- <svg cIcon name="cilCommentBubble"></svg> -->
-                      <span class="material-symbols-outlined">
-                        chat
-                        </span>
+                      <span class="material-symbols-outlined"> chat </span>
                       <span class="mdtxt d-center ms-1">Comments</span>
                     </li>
                   </ul>
@@ -94,12 +98,15 @@
                               <div
                                 class="justify-content-between align-items-center w-100 comment-box"
                               >
-                              <div class="d-flex justify-content-between">
-                                <h6 class="m-0">{{ comment.Username }}</h6>
-                                <span class="material-symbols-outlined" (click)="deleteComments(comment.id)">
-                                  delete
+                                <div class="d-flex justify-content-between">
+                                  <h6 class="m-0">{{ comment.Username }}</h6>
+                                  <span
+                                    class="material-symbols-outlined"
+                                    (click)="deleteComments(comment.id)"
+                                  >
+                                    delete
                                   </span>
-                              </div>
+                                </div>
                                 <p
                                   class="mdtxt mb-0 mt-1"
                                   [innerHTML]="comment.comment"
@@ -115,9 +122,12 @@
 
                               <ul class="d-flex gap-6 py-2 px-4 m-0">
                                 <li class="d-flex">
-                                  <span class="material-symbols-outlined" [ngClass]="{ active: comment.react == 'L' }">
-                                    thumb_up
-                                    </span>&nbsp;
+                                  <span
+                                    class="material-symbols-outlined"
+                                    [ngClass]="{ active: comment.react == 'L' }"
+                                  >
+                                    thumb_up </span
+                                  >&nbsp;
                                   <!-- <svg
                                     cIcon
                                     name="cilThumbUp"
@@ -161,13 +171,18 @@
                                         class="pt-1 pb-1 ps-3 gap-3 comment-box"
                                       >
                                         <div class="">
-                                          <div class="d-flex justify-content-between">
+                                          <div
+                                            class="d-flex justify-content-between"
+                                          >
                                             <h6 class="m-0 mb-3">
                                               <a>{{ reply?.Username }}</a>
                                             </h6>
-                                            <span class="material-symbols-outlined" (click)="deleteComments(reply.id)">
+                                            <span
+                                              class="material-symbols-outlined"
+                                              (click)="deleteComments(reply.id)"
+                                            >
                                               delete
-                                              </span>
+                                            </span>
                                           </div>
                                           <p
                                             class="mdtxt mb-0"
@@ -193,11 +208,14 @@
                                           >
                                             thumb_up
                                           </i> -->
-                                          <span class="material-symbols-outlined" [ngClass]="{
-                                            active: comment.react == 'L'
-                                          }">
+                                          <span
+                                            class="material-symbols-outlined"
+                                            [ngClass]="{
+                                              active: comment.react == 'L'
+                                            }"
+                                          >
                                             thumb_up
-                                            </span>
+                                          </span>
                                           <!-- <svg
                                             cIcon
                                             name="cilThumbUp"
@@ -240,4 +258,4 @@
       </ng-container>
     </c-row>
   </c-container>
-</div>    
+</div>

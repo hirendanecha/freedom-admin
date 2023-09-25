@@ -10,7 +10,7 @@
           [formControl]="searchCtrl"
         />
       </c-col> -->
-    <app-filter (searchClick)="onSearch()"></app-filter>
+      <app-filter (searchClick)="onSearch()"></app-filter>
     </c-row>
 
     <app-table>
@@ -19,6 +19,7 @@
           <th class="text-center">No</th>
           <th>Logo</th>
           <th>Page Name</th>
+          <th>Link</th>
           <th>Description</th>
           <th>DateCreation</th>
           <th>Country</th>
@@ -43,6 +44,17 @@
               />
             </td>
             <td>{{ page.CommunityName }}</td>
+            <td>
+              <a
+                [href]="
+                  'https://dev.freedom.opash.in/pages/' + page.slug
+                "
+                target="_blank"
+                >{{
+                  "https://dev.freedom.opash.in/pages/" + page.slug
+                }}</a
+              >
+            </td>
             <td>
               {{ page.CommunityDescription }}
             </td>
@@ -105,5 +117,5 @@
     </app-table>
     <app-pagination
       [items]="pagination?.totalItems"
-      (onPageChange)="onPageChange($event)"
-    />
+      (onPageChange)="onPageChange($event)" /></c-card-body
+></c-card>

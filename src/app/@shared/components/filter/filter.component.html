@@ -1,4 +1,4 @@
-<c-row [ngClass]="{'pb-3 justify-content-center': !showSearchInput}">
+<c-row [class]="class">
   <ng-container *ngIf="showSearchInput">
     <c-col xs="3">
       <input
@@ -8,13 +8,9 @@
         [formControl]="searchCtrl"
       />
     </c-col>
-  </ng-container>  
+  </ng-container>
   <c-col lg="3">
-    <input cFormControl 
-           type="date" 
-           [(ngModel)]="startDate" 
-           [max]="endDate" 
-           />
+    <input cFormControl type="date" [(ngModel)]="startDate" [max]="endDate" />
   </c-col>
   <c-col lg="3">
     <input
@@ -27,6 +23,8 @@
     />
   </c-col>
   <c-col lg="1">
-    <button cButton class="btn-info text-white" (click)="onSearchClick()">Search</button>
+    <button cButton class="btn-info text-white" (click)="onSearchClick()">
+      Search
+    </button>
   </c-col>
 </c-row>

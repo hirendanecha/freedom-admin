@@ -93,8 +93,12 @@ export class UserService {
   getZipData(zip: string, country: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/zip/${zip}?country=${country}`);
   }
-  
+
   updateProfile(id, customer): Observable<Object> {
     return this.http.put(`${this.baseUrl}/profile/${id}`, customer);
+  }
+
+  getUserEmailList(data): Observable<any> {
+    return this.http.post(`${this.baseUrl}/get-emails`, data);
   }
 }

@@ -35,4 +35,9 @@ export const navItems: INavData[] = [
     url: '/user',
     iconComponent: { name: 'cil-user' },
   },
+  {
+    name: 'Marketing page',
+    url: '/marketing',
+    iconComponent: { name: 'cil-https' },
+  },
 ];
