@@ -12,6 +12,7 @@ export class FilterComponent {
   @Input() startDate: Date;
   @Input() toDate: Date;
   @Input() endDate: string;
+  @Input() class: string;
   @Output() searchClick: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(){
