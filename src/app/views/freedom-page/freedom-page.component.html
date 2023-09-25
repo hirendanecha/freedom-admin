@@ -44,18 +44,14 @@
               />
             </td>
             <td>{{ page.CommunityName }}</td>
-            <td>
+            <td class="c-width">
               <a
-                [href]="
-                  'https://dev.freedom.opash.in/pages/' + page.slug
-                "
+                [href]="'https://dev.freedom.opash.in/pages/' + page.slug"
                 target="_blank"
-                >{{
-                  "https://dev.freedom.opash.in/pages/" + page.slug
-                }}</a
+                >{{ "https://dev.freedom.opash.in/pages/" + page.slug }}</a
               >
             </td>
-            <td>
+            <td class="c-width">
               {{ page.CommunityDescription }}
             </td>
             <td>{{ page.creationDate | date : "d-MM-YYYY" }}</td>
