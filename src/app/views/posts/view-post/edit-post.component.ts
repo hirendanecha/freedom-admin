@@ -37,13 +37,11 @@ export class ViewPostComponent implements OnInit, AfterViewInit {
   getPostDetails(): void {
     // const userId = this.userId;
     this.spinner.show();
-    console.log(this.postId);
     this.postService.getPostDetails(this.postId).subscribe({
       next: (res: any) => {
         this.spinner.hide();
         if (res) {
           this.postDetails = res[0];
-          console.log(this.postDetails);
         }
       },
       error: (error) => {
@@ -85,9 +83,5 @@ export class ViewPostComponent implements OnInit, AfterViewInit {
     const searchTerm = this.filterComponent.searchCtrl.value;
     const startDate = this.filterComponent.startDate;
     const toDate = this.filterComponent.toDate;
-
-    // Perform actions with the values obtained from the filter component
-    console.log('Searching for:', searchTerm);
-    console.log('Date Range: From', startDate, 'To', toDate);
   }
 }

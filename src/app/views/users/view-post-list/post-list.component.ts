@@ -56,7 +56,6 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
   getPostLists(): void {
     // const userId = this.userId;
     this.spinner.show();
-    console.log(this.profileId);
     this.postService
       .viewPost(this.profileId, this.startDate, this.endDate)
       .subscribe({
@@ -64,7 +63,6 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
           this.spinner.hide();
           if (res) {
             this.postList = res.data;
-            console.log(this.postList);
           }
         },
         error: (error) => {
@@ -101,7 +99,6 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
   }
 
   deletePost(Id: any) {
-    console.log(Id);
     const modalRef = this.modalService.open(DeleteDialogComponent, {
       centered: true,
     });
@@ -110,7 +107,6 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
     modalRef.componentInstance.message =
       'Are you sure want to delete this post?';
     modalRef.result.then((res) => {
-      console.log(res);
       if (res === 'success') {
         this.postService.deletePost(Id).subscribe({
           next: (res: any) => {

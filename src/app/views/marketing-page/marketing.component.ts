@@ -47,8 +47,6 @@ export class MarketingComponent implements OnInit {
     this.startDate = this.filterComponent.startDate;
     this.endDate = this.filterComponent.toDate;
     this.getUserEmailList()
-    // Perform actions with the values obtained from the filter component
-    // console.log('Searching for:', searchTerm);
   }
 
   getUserEmailList(): void {

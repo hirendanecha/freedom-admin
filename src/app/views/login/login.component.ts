@@ -59,7 +59,6 @@ export class LoginComponent {
   onSubmit(): void {
     this.userService.login(this.loginForm.value).subscribe({
       next: (data: any) => {
-        console.log(data);
         if (data) {
           this.tokenStorage.saveToken(data?.accessToken);
           this.tokenStorage.saveUser(data.user);
