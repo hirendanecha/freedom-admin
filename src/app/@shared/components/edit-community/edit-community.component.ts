@@ -32,6 +32,8 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
     Email: new FormControl('', Validators.required),
     Username: new FormControl('', Validators.required),
     UserID: new FormControl('', Validators.required),
+    ProfilePicName: new FormControl('', Validators.required),
+    CoverPicName: new FormControl('', Validators.required),
   });
   allCountryData: any;
   @ViewChild('zipCode') zipCode: ElementRef;
@@ -84,7 +86,9 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
             Username: this.memberDetails.Username,
             Email: this.memberDetails.Email,
             MobileNo: this.memberDetails.MobileNo,
-            UserID: this.memberDetails.UserID
+            UserID: this.memberDetails.UserID,
+            ProfilePicName: this.memberDetails.ProfilePicName,
+            CoverPicName: this.memberDetails?.CoverPicName
           }
           this.userForm.setValue(data);
         }
