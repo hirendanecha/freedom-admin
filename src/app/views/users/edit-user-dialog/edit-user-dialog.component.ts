@@ -25,7 +25,6 @@ export class EditUserDialogComponent implements OnInit {
       next: (res: any) => {
         if (res) {
           this.userDetails = res[0];
-          console.log(this.userDetails);
         }
       },
       error: (error) => {

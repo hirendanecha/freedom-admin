@@ -54,7 +54,6 @@ export class CommunityComponent implements OnInit, AfterViewInit {
 
   }
   ngAfterViewInit(): void {
-    console.log('page type', this.pageType);
     this.getCommunities();
   }
 
@@ -106,7 +105,6 @@ export class CommunityComponent implements OnInit, AfterViewInit {
     modalRef.componentInstance.message =
       'Are you sure want to delete this community?';
     modalRef.result.then((res) => {
-      console.log(res);
       if (res === 'success') {
         this.communityService.deleteCommunity(Id).subscribe({
           next: (res) => {
@@ -151,7 +149,6 @@ export class CommunityComponent implements OnInit, AfterViewInit {
   }
 
   onVisibleChange(event: boolean) {
-    console.log(event);
     this.visible = event;
     this.percentage = !this.visible ? 0 : this.percentage;
   }

@@ -57,7 +57,6 @@ export class CommunityPostComponent implements OnInit {
             this.postList = res.data;
             this.pagination.totalItems = res.pagination.totalItems;
             this.pagination.perPage = res.pagination.pageSize;
-            console.log(this.postList);
           }
         },
         error: (error) => {
@@ -100,7 +99,6 @@ export class CommunityPostComponent implements OnInit {
   }
 
   onVisibleChange(event: boolean) {
-    console.log(event);
     this.visible = event;
     this.percentage = !this.visible ? 0 : this.percentage;
   }

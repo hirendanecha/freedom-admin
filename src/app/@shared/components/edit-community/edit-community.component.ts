@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { debounceTime, fromEvent } from 'rxjs';
 import { CommunityService } from 'src/app/services/community.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-edit-community',
@@ -41,7 +42,8 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    public toastService: ToastService
   ) {
     this.communityId = this.route.snapshot.paramMap.get('id');
     this.isPage = this.router.routerState.snapshot.url.includes('pages');
@@ -104,15 +106,14 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
         next: (res: any) => {
           this.spinner.hide();
           this.isEdit = false;
-          // this.toastService.success('Update successfully');
+          this.toastService.success('Update successfully');
         },
         error: (error) => {
           this.spinner.hide();
-          // this.toastService.danger('Please try again');
+          this.toastService.danger('Please try again');
           console.log(error);
         }
       });
-      console.log(this.userForm.value)
       if (this.selectedItems.length) {
         this.selectedItems.forEach((e) => {
           this.createAdmin(e)
@@ -131,7 +132,6 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
     this.communityService.createCommunityAdminByMA(data).subscribe({
       next: (res: any) => {
         if (res) {
-          console.log(res);
           this.router.navigate(['/community']);
         }
       },
@@ -177,7 +177,6 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
   }
 
   changeCountry(e) {
-    console.log(e.target.value)
     this.userForm.get('Country').setValue(e.target.value)
     this.userForm.get('Zip').setValue('');
     this.userForm.get('State').setValue('');
@@ -211,6 +210,5 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
 
   onChangeData(): void {
     this.isEdit = true;
-    console.log(this.isEdit)
   }
 }

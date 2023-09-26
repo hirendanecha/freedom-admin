@@ -33,13 +33,11 @@ export class ViewCommunityPostComponent implements OnInit, AfterViewInit {
   getPostDetails(): void {
     // const userId = this.userId;
     this.spinner.show();
-    console.log(this.postId);
     this.communityPostService.viewPost(this.postId).subscribe(
       (res: any) => {
         if (res) {
           this.spinner.hide();
           this.postDetails = res[0];
-          console.log(this.postDetails);
         }
       },
       (error) => {

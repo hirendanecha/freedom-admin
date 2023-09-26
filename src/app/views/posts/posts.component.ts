@@ -79,19 +79,9 @@ export class PostsComponent {
   }
 
   searchData(): void {
-    console.log(this.fromDate, this.toDate)
   }
 
-  // openEditUserPopup(userId: any) {
-  //   console.log(userId);
-  //   const modalRef = this.modalService.open(EditUserDialogComponent, {
-  //     centered: true,
-  //   });
-  //   modalRef.componentInstance.userId = userId;
-  // }
-
   deletePost(Id: any) {
-    console.log(Id);
     const modalRef = this.modalService.open(DeleteDialogComponent, {
       centered: true,
     });
@@ -100,7 +90,6 @@ export class PostsComponent {
     modalRef.componentInstance.message =
       'Are you sure want to delete this post?';
     modalRef.result.then((res) => {
-      console.log(res);
       if (res === 'success') {
         this.postService.deletePost(Id).subscribe({
           next: (res: any) => {
@@ -122,7 +111,6 @@ export class PostsComponent {
     this.router.navigate([`post-list/${id}`]);
   }
   onVisibleChange(event: boolean) {
-    console.log(event);
     this.visible = event;
     this.percentage = !this.visible ? 0 : this.percentage;
   }
@@ -135,9 +123,5 @@ export class PostsComponent {
     const searchTerm = this.filterComponent.searchCtrl.value;
     const startDate = this.filterComponent.startDate;
     const toDate = this.filterComponent.toDate;
-
-    // Perform actions with the values obtained from the filter component
-    console.log('Searching for:', searchTerm);
-    console.log('Date Range: From', startDate, 'To', toDate);
   }
 }
