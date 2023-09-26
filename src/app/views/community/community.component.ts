@@ -54,7 +54,6 @@ export class CommunityComponent implements OnInit, AfterViewInit {
 
   }
   ngAfterViewInit(): void {
-    console.log('page type', this.pageType);
     this.getCommunities();
   }
 

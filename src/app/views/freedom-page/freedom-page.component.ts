@@ -54,7 +54,6 @@ export class CommunityComponent {
 
   }
   ngAfterViewInit(): void {
-    console.log('page type', this.pageType);
     this.getCommunities();
   }
 
