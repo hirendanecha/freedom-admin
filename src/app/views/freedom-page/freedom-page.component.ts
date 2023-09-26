@@ -105,7 +105,6 @@ export class CommunityComponent {
     modalRef.componentInstance.message =
       'Are you sure want to delete this page?';
     modalRef.result.then((res) => {
-      console.log(res);
       if (res === 'success') {
         this.communityService.deleteCommunity(Id).subscribe({
           next: (res) => {
@@ -150,7 +149,6 @@ export class CommunityComponent {
   }
 
   onVisibleChange(event: boolean) {
-    console.log(event);
     this.visible = event;
     this.percentage = !this.visible ? 0 : this.percentage;
   }

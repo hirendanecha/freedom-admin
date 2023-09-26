@@ -24,7 +24,6 @@ export class DeleteDialogComponent implements OnInit {
   ngOnInit(): void {}
 
   onVisibleChange(event: boolean) {
-    console.log(event);
     this.visible = event;
     this.percentage = !this.visible ? 0 : this.percentage;
   }

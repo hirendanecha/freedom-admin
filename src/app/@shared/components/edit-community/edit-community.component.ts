@@ -114,7 +114,6 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
           console.log(error);
         }
       });
-      console.log(this.userForm.value)
       if (this.selectedItems.length) {
         this.selectedItems.forEach((e) => {
           this.createAdmin(e)
@@ -133,7 +132,6 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
     this.communityService.createCommunityAdminByMA(data).subscribe({
       next: (res: any) => {
         if (res) {
-          console.log(res);
           this.router.navigate(['/community']);
         }
       },
@@ -179,7 +177,6 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
   }
 
   changeCountry(e) {
-    console.log(e.target.value)
     this.userForm.get('Country').setValue(e.target.value)
     this.userForm.get('Zip').setValue('');
     this.userForm.get('State').setValue('');
@@ -213,6 +210,5 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
 
   onChangeData(): void {
     this.isEdit = true;
-    console.log(this.isEdit)
   }
 }

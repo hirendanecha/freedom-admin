@@ -91,11 +91,6 @@ export class UserComponent implements OnInit {
   }
 
   openEditUserPopup(profileId: any) {
-    // console.log(userId);
-    // const modalRef = this.modalService.open(EditUserDialogComponent, {
-    //   centered: true,
-    // });
-    // modalRef.componentInstance.userId = userId;
     this.router.navigate([`user/${profileId}`])
   }
 
@@ -108,7 +103,6 @@ export class UserComponent implements OnInit {
     modalRef.componentInstance.message =
       'Are you sure want to delete this user?';
     modalRef.result.then((res) => {
-      console.log(res);
       if (res === 'success') {
         this.userService.deleteUser(userId).subscribe({
           next: (data: any) => {
@@ -139,7 +133,6 @@ export class UserComponent implements OnInit {
     modalRef.componentInstance.message =
       'Are you sure want to delete this user data?';
     modalRef.result.then((res) => {
-      console.log(res);
       if (res === 'success') {
         this.postService.deleteAllData(id).subscribe({
           next: (data: any) => {
@@ -186,7 +179,6 @@ export class UserComponent implements OnInit {
   }
 
   suspendUser(id: any, status: any): void {
-    console.log(id, status)
     this.userService.suspendUser(id, status).subscribe({
       next: (res) => {
         this.toaster.success(res.message);
@@ -225,8 +217,6 @@ export class UserComponent implements OnInit {
     this.startDate = this.filterComponent.startDate;
     this.endDate = this.filterComponent.toDate;
     this.getUserList()
-    // Perform actions with the values obtained from the filter component
-    // console.log('Searching for:', searchTerm);
   }
 
   showListView() {
