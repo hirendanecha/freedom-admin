@@ -93,9 +93,7 @@
             cFormControl
             name="uname"
             type="text"
-            [(ngModel)]="memberDetails.Username"
-            [ngModelOptions]="{ standalone: true }"
-            disabled
+            formControlName="Username"           
           />
         </c-col>
         <c-col md="6">
