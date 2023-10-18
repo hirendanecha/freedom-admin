@@ -64,6 +64,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/freedom-page/freedom-page.module').then((m) => m.FreedomPageModule),
       },
+      {
+        path: 'channels',
+        loadChildren: () =>
+          import('./views/channels/channels.module').then((m) => m.ChannelsModule),
+      },
     ],
   },
   {

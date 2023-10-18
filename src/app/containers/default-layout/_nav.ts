@@ -40,4 +40,9 @@ export const navItems: INavData[] = [
     url: '/marketing',
     iconComponent: { name: 'cil-https' },
   },
+  {
+    name: 'FT Channels',
+    url: '/channels',
+    iconComponent: { name: 'cil-screen-desktop' },
+  },
 ];

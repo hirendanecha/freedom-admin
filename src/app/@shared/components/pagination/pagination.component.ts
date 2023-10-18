@@ -12,7 +12,7 @@ export class PaginationComponent {
 
   @Input({ required: true }) items: number;
   @Input() activePage: number = 1;
-  @Input() perPage: number = 100;
+  @Input() perPage: number = 15;
   @Input() size: "sm" | "lg" = null;
 
   @Output() onPageChange = new EventEmitter<Pagination>();;
