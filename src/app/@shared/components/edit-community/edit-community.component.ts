@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -17,7 +23,8 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
   selectedItems = [];
   communityId: any;
   isPage = false;
-  searchText = ''
+  searchText = '';
+  memberIds: any = [];
   userNameSearch = '';
   userList = [];
   users: any;
@@ -49,12 +56,11 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
   ) {
     this.communityId = this.route.snapshot.paramMap.get('id');
     this.isPage = this.router.routerState.snapshot.url.includes('pages');
-
   }
 
   ngOnInit(): void {
     this.getUserDetails();
-    this.getAllCountries()
+    this.getAllCountries();
   }
   ngAfterViewInit(): void {
     this.getUserList();
@@ -76,6 +82,7 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
         if (res) {
           this.communityDetails = res[0];
           this.memberDetails = res[0].memberList[0];
+          this.memberIds = res[0].memberList.map((member) => member.profileId);
           const data = {
             FirstName: this.memberDetails.FirstName,
             LastName: this.memberDetails.LastName,
@@ -88,8 +95,8 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
             MobileNo: this.memberDetails.MobileNo,
             UserID: this.memberDetails.UserID,
             ProfilePicName: this.memberDetails.ProfilePicName,
-            CoverPicName: this.memberDetails?.CoverPicName
-          }
+            CoverPicName: this.memberDetails?.CoverPicName,
+          };
           this.userForm.setValue(data);
         }
       },
@@ -102,26 +109,29 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
 
   onItemSelect(event) {
     this.getUserList(event.term);
+    this.isEdit = true
   }
 
   saveChanges(): void {
-    if (this.userForm.valid) {
-      this.userService.updateProfile(this.memberDetails.profileId, this.userForm.value).subscribe({
-        next: (res: any) => {
-          this.spinner.hide();
-          this.isEdit = false;
-          this.toastService.success('Update successfully');
-        },
-        error: (error) => {
-          this.spinner.hide();
-          this.toastService.danger('Please try again');
-          console.log(error);
-        }
-      });
+    if (this.userForm.value) {
+      this.userService
+        .updateProfile(this.memberDetails.profileId, this.userForm.value)
+        .subscribe({
+          next: (res: any) => {
+            this.spinner.hide();
+            this.isEdit = false;
+            this.toastService.success('Update successfully');
+          },
+          error: (error) => {
+            this.spinner.hide();
+            this.toastService.danger('Please try again');
+            console.log(error);
+          },
+        });
       if (this.selectedItems.length) {
         this.selectedItems.forEach((e) => {
-          this.createAdmin(e)
-        })
+          this.createAdmin(e);
+        });
       }
     }
   }
@@ -135,7 +145,9 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
     };
     this.communityService.createCommunityAdminByMA(data).subscribe({
       next: (res: any) => {
-        if (res) {
+        if (this.isPage) {
+          this.router.navigate(['/pages']);
+        } else {
           this.router.navigate(['/community']);
         }
       },
@@ -153,66 +165,66 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
         if (res?.data?.length > 0) {
           this.userList = res.data;
         } else {
-          this.selectedItems = []
-          this.userList = []
+          this.selectedItems = [];
+          this.userList = [];
         }
       },
       error: (error) => {
-        this.spinner.hide()
-        console.log(error)
+        this.spinner.hide();
+        console.log(error);
       },
     });
   }
 
   getAllCountries() {
     this.spinner.show();
-    this.userService.getCountriesData().subscribe(
-      {
-        next: (result) => {
-          this.spinner.hide();
-          this.allCountryData = result;
-        },
-        error:
-          (error) => {
-            this.spinner.hide();
-            console.log(error);
-          }
-      });
+    this.userService.getCountriesData().subscribe({
+      next: (result) => {
+        this.spinner.hide();
+        this.allCountryData = result;
+      },
+      error: (error) => {
+        this.spinner.hide();
+        console.log(error);
+      },
+    });
   }
 
   changeCountry(e) {
-    this.userForm.get('Country').setValue(e.target.value)
+    this.userForm.get('Country').setValue(e.target.value);
     this.userForm.get('Zip').setValue('');
     this.userForm.get('State').setValue('');
     this.userForm.get('City').setValue('');
   }
 
-
   onZipChange(event) {
     this.spinner.show();
     const country = this.userForm.value.Country;
-    this.userService.getZipData(event, country).subscribe(
-      {
-        next: (data) => {
+    this.userService.getZipData(event, country).subscribe({
+      next: (data) => {
+        this.spinner.hide();
+        const zip_data = data[0];
+        if (zip_data?.state) {
+          zip_data ? this.userForm.get('State').setValue(zip_data.state) : null;
+          zip_data ? this.userForm.get('City').setValue(zip_data.city) : null;
+        } else {
           this.spinner.hide();
-          const zip_data = data[0];
-          if (zip_data?.state) {
-            zip_data ? this.userForm.get('State').setValue(zip_data.state) : null;
-            zip_data ? this.userForm.get('City').setValue(zip_data.city) : null;
-          } else {
-            this.spinner.hide();
-            // this.toastService.danger('Please check and enter valid country or zip code.');
-          }
-        },
-        error:
-          (err) => {
-            this.spinner.hide();
-            console.log(err);
-          }
-      });
+          // this.toastService.danger('Please check and enter valid country or zip code.');
+        }
+      },
+      error: (err) => {
+        this.spinner.hide();
+        console.log(err);
+      },
+    });
   }
 
   onChangeData(): void {
     this.isEdit = true;
+  }
+
+  onSelectUser(item): void {
+    this.selectedItems.push(item.Id);
+    console.log(item);
   }
 }

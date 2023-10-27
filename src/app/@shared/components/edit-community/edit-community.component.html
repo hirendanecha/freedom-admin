@@ -174,7 +174,7 @@
           />
         </c-col>
       </c-row>
-      <c-row class="justify-content-center mt-2" *ngIf="!isPage">
+      <c-row class="justify-content-center mt-2">
         <c-col md="12">
           <label for="">Make Community Admin</label>
           <ng-select
@@ -186,14 +186,16 @@
             (search)="onItemSelect($event)"
           >
             <ng-template ng-option-tmp let-item="item" let-index="index">
-              <img
-                height="20"
-                width="20"
-                [src]="item.ProfilePicName"
-                class="me-1"
-                onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-user.png';"
-              />
-              <span>{{ item.Username }}</span>
+              <div *ngIf="!memberIds.includes(item.Id)" (click)="onSelectUser(item)">
+                <img
+                  height="20"
+                  width="20"
+                  [src]="item.ProfilePicName"
+                  class="me-1"
+                  onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-user.png';"
+                />
+                <span>{{ item.Username }}</span>
+              </div>
             </ng-template>
           </ng-select>
         </c-col>

@@ -15,7 +15,7 @@ const routes: Routes = [
     path: 'edit/:id',
     component: EditCommunityComponent,
     data: {
-      title: 'edit community',
+      title: 'Edit Community',
     },
   },
 ];
