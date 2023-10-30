@@ -122,6 +122,17 @@
             >
               Delete All Data
             </button>
+            <button
+            class="btn btn-sm text-white m-1 custom-btn-list"
+            [ngClass]="
+              user.IsActive === 'N' ? ' btn-danger' : 'btn-success'
+            "
+            (click)="
+            activateAccount(user.Id, user.IsActive === 'N' ? 'Y' : 'N')
+            "
+          >
+            {{ user.IsActive === "N" ? "Non-activated account" : "Activated account" }}
+          </button>
           </div>
         </div>
       </div>

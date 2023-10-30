@@ -190,6 +190,18 @@ export class UserComponent implements OnInit {
       },
     });
   }
+  activateAccount(id: any, status: any): void {
+    this.userService.changeUserStatus(id, status).subscribe({
+      next: (res) => {
+        this.toaster.success(res.message);
+        this.getUserList();
+
+      },
+      error: (error) => {
+        this.toaster.danger(error.message);
+      },
+    });
+  }
 
   onVisibleChange(event: boolean) {
     this.visible = event;
