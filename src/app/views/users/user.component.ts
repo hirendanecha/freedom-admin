@@ -190,6 +190,7 @@ export class UserComponent implements OnInit {
       },
     });
   }
+  
   activateAccount(id: any, status: any): void {
     this.userService.changeUserStatus(id, status).subscribe({
       next: (res) => {

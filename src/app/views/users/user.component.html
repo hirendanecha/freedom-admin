@@ -47,31 +47,31 @@
               {{ user.FirstName || "-" }}
             </div>
             <div class="d-flex">
-              <h4>Last name: </h4>
+              <h4>Last name:</h4>
               {{ user.LastName || "-" }}
             </div>
             <div class="d-flex">
-              <h4>Username: </h4>
+              <h4>Username:</h4>
               {{ user.Username || "-" }}
             </div>
             <div class="d-flex">
-              <h4>Profile Id: </h4>
+              <h4>Profile Id:</h4>
               {{ user.profileId || "-" }}
             </div>
             <div class="d-flex">
-              <h4>User Id: </h4>
+              <h4>User Id:</h4>
               {{ user.Id }}
             </div>
             <div class="d-flex">
-              <h4>Date Created: </h4>
+              <h4>Date Created:</h4>
               {{ user.DateCreation | date : "d-MM-YYYY" }}
             </div>
             <div class="d-flex">
-              <h4>Email: </h4>
+              <h4>Email:</h4>
               {{ user.Email || "-" }}
             </div>
             <div class="d-flex">
-              <h4>Phone: </h4>
+              <h4>Phone:</h4>
               {{ user.MobileNo || "-" }}
             </div>
           </div>
@@ -123,16 +123,18 @@
               Delete All Data
             </button>
             <button
-            class="btn btn-sm text-white m-1 custom-btn-list"
-            [ngClass]="
-              user.IsActive === 'N' ? ' btn-danger' : 'btn-success'
-            "
-            (click)="
-            activateAccount(user.Id, user.IsActive === 'N' ? 'Y' : 'N')
-            "
-          >
-            {{ user.IsActive === "N" ? "Non-activated account" : "Activated account" }}
-          </button>
+              class="btn btn-sm text-white m-1 custom-btn-list"
+              [ngClass]="user.IsActive === 'N' ? ' btn-danger' : 'btn-success'"
+              (click)="
+                activateAccount(user.Id, user.IsActive === 'N' ? 'Y' : 'N')
+              "
+            >
+              {{
+                user.IsActive === "N"
+                  ? "Non-activated account"
+                  : "Activated account"
+              }}
+            </button>
           </div>
         </div>
       </div>
