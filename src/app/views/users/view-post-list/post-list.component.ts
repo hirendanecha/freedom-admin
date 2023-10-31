@@ -34,6 +34,8 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
   shouldShowSearchInput: boolean = false;
   startDate: any;
   endDate: any;
+  activePage = 0;
+  hasMoreData = false;
 
   constructor(
     private postService: PostService,
@@ -55,21 +57,57 @@ export class ViewUserPostComponent implements OnInit, AfterViewInit {
 
   getPostLists(): void {
     // const userId = this.userId;
+    // this.spinner.show();
+    // const data = {
+    //   page: this.activePage,
+    //   size: 10,
+    //   profileId: this.profileId,
+    //   startDate: this.startDate,
+    //   endDate: this.endDate
+    // }
+    // this.postService
+    //   .viewPost(data)
+    //   .subscribe({
+    //     next: (res: any) => {
+    //       this.spinner.hide();
+    //       if (res) {
+    //         this.postList = res.data.data;
+    //       }
+    //     },
+    //     error: (error) => {
+    //       this.spinner.hide();
+    //       console.log(error);
+    //     },
+    //   });
+    this.activePage = 0;
+    this.loadMore();
+  }
+
+  loadMore() {
+    this.activePage++;
     this.spinner.show();
-    this.postService
-      .viewPost(this.profileId, this.startDate, this.endDate)
-      .subscribe({
-        next: (res: any) => {
-          this.spinner.hide();
-          if (res) {
-            this.postList = res.data;
-          }
-        },
-        error: (error) => {
-          this.spinner.hide();
-          console.log(error);
-        },
-      });
+    const data = {
+      page: this.activePage,
+      size: 10,
+      profileId: this.profileId,
+      startDate: this.startDate,
+      endDate: this.endDate,
+    };
+    this.postService.viewPost(data).subscribe({
+      next: (res: any) => {
+        this.spinner.hide();
+        if (res?.data?.data.length > 0) {
+          this.postList = this.postList.concat(res.data.data);
+          this.hasMoreData = false;
+        } else {
+          this.hasMoreData = true;
+        }
+      },
+      error: (error) => {
+        this.spinner.hide();
+        console.log(error);
+      },
+    });
   }
 
   viewComments(id): void {

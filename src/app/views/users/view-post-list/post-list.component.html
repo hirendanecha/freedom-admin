@@ -251,6 +251,14 @@
           </div>
         </c-card>
       </c-col>
+      <div
+      class="d-flex justify-content-center mb-2"
+      *ngIf="!hasMoreData && postList.length"
+    >
+      <button class="btn btn-outline-primary" (click)="loadMore()">
+        Load More
+      </button>
+    </div>
       <ng-container *ngIf="!postList.length">
         <c-col md="8" class="text-center">
           <h5>No post available yet!</h5>

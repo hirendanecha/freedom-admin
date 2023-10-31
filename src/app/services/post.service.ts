@@ -28,8 +28,12 @@ export class PostService {
     return this.http.get(`${this.baseUrl}/get/${id}`);
   }
 
-  viewPost(id, startDate: string = '', endDate: string = ''): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}?startDate=${startDate}&endDate=${endDate}`);
+  // viewPost(id, startDate: string = '', endDate: string = ''): Observable<any> {
+  //   return this.http.get(`${this.baseUrl}/${id}?startDate=${startDate}&endDate=${endDate}`);
+  // }
+
+  viewPost(data): Observable<any> {
+    return this.http.post(`${this.baseUrl}/get-my-post`, data);
   }
   
   getComments(id): Observable<any> {
