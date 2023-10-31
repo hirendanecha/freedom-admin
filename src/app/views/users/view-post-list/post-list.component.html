@@ -253,7 +253,7 @@
       </c-col>
       <div
       class="d-flex justify-content-center mb-2"
-      *ngIf="!hasMoreData && postList.length"
+      *ngIf="!hasMoreData && postList.length === 10"
     >
       <button class="btn btn-outline-primary" (click)="loadMore()">
         Load More
