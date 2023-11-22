@@ -41,6 +41,18 @@
   }
 }
 
+.single-box{
+  max-width: 300px;
+  background: #3c4b64;
+  margin: 10px;
+  color: #fff;
+
+  .material-symbols-outlined{
+    color: #fff;
+    cursor: pointer;
+  }
+}
+
 ::ng-deep .multiselect-dropdown {
   .dropdown-btn {
     .selected-item-container {

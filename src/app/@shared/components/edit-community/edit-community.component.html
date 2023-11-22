@@ -200,6 +200,38 @@
           </ng-select>
         </c-col>
       </c-row>
+      <c-row class="justify-content-center mt-4">
+        <c-col md="12">
+          <label for="">Admins</label>
+          <div class="d-flex flex-wrap">
+            <div class="single-box d-flex align-items-center gap-2 px-3 py-2 w-100" *ngFor="let member of adminList">      
+              <img
+                class="w-48-px h-48-px rounded-4"
+                loading="lazy"
+                data-src="{{
+                  member?.ProfilePicName ||
+                    '/assets/images/avtar/placeholder-user.png'
+                }}"
+                onerror="this.onerror=null;this.src='/assets/images/avtar/placeholder-user.png'"
+                alt="avatar"
+              />
+              <div
+                class="d-flex flex-column justify-content-center align-items-start w-100"
+              >
+                <p class="mb-1">{{ member?.Username }}</p>
+                <span class="font-12-px description">{{
+                  member?.isAdmin === "Y" ? "Admin" : "Member"
+                }}</span>
+              </div>
+              <ng-container *ngIf="communityDetails.profileId !== member.profileId">
+                <span class="material-symbols-outlined" (click)="removeasAdmin(member.profileId)">
+                  cancel
+                </span> 
+              </ng-container>
+            </div>
+          </div>
+        </c-col>
+      </c-row>
       <c-row class="float-end mt-3">
         <button cButton color="primary" type="submit">
           {{ isEdit ? "Save changes" : "Edit" }}

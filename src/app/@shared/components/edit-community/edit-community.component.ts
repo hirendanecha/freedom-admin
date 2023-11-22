@@ -28,6 +28,9 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
   userNameSearch = '';
   userList = [];
   users: any;
+
+  adminList: any;
+
   userForm = new FormGroup({
     FirstName: new FormControl(''),
     LastName: new FormControl(''),
@@ -78,11 +81,12 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
     this.spinner.show();
     this.communityService.getCommunityById(this.communityId).subscribe({
       next: (res: any) => {
-        this.spinner.hide();
         if (res) {
+          this.spinner.hide();
           this.communityDetails = res[0];
           this.memberDetails = res[0].memberList[0];
           this.memberIds = res[0].memberList.map((member) => member.profileId);
+          this.adminList = res[0].memberList.map((member) => member);
           const data = {
             FirstName: this.memberDetails.FirstName,
             LastName: this.memberDetails.LastName,
@@ -109,7 +113,7 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
 
   onItemSelect(event) {
     this.getUserList(event.term);
-    this.isEdit = true
+    this.isEdit = true;
   }
 
   saveChanges(): void {
@@ -226,5 +230,22 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
   onSelectUser(item): void {
     this.selectedItems.push(item.Id);
     console.log(item);
+  }
+
+  removeasAdmin(profileId) {
+    this.communityService
+      .removeFromCommunity(this.communityDetails?.Id, profileId)
+      .subscribe({
+        next: (res: any) => {
+          if (res) {
+            this.toastService.success(res.message);
+            this.getUserDetails()
+          }
+        },
+        error: (error) => {
+          console.log(error);
+          this.toastService.danger(error.message);
+        },
+      });
   }
 }

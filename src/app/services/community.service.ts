@@ -64,4 +64,10 @@ export class CommunityService {
       data
     );
   }
+
+  removeFromCommunity(id, profileId): Observable<any> {
+    return this.http.delete(
+      `${this.baseUrl}/leave?communityId=${id}&profileId=${profileId}`
+    );
+  }
 }
