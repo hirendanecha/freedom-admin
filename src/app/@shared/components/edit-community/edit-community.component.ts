@@ -128,7 +128,7 @@ export class EditCommunityComponent implements OnInit, AfterViewInit {
           },
           error: (error) => {
             this.spinner.hide();
-            this.toastService.danger('Please try again');
+            // this.toastService.danger('Please try again');
             console.log(error);
           },
         });
