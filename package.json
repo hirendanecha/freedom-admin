@@ -11,9 +11,9 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "start:dev": "ng serve run environment --configuration development",
-    "build": "ng build",
+    "start": "ng serve --configuration production",
+    "start:dev": "ng serve --configuration development",
+    "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

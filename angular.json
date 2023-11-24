@@ -84,7 +84,7 @@
                 }
               ]
             },
-            "dev": {
+            "development": {
               "optimization": false,
               "aot": false,
               "outputHashing": "all",
@@ -147,7 +147,7 @@
               "serviceWorker": false
             }
           },
-          "defaultConfiguration": "dev"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -155,14 +155,14 @@
             "production": {
               "browserTarget": "freedom-admin:build:production"
             },
-            "dev": {
-              "browserTarget": "freedom-admin:build:dev"
+            "development": {
+              "browserTarget": "freedom-admin:build:development"
             },
             "test": {
               "browserTarget": "freedom-admin:build:test"
             }
           },
-          "defaultConfiguration": "test"
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
