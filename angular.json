@@ -147,7 +147,7 @@
               "serviceWorker": false
             }
           },
-          "defaultConfiguration": ""
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -162,7 +162,7 @@
               "browserTarget": "freedom-admin:build:test"
             }
           },
-          "defaultConfiguration": ""
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
