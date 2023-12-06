@@ -68,15 +68,15 @@
               <td>
                 <button
                   class="btn btn-sm btn-success text-white c-btn"
-                  *ngIf="channel.feature === 'N'"
-                  (click)="changeChannelStatus(channel, 'Y')"
+                  *ngIf="channel.feature === 'Y'"
+                  (click)="changeChannelStatus(channel, 'N')"
                 >
                   Yes
                 </button>
                 <button
                   class="btn btn-sm btn-danger text-white c-btn"
-                  *ngIf="channel.feature === 'Y'"
-                  (click)="changeChannelStatus(channel, 'N')"
+                  *ngIf="channel.feature === 'N'"
+                  (click)="changeChannelStatus(channel, 'Y')"
                 >
                   No
                 </button>
