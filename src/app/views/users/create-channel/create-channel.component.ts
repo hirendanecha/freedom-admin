@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ChannelService } from 'src/app/services/channels.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-create-channel',
@@ -12,7 +13,7 @@ import { ToastService } from 'src/app/services/toast.service';
 })
 export class CreateChannelComponent {
   userForm = new FormGroup({
-    profileid: new FormControl(1),
+    profileid: new FormControl(),
     feature: new FormControl(false),
     firstname: new FormControl(''),
     unique_link: new FormControl({ value: '', disabled: true }),
@@ -26,24 +27,30 @@ export class CreateChannelComponent {
   selectedFile: any;
   myProp: string;
   hasDisplayedError = false;
+  isEdit = false;
+  disabled = false
+  selectedItems = [];
+  memberIds: any = [];
+  userList: readonly any[];
 
   constructor(
     private spinner: NgxSpinnerService,
+    private userService: UserService,
     public toastService: ToastService,
     public activateModal: NgbActiveModal,
     private channelService: ChannelService
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   slugify = (str: string) => {
     return str?.length > 0
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/[^\w\s-]/g, '')
-          .replace(/[\s_-]+/g, '-')
-          .replace(/^-+|-+$/g, '')
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/[\s_-]+/g, '-')
+        .replace(/^-+|-+$/g, '')
       : '';
   };
 
@@ -56,6 +63,7 @@ export class CreateChannelComponent {
 
   saveChanges(): void {
     if (this.userForm.valid) {
+      console.log(this.userForm.value)
       this.spinner.show();
       this.channelService.createChannel(this.userForm.value).subscribe({
         next: (res: any) => {
@@ -88,6 +96,7 @@ export class CreateChannelComponent {
             this.hasDisplayedError = true;
           }
         }
+
       },
       error: (err) => {
         this.spinner.hide();
@@ -98,8 +107,37 @@ export class CreateChannelComponent {
         return 'Could not upload the file:' + this.profileImg.file.name;
       },
     });
+    if (this.onSelectUser.length > 0)
+      this.toastService.danger('Please Select User');
+
+  }
+  onItemSelect(event) {
+    this.getUserList(event.term);
+    this.isEdit = true;
   }
 
+  onSelectUser(item: any): void {
+    // this.selectedItems.push(item.Id);
+    this.userForm.get('profileid').setValue(item.Id)
+  }
+  getUserList(search: string = ''): void {
+    this.spinner.show();
+    this.userService.getProfileList(search).subscribe({
+      next: (res: any) => {
+        this.spinner.hide();
+        if (res?.data?.length > 0) {
+          this.userList = res.data;
+        } else {
+          this.selectedItems = [];
+          this.userList = [];
+        }
+      },
+      error: (error) => {
+        this.spinner.hide();
+        console.log(error);
+      },
+    });
+  }
   onFileSelected(event: any) {
     this.profileImg.file = event.target?.files?.[0];
     this.selectedFile = URL.createObjectURL(event.target.files[0]);
