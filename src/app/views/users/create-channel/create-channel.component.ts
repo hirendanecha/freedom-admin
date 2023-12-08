@@ -122,7 +122,7 @@ export class CreateChannelComponent {
   }
   getUserList(search: string = ''): void {
     this.spinner.show();
-    this.userService.getProfileList(search).subscribe({
+    this.channelService.getProfileList(search).subscribe({
       next: (res: any) => {
         this.spinner.hide();
         if (res?.data?.length > 0) {

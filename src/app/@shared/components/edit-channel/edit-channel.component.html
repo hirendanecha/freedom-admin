@@ -1,13 +1,33 @@
 <div class="bg-light flex-row align-items-center edit-content">
   <c-container>
     <c-row class="justify-content-center">
+      <c-row class="justify-content-center mt-2">
+        <c-col md="6" class="d-grid">
+          <label>Channel Logo</label>
+          <img
+            height="100" width="100"
+            class="rounded-circle"
+            [src]="channelDetails.profile_pic_name"
+            onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-user.png';"
+          />
+        </c-col>
+        <c-col md="6" class="d-grid">
+          <!-- <label>User Profile</label>
+          <img
+            height="200" width="400"
+            [src]="memberDetails.ProfilePicName"
+            onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-room.png';"
+          /> -->
+        </c-col>
+      </c-row>
       <c-col md="6">
         <label>Channel Name</label>
         <input
           cFormControl
           name="uname"
-          [(ngModel)]="communityDetails.CommunityName"
+          [(ngModel)]="channelDetails.firstname"
           type="text"
+          disabled
         />
       </c-col>
       <c-col md="6">
@@ -15,58 +35,17 @@
         <input
           cFormControl
           name="uname"
-          [(ngModel)]="communityDetails.CommunityDescription"
+          [(ngModel)]="channelDetails.unique_link"
           type="text"
+          disabled
         />
       </c-col>
     </c-row>
-    <c-row class="justify-content-center mt-2">
-      <c-col md="6" class="d-grid">
-        <label>Channel Logo</label>
-        <img
-          height="200" width="200"
-          [src]="communityDetails.logoImg"
-          onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-user.png';"
-        />
-        <!-- <c-avtar></c-avtar> -->
-      </c-col>
-      <c-col md="6" class="d-grid">
-        <label>User Profile</label>
-        <img
-          height="200" width="400"
-          [src]="communityDetails.coverImg"
-          onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-room.png';"
-        />
-      </c-col>
-    </c-row>
-    <!-- <c-row class="justify-content-center mt-2">
-        <c-col md="6">
-          <label>Is Approve</label>
-          <input
-            cFormControl
-            name="uname"
-            [(ngModel)]="communityDetails.isApprove"
-            type="text"
-          />
-        </c-col>
-        <c-col md="6">
-          <label>Zip</label>
-          <input
-            cFormControl
-            name="uname"
-            [(ngModel)]="memberDetails.Zip"
-            type="text"
-            disabled
-          />
-        </c-col>
-      </c-row> -->
-    <!-- <h3>User Details</h3> -->
     <form
-      [formGroup]="userForm"
       (ngSubmit)="saveChanges()"
       (change)="onChangeData()"
     >
-      <c-row class="justify-content-center mt-2">
+      <!-- <c-row class="justify-content-center mt-2">
         <c-col md="6">
           <label>First Name</label>
           <input
@@ -85,15 +64,16 @@
             type="text"
           />
         </c-col>
-      </c-row>
+      </c-row> -->
       <c-row class="justify-content-center mt-2">
         <c-col md="6">
           <label>Username</label>
           <input
-            cFormControl
-            name="uname"
-            type="text"
-            formControlName="Username"           
+          cFormControl
+          name="Username"
+          [(ngModel)]="channelDetails.Username"
+          type="text"
+          disabled
           />
         </c-col>
         <c-col md="6">
@@ -106,77 +86,11 @@
             [ngModelOptions]="{ standalone: true }"
             disabled
           />
-          <!-- <div
-            class="srv-validation-message text-danger"
-            *ngIf="userForm.controls['Email'].invalid &&
-                  userForm.controls['Email'].errors?.['required']"
-          >
-            Email field is required.
-          </div> -->
-        </c-col>
-      </c-row>
-      <c-row class="justify-content-center mt-2">
-        <c-col md="6">
-          <label>Phone</label>
-          <input
-            cFormControl
-            name="mobileNo"
-            formControlName="MobileNo"
-            type="text"
-          />
-        </c-col>
-        <c-col md="6" class="d-grid">
-          <label>Country</label>
-          <select
-            id="Country"
-            required
-            name="Country"
-            class="form-control w-100"
-            cFormControl
-            [(ngModel)]="memberDetails.Country"
-            [ngModelOptions]="{ standalone: true }"
-            (change)="changeCountry($event)"
-          >
-            <option
-              [value]="item.country_code"
-              *ngFor="let item of allCountryData"
-            >
-              {{ item.country }}
-            </option>
-          </select>
-        </c-col>
-      </c-row>
-      <c-row class="justify-content-center mt-2">
-        <c-col md="6">
-          <label>Zip</label>
-          <input
-            cFormControl
-            name="zip"
-            formControlName="Zip"
-            type="text"
-            #zipCode
-          />
-          <div
-            class="srv-validation-message text-danger"
-            *ngIf="userForm.controls['Zip'].invalid &&
-                  userForm.controls['Zip'].errors?.['required']"
-          >
-            Zip field is required.
-          </div>
-        </c-col>
-        <c-col md="6" class="d-grid">
-          <label>State</label>
-          <input
-            cFormControl
-            name="state"
-            formControlName="State"
-            type="text"
-          />
         </c-col>
       </c-row>
       <c-row class="justify-content-center mt-2">
         <c-col md="12">
-          <label for="">Make Community Admin</label>
+          <label for="">Make Channel Admin</label>
           <ng-select
             [items]="userList"
             bindLabel="Username"
@@ -186,7 +100,7 @@
             (search)="onItemSelect($event)"
           >
             <ng-template ng-option-tmp let-item="item" let-index="index">
-              <div *ngIf="!memberIds.includes(item.Id)" (click)="onSelectUser(item)">
+              <div (click)="onSelectUser(item)">
                 <img
                   height="20"
                   width="20"
@@ -223,7 +137,7 @@
                   member?.isAdmin === "Y" ? "Admin" : "Member"
                 }}</span>
               </div>
-              <ng-container *ngIf="communityDetails.profileId !== member.profileId">
+              <ng-container *ngIf="channelDetails.profileid !== member.profileId">
                 <span class="material-symbols-outlined" (click)="removeasAdmin(member.profileId)">
                   cancel
                 </span> 

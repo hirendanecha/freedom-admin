@@ -19,13 +19,12 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./edit-channel.component.scss'],
 })
 export class EditChannelComponent implements OnInit, AfterViewInit {
-  communityDetails: any = {};
+  channelDetails: any = {};
   memberDetails: any = {};
   selectedItems = [];
   communityId: any;
   channelId: any;
   isPage = false;
-  searchText = '';
   memberIds: any = [];
   userNameSearch = '';
   userList = [];
@@ -33,26 +32,9 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
 
   adminList: any;
 
-  userForm = new FormGroup({
-    FirstName: new FormControl(''),
-    LastName: new FormControl(''),
-    Country: new FormControl('', Validators.required),
-    Zip: new FormControl('', Validators.required),
-    MobileNo: new FormControl(''),
-    City: new FormControl(''),
-    State: new FormControl(''),
-    Email: new FormControl('', Validators.required),
-    Username: new FormControl('', Validators.required),
-    UserID: new FormControl('', Validators.required),
-    ProfilePicName: new FormControl('', Validators.required),
-    CoverPicName: new FormControl('', Validators.required),
-  });
-  allCountryData: any;
-  @ViewChild('zipCode') zipCode: ElementRef;
   isEdit = false;
 
   constructor(
-    private communityService: CommunityService,
     private channelService: ChannelService,
     private userService: UserService,
     private route: ActivatedRoute,
@@ -66,18 +48,9 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getUserDetails();
-    this.getAllCountries();
   }
   ngAfterViewInit(): void {
     this.getUserList();
-    fromEvent(this.zipCode.nativeElement, 'input')
-      .pipe(debounceTime(1000))
-      .subscribe((event) => {
-        const val = event['target'].value;
-        if (val.length > 3) {
-          this.onZipChange(val);
-        }
-      });
   }
 
   getUserDetails(): void {
@@ -86,25 +59,10 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
       next: (res: any) => {
         if (res) {
           this.spinner.hide();
-          this.communityDetails = res[0];
+          this.channelDetails = res[0];
           this.memberDetails = res[0].memberList[0];
           this.memberIds = res[0].memberList.map((member) => member.profileId);
           this.adminList = res[0].memberList.map((member) => member);
-          const data = {
-            FirstName: this.memberDetails.FirstName,
-            LastName: this.memberDetails.LastName,
-            Country: this.memberDetails.Country,
-            Zip: this.memberDetails.Zip,
-            City: this.memberDetails.City,
-            State: this.memberDetails.State,
-            Username: this.memberDetails.Username,
-            Email: this.memberDetails.Email,
-            MobileNo: this.memberDetails.MobileNo,
-            UserID: this.memberDetails.UserID,
-            ProfilePicName: this.memberDetails.ProfilePicName,
-            CoverPicName: this.memberDetails?.CoverPicName,
-          };
-          this.userForm.setValue(data);
         }
       },
       error: (error) => {
@@ -120,43 +78,28 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
   }
 
   saveChanges(): void {
-    if (this.userForm.value) {
-      this.userService
-        .updateProfile(this.memberDetails.profileId, this.userForm.value)
-        .subscribe({
-          next: (res: any) => {
-            this.spinner.hide();
-            this.isEdit = false;
-            this.toastService.success('Update successfully');
-          },
-          error: (error) => {
-            this.spinner.hide();
-            // this.toastService.danger('Please try again');
-            console.log(error);
-          },
-        });
-      if (this.selectedItems.length) {
-        this.selectedItems.forEach((e) => {
-          this.createAdmin(e);
-        });
-      }
+    if (this.selectedItems.length) {
+      this.selectedItems.forEach((e) => {
+        this.createAdmin(e);
+      });
     }
   }
 
   createAdmin(profileId): void {
     const data = {
       profileId: profileId,
-      communityId: Number(this.communityId),
-      isActive: 'Y',
+      channelId: Number(this.channelId),
       isAdmin: 'Y',
     };
-    this.communityService.createCommunityAdminByMA(data).subscribe({
+    this.channelService.createChannalAdminByMA(data).subscribe({
       next: (res: any) => {
-        if (this.isPage) {
-          this.router.navigate(['/pages']);
-        } else {
-          this.router.navigate(['/community']);
+        if (res) {
+          this.getUserDetails();
         }
+        // if (this.isPage) {
+        // } else {
+        //   this.router.navigate(['/channels']);
+        // }
       },
       error: (error) => {
         console.log(error);
@@ -166,7 +109,7 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
 
   getUserList(search: string = ''): void {
     this.spinner.show();
-    this.userService.getProfileList(search).subscribe({
+    this.channelService.getProfileList(search).subscribe({
       next: (res: any) => {
         this.spinner.hide();
         if (res?.data?.length > 0) {
@@ -183,49 +126,6 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getAllCountries() {
-    this.spinner.show();
-    this.userService.getCountriesData().subscribe({
-      next: (result) => {
-        this.spinner.hide();
-        this.allCountryData = result;
-      },
-      error: (error) => {
-        this.spinner.hide();
-        console.log(error);
-      },
-    });
-  }
-
-  changeCountry(e) {
-    this.userForm.get('Country').setValue(e.target.value);
-    this.userForm.get('Zip').setValue('');
-    this.userForm.get('State').setValue('');
-    this.userForm.get('City').setValue('');
-  }
-
-  onZipChange(event) {
-    this.spinner.show();
-    const country = this.userForm.value.Country;
-    this.userService.getZipData(event, country).subscribe({
-      next: (data) => {
-        this.spinner.hide();
-        const zip_data = data[0];
-        if (zip_data?.state) {
-          zip_data ? this.userForm.get('State').setValue(zip_data.state) : null;
-          zip_data ? this.userForm.get('City').setValue(zip_data.city) : null;
-        } else {
-          this.spinner.hide();
-          // this.toastService.danger('Please check and enter valid country or zip code.');
-        }
-      },
-      error: (err) => {
-        this.spinner.hide();
-        console.log(err);
-      },
-    });
-  }
-
   onChangeData(): void {
     this.isEdit = true;
   }
@@ -236,13 +136,13 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
   }
 
   removeasAdmin(profileId) {
-    this.communityService
-      .removeFromCommunity(this.communityDetails?.Id, profileId)
+    this.channelService
+      .removeFromChannel(this.channelDetails?.id, profileId)
       .subscribe({
         next: (res: any) => {
           if (res) {
             this.toastService.success(res.message);
-            this.getUserDetails()
+            this.getUserDetails();
           }
         },
         error: (error) => {

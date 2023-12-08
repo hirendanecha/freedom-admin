@@ -74,4 +74,23 @@ export class ChannelService {
 
     return this.http.request(req);
   }
+
+  createChannalAdminByMA(data: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/create-admin`,
+      data
+    );
+  }
+
+  removeFromChannel(id, profileId): Observable<any> {
+    return this.http.delete(
+      `${this.baseUrl}/leave?channelId=${id}&profileId=${profileId}`
+    );
+  }
+
+  getProfileList(searchText: string = ''): Observable<object> {
+    return this.http.get(
+      `${this.baseUrl}/search-user?searchText=${searchText}`
+    );
+  }
 }
