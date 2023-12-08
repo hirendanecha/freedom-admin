@@ -48,6 +48,9 @@ export class ChannelService {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
+  findChannelById(id): Observable<any> {
+    return this.http.get(`${this.baseUrl}/get/${id}`);
+  }
   getChannelById(id): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}`);
   }

@@ -90,6 +90,13 @@
                   <i class="material-symbols-outlined"> edit </i>
                 </button> -->
                 <button
+                class="bg-transparent border-0"
+                size="sm"
+                (click)="openChannel(channel.id)"
+              >
+                <i class="material-symbols-outlined"> edit </i>
+              </button>
+                <button
                   class="bg-transparent border-0"
                   size="sm"
                   (click)="deleteChannel(channel.id)"
