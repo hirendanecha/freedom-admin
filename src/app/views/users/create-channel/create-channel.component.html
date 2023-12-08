@@ -64,7 +64,7 @@
     Cancel
   </button>
   <button cButton class="text-white" color="secondary" type="submit" (click)="upload()"
-    [disabled]="!userForm.get('profileid').value">
+    [disabled]="!userForm.get('profileid')?.value">
     Save
   </button>
 </c-modal-footer>
