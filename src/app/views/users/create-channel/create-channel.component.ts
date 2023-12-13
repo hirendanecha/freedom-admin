@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ChannelService } from 'src/app/services/channels.service';
@@ -32,13 +33,15 @@ export class CreateChannelComponent {
   selectedItems = [];
   memberIds: any = [];
   userList: readonly any[];
+  profileId: number
 
   constructor(
     private spinner: NgxSpinnerService,
     private userService: UserService,
     public toastService: ToastService,
     public activateModal: NgbActiveModal,
-    private channelService: ChannelService
+    private channelService: ChannelService,
+    private router: Router
   ) { }
 
   ngOnInit(): void { }
@@ -68,6 +71,7 @@ export class CreateChannelComponent {
       this.channelService.createChannel(this.userForm.value).subscribe({
         next: (res: any) => {
           this.spinner.hide();
+          this.createAdmin(res?.data);
           this.activateModal.close('success');
           this.toastService.success('Channel created successfully');
         },
@@ -118,7 +122,8 @@ export class CreateChannelComponent {
 
   onSelectUser(item: any): void {
     // this.selectedItems.push(item.Id);
-    this.userForm.get('profileid').setValue(item.Id)
+    this.userForm.get('profileid').setValue(item.Id);
+    this.profileId = item.Id
   }
   getUserList(search: string = ''): void {
     this.spinner.show();
@@ -145,5 +150,28 @@ export class CreateChannelComponent {
 
   removePostSelectedFile(): void {
     this.selectedFile = null;
+  }
+
+
+  createAdmin(channelId): void {
+    const data = {
+      profileId: this.profileId,
+      channelId: Number(channelId),
+      isAdmin: 'Y',
+    };
+    this.channelService.createChannalAdminByMA(data).subscribe({
+      next: (res: any) => {
+        if (res) {
+          this.router.navigate(['/channels'])
+        }
+        // if (this.isPage) {
+        // } else {
+        //   this.router.navigate(['/channels']);
+        // }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 }
