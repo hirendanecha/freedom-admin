@@ -12,26 +12,31 @@ const httpOptions = {
 })
 export class UserService {
   private baseUrl = environment.serverUrl + 'customers';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   login(login: any): Observable<Object> {
-    return this.http.post(`${this.baseUrl}/login`, {
+    const url = environment.serverUrl;
+    return this.http.post(`${url}login/admin`, {
       email: login.Email,
       password: login.Password,
     });
   }
 
-  userList(page: number, size: number, search: string = '', startDate, endDate): Observable<any> {
+  userList(
+    page: number,
+    size: number,
+    search: string = '',
+    startDate,
+    endDate
+  ): Observable<any> {
     const data = {
       page: page,
       size: size,
       search: search,
       startDate: startDate,
-      endDate: endDate
-    }
-    return this.http.post(
-      `${this.baseUrl}`, data
-    );
+      endDate: endDate,
+    };
+    return this.http.post(`${this.baseUrl}`, data);
   }
 
   getUserDetailsById(Id: any): Observable<any> {
