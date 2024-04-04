@@ -75,6 +75,11 @@ export class ChannelService {
     return this.http.request(req);
   }
 
+  editChannal(id: number, data: any): Observable<any> {
+    return this.http.put<any>(
+      `${this.baseUrl}/edit-channel/${id}`, data
+    );
+  }
   createChannalAdminByMA(data: any): Observable<any> {
     return this.http.post<any>(
       `${this.baseUrl}/create-admin`,
