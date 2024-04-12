@@ -102,7 +102,9 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
     if (!this.isEdit) {
       this.isEdit = true;
     }
-    this.channelDetails.Username = event.target.value.replace(/\s+/g, '').replace(/,+/g, ',');
+    this.channelDetails.Username = event.target.value
+      .replace(/\s+/g, '')
+      .replace(/,+/g, ',');
   }
 
   saveChanges(): void {
@@ -117,9 +119,11 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
     };
     this.channelService.editChannal(id, upadtedChannelData).subscribe({
       next: (res: any) => {
-        this.getUserDetails();
-        if (this.isEdit) {
-          this.isEdit = false;
+        if (res) {
+          this.getUserDetails();
+          if (this.isEdit) {
+            this.isEdit = false;
+          }
         }
       },
     });
@@ -177,9 +181,11 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
     this.isEdit = true;
   }
 
-  resetSelect(event){
+  resetSelect(event) {
     if (event?.value?.Id) {
-      this.selectedItems = this.selectedItems.filter(item => item !== event.value.Id);
+      this.selectedItems = this.selectedItems.filter(
+        (item) => item !== event.value.Id
+      );
     } else {
       this.selectedItems = [];
     }
