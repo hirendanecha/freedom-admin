@@ -98,12 +98,20 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
     );
   }
 
+  onChangeTag(event: any) {
+    if (!this.isEdit) {
+      this.isEdit = true;
+    }
+    this.channelDetails.Username = event.target.value.replace(/\s+/g, '').replace(/,+/g, ',');
+  }
+
   saveChanges(): void {
     const id = this.channelDetails.id;
     const upadtedChannelData = {
       profileid: this.channelDetails.profileid,
       profile_pic_name: this.channelDetails.profile_pic_name,
       firstname: this.channelDetails.firstname,
+      Username: this.channelDetails.Username,
       unique_link: this.channelDetails.unique_link,
       feature: this.channelDetails.feature,
     };

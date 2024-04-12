@@ -77,8 +77,10 @@
           name="Username"
           [(ngModel)]="channelDetails.Username"
           type="text"
-          disabled
+          (keyup)="onChangeTag($event)"
+          required
           />
+          <!-- disabled -->
         </c-col>
         <c-col md="6">
           <label>Email</label>
@@ -154,7 +156,7 @@
         </c-col>
       </c-row>
       <c-row class="float-end mt-3">
-        <button cButton color="primary" type="submit" [disabled]="!channelDetails.unique_link || !channelDetails.firstname">
+        <button cButton color="primary" type="submit" [disabled]="!channelDetails.unique_link || !channelDetails.firstname || !channelDetails.Username">
           {{ isEdit ? "Save changes" : "Edit" }}
         </button>
       </c-row>
