@@ -61,18 +61,18 @@
             <td>{{ report.createdDate | date : "d-MM-YYYY" }}</td>
             <td>
               <button
-                class="btn btn-sm btn-success text-white custom-btn"
+                class="btn btn-sm btn-danger text-white custom-btn"
                 *ngIf="report.isResolved === 'N'"
                 (click)="changeReportStatus(report, 'N')"
               >
-                Approve
+                Pending
               </button>
               <button
-                class="btn btn-sm btn-danger text-white custom-btn"
-                *ngIf="report.isResolved === 'Y'"
-                (click)="changeReportStatus(report, 'Y')"
-              >
-                UnApprove
+              class="btn btn-sm btn-success text-white custom-btn"
+              *ngIf="report.isResolved === 'Y'"
+              (click)="changeReportStatus(report, 'Y')"
+                >
+                Resolved
               </button>
             </td>
             <td>
