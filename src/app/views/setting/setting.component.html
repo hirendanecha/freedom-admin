@@ -63,14 +63,14 @@
               <button
                 class="btn btn-sm btn-danger text-white custom-btn"
                 *ngIf="report.isResolved === 'N'"
-                (click)="changeReportStatus(report, 'N')"
+                (click)="changeReportStatus(report, 'Y')"
               >
                 Pending
               </button>
               <button
               class="btn btn-sm btn-success text-white custom-btn"
               *ngIf="report.isResolved === 'Y'"
-              (click)="changeReportStatus(report, 'Y')"
+              (click)="changeReportStatus(report, 'N')"
                 >
                 Resolved
               </button>
