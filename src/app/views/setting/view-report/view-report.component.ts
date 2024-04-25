@@ -28,7 +28,7 @@ export class ViewReportComponent implements OnInit{
     this.bugReportService.getBugreportById(this.ticketId).subscribe({
       next: (res: any) => {
         if (res.data) {
-          this.ticketDetails = res?.data
+          this.ticketDetails = res[0]
         }
       },
       error: (error) => {
