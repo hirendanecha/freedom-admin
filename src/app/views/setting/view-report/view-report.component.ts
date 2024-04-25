@@ -27,7 +27,7 @@ export class ViewReportComponent implements OnInit{
   getTicketDetails(){
     this.bugReportService.getBugreportById(this.ticketId).subscribe({
       next: (res: any) => {
-        if (res.data) {
+        if (res) {
           this.ticketDetails = res[0]
         }
       },
