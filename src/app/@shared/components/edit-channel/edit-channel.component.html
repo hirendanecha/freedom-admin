@@ -2,21 +2,37 @@
   <c-container>
     <form
       #form="ngForm"
-      (ngSubmit)="saveChanges()"
+      (ngSubmit)="upload()"
       (change)="onChangeData()"
       novalidate
     >
       <c-row class="justify-content-center">
         <c-row class="justify-content-center mt-2">
-          <c-col md="6" class="d-grid">
-            <label>Channel Logo</label>
-            <img
+          <c-col class="d-flex flex-column">
+            <label>Channel logo</label>
+            <div class="d-flex c-size-icon position-relative set-select" *ngIf="!selectedFile">
+              <img
+              (click)="uploadImage.click()"
               height="100"
               width="100"
-              class="rounded-circle"
+              class="rounded-circle cursor"
               [src]="channelDetails.profile_pic_name"
               onerror="this.onerror=null;this.src='/assets/img/avatars/placeholder-user.png';"
             />
+            <i class="material-symbols-outlined position-absolute"> edit </i>
+              <input #uploadImage class="d-none" type="file" id="fileInput" (change)="onFileSelected($event)"
+                accept="image/*" formControlName="profile_pic_name" />
+            </div>
+            <ng-container *ngIf="selectedFile">
+              <div class="position-relative w-100-px h-100-px">
+                <span class="material-symbols-outlined position-absolute start-100 rounded-1 text-white bg-danger cursor"
+                  (click)="removePostSelectedFile()">
+                  close
+                </span>
+                  <img loading="lazy" data-src="{{ selectedFile }}" height="100" width="100"
+                    class="rounded-circle mt-2" alt="icon" onerror="this.onerror=null;" />
+              </div>
+            </ng-container>
           </c-col>
           <c-col md="6" class="d-grid">
             <!-- <label>User Profile</label>
@@ -72,6 +88,7 @@
         </c-col>
       </c-row> -->
       <c-row class="justify-content-center mt-2">
+        <h5 class="mt-4">User Details:</h5>
         <c-col md="6">
           <label>Username</label>
           <input

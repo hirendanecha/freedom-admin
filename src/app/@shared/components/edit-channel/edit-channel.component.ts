@@ -34,6 +34,11 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
   adminList: any;
 
   isEdit = false;
+  selectedFile: any;
+  channelImg: any = {
+    file: null,
+    url: '',
+  };
 
   constructor(
     private channelService: ChannelService,
@@ -52,6 +57,38 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     this.getUserList();
+  }
+
+  onFileSelected(event: any) {
+    this.channelImg.file = event.target?.files?.[0];
+    this.selectedFile = URL.createObjectURL(event.target.files[0]);
+  }
+
+  removePostSelectedFile(): void {
+    this.selectedFile = null;
+  }
+
+  upload() {
+    this.spinner.show();
+    this.channelService.upload(this.channelImg.file, 1, 'channel').subscribe({
+      next: (res: any) => {
+        this.spinner.hide();
+        if (this.channelImg.file?.size < 5120000) {
+          if (res.body) {
+            this.channelDetails.profile_pic_name = res?.body?.url;
+            this.saveChanges();
+          }
+        } 
+      },
+      error: (err) => {
+        this.spinner.hide();
+        this.channelImg = {
+          file: null,
+          url: '',
+        };
+        return 'Could not upload the file:' + this.channelImg.file.name;
+      },
+    });
   }
 
   getUserDetails(): void {
@@ -121,6 +158,7 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
       next: (res: any) => {
         if (res) {
           this.getUserDetails();
+          this.removePostSelectedFile()
           if (this.isEdit) {
             this.isEdit = false;
           }
