@@ -58,12 +58,13 @@
         <c-col md="6">
           <label>Unique Name</label>
           <input
-            cFormControl
-            name="uname"
-            [(ngModel)]="channelDetails.unique_link"
-            type="text"
-            required
-          />
+          cFormControl
+          name="uname"
+          [(ngModel)]="channelDetails.unique_link"
+          type="text"
+          required
+          [ngModelOptions]="{ standalone: true }"
+        />
           <!-- disabled -->
         </c-col>
       </c-row>
