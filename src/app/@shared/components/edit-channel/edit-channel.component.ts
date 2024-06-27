@@ -71,7 +71,7 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
   upload() {
     if (this.channelImg.file) {
       this.spinner.show();
-      this.channelService.upload(this.channelImg.file, 1, 'channel').subscribe({
+      this.channelService.upload(this.channelImg.file).subscribe({
         next: (res: any) => {
           this.spinner.hide();
           if (this.channelImg.file?.size < 5120000) {
