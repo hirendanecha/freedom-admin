@@ -55,6 +55,7 @@ export class AdvertisementComponent implements OnInit {
     const ad = this.advertisementDataList.find((ad) => ad.id === id);
     if (ad) {
       ad.imageUrl = '';
+      ad.file = null;
     }
   }
   getadvertizements(): void {
