@@ -8,8 +8,16 @@
         <div class="d-flex flex-column" *ngFor="let advertisement of advertisementDataList">
           <c-card class="card-container p-0">
             <c-col class="d-flex flex-column">
-              <c-card-header>
+              <c-card-header class="d-flex justify-content-between">
                 <label class="h4 m-0">Advertisements Image</label>
+                <button
+                *ngIf="advertisement.imageUrl"
+                class="bg-transparent border-0 p-0 pt-1"
+                size="sm"
+                (click)="deleteAdvertisement(advertisement.id)"
+              >
+              <i class="material-symbols-outlined"> delete </i>
+              </button>
               </c-card-header>
               <c-col class="select-card-input">
                 <div class="d-flex c-size-icon" *ngIf="!advertisement.imageUrl">

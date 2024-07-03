@@ -21,4 +21,8 @@ export class AdvertisementService {
   getAdvertisementData(data): Observable<any> {
     return this.http.post(`${this.baseUrl}/addEditAdvertizement`, data);
   }
+
+  deleteAdvertisement(id): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/delete/${id}`);
+  }
 }

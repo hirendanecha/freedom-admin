@@ -149,4 +149,18 @@ export class AdvertisementComponent implements OnInit {
     };
     this.selectedFile = null;
   }
+
+  deleteAdvertisement(id):void{
+    this.advertisementService.deleteAdvertisement(id).subscribe({
+      next: (res: any) => {
+        this.spinner.hide();
+        this.toastService.danger('Advertisement deleted successfully');
+        this.removePostSelectedFile(id);
+      },
+      error: (err) => {
+        this.spinner.hide();
+        console.log(err);
+      },
+    });
+  }
 }
