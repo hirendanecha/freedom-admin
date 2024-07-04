@@ -51,13 +51,6 @@ export class AdvertisementComponent implements OnInit {
     }
   }
 
-  removePostSelectedFile(id: number) {
-    const ad = this.advertisementDataList.find((ad) => ad.id === id);
-    if (ad) {
-      ad.imageUrl = '';
-      ad.file = null;
-    }
-  }
   getadvertizements(): void {
     this.advertisementService.getAdvertisement().subscribe({
       next: (res: any) => {
@@ -76,7 +69,8 @@ export class AdvertisementComponent implements OnInit {
     if (currentLength < minimumCards) {
       for (let i = currentLength; i < minimumCards; i++) {
         this.advertisementDataList.push({
-          id: i + 1,
+          cardId: i + 1,
+          id: null,
           imageUrl: '',
           createdDate: null,
           updatedDate: null,
@@ -117,7 +111,7 @@ export class AdvertisementComponent implements OnInit {
         next: (res: any) => {
           this.spinner.hide();
           this.toastService.success('Advertisement updated successfully');
-          this.restData();
+          this.getadvertizements();
         },
         error: (err) => {
           this.spinner.hide();
@@ -132,7 +126,7 @@ export class AdvertisementComponent implements OnInit {
         next: (res: any) => {
           this.spinner.hide();
           this.toastService.success('Advertisement created successfully');
-          this.restData();
+          this.getadvertizements();
         },
         error: (err) => {
           this.spinner.hide();
@@ -156,11 +150,21 @@ export class AdvertisementComponent implements OnInit {
         this.spinner.hide();
         this.toastService.danger('Advertisement deleted successfully');
         this.removePostSelectedFile(id);
+        const ad = this.advertisementDataList.find((ad) => ad.id === id);
+        if (ad) {ad.id = null}
       },
       error: (err) => {
         this.spinner.hide();
         console.log(err);
       },
     });
+  }
+
+  removePostSelectedFile(id: number) {
+    const ad = this.advertisementDataList.find((ad) => ad.id === id);
+    if (ad) {
+      ad.imageUrl = '';
+      ad.file = null;
+    }
   }
 }
