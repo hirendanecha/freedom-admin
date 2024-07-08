@@ -59,11 +59,17 @@ export class AdvertisementComponent implements OnInit {
           const height = image.height;
           const width = image.width;
           console.log({ height, width, image });
+          const minHeight = 80;
+          const maxHeight = 500;
+          const minWidth = 150;
+          const maxWidth = 1250;
 
-          if (width >= 350 || height >= 150) {
-            this.toastService.warring(
-              'width and height must not exceed 350*150px.'
-            );
+          if ((width < minWidth || width > maxWidth || height < minHeight || height > maxHeight) || (width === height)) {
+            this.toastService.warring(`Image dimensions must be between ${minWidth}x${minHeight} and ${maxWidth}x${maxHeight} pixels and should not be square.`);
+            // if (width >= 350 || height >= 150) {
+            //   this.toastService.warring(
+            //     'width and height must not exceed 350*150px.'
+            //   );
             return false;
           } else {
             const ad = this.advertisementDataList.find((ad) => ad.id === id);
