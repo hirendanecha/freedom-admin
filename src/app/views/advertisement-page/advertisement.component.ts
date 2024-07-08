@@ -22,7 +22,7 @@ export class AdvertisementComponent implements OnInit {
   };
 
   advertisementDataList: any[] = [];
-
+  imageDimensions: { width: number; height: number } | null = null;
   constructor(
     private channelService: ChannelService,
     private advertisementService: AdvertisementService,
@@ -38,16 +38,43 @@ export class AdvertisementComponent implements OnInit {
 
   onFileSelected(event: any, id: number) {
     const file = event.target.files[0];
+    // const reader = new FileReader();
+    // reader.onload = (e: any) => {
+    //   const ad = this.advertisementDataList.find((ad) => ad.id === id);
+    //   if (ad) {
+    //     ad.imageUrl = e.target.result;
+    //     ad.file = file;
+    //   }
+    // };
+    // reader.readAsDataURL(file);
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e: any) => {
-        const ad = this.advertisementDataList.find((ad) => ad.id === id);
-        if (ad) {
-          ad.imageUrl = e.target.result;
-          ad.file = file;
-        }
-      };
+
       reader.readAsDataURL(file);
+      reader.onload = (e: any) => {
+        const image = new Image();
+        image.src = e.target.result;
+
+        image.onload = () => {
+          const height = image.height;
+          const width = image.width;
+          console.log({ height, width, image });
+
+          if (width >= 350 || height >= 150) {
+            this.toastService.warring(
+              'width and height must not exceed 350*150px.'
+            );
+            return false;
+          } else {
+            const ad = this.advertisementDataList.find((ad) => ad.id === id);
+            if (ad) {
+              ad.imageUrl = image.src;
+              ad.file = file;
+            }
+          }
+          return true;
+        };
+      };
     }
   }
 
@@ -144,14 +171,16 @@ export class AdvertisementComponent implements OnInit {
     this.selectedFile = null;
   }
 
-  deleteAdvertisement(id):void{
+  deleteAdvertisement(id): void {
     this.advertisementService.deleteAdvertisement(id).subscribe({
       next: (res: any) => {
         this.spinner.hide();
         this.toastService.danger('Advertisement deleted successfully');
         this.removePostSelectedFile(id);
         const ad = this.advertisementDataList.find((ad) => ad.id === id);
-        if (ad) {ad.id = null}
+        if (ad) {
+          ad.id = null;
+        }
       },
       error: (err) => {
         this.spinner.hide();
