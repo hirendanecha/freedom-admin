@@ -181,6 +181,7 @@ export class AdvertisementComponent implements OnInit {
         const ad = this.advertisementDataList.find((ad) => ad.id === id);
         if (ad) {
           ad.id = null;
+          ad.link = '';
         }
       },
       error: (err) => {
@@ -195,6 +196,7 @@ export class AdvertisementComponent implements OnInit {
     if (ad) {
       ad.imageUrl = '';
       ad.file = null;
+      ad.link = '';
     }
   }
 }
