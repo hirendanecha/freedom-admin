@@ -85,6 +85,10 @@ export class AdvertisementComponent implements OnInit {
     }
   }
 
+  onLinkChange(advertisement: any) {
+    advertisement.isLinkChanged = true;
+  }
+
   saveAdvertisement(id: number): void {
     const ad = this.advertisementDataList.find((ad) => ad.id === id);
     if (ad && ad.file) {
@@ -102,22 +106,27 @@ export class AdvertisementComponent implements OnInit {
           };
         },
       });
+    } else if (ad && ad.link && !ad.file) {
+      this.saveChanges(ad);
     }
   }
 
   saveChanges(ad: any): void {
     this.spinner.show();
 
-    if (ad.imageUrl && ad.createdDate) {
+    if ((ad.imageUrl && ad.createdDate) || (ad.link && ad.createdDate)) {
       const data = {
         id: ad.id,
         imageUrl: ad.imageUrl,
+        link: ad.link,
       };
+      console.log('update', data);
+
       this.advertisementService.getAdvertisementData(data).subscribe({
         next: (res: any) => {
           this.spinner.hide();
           this.toastService.success('Advertisement updated successfully');
-          this.restData();
+          this.getadvertizements();
         },
         error: (err) => {
           this.spinner.hide();
@@ -127,12 +136,13 @@ export class AdvertisementComponent implements OnInit {
     } else if (ad.imageUrl && ad.createdDate === null) {
       const data = {
         imageUrl: ad.imageUrl,
+        link: ad.link,
       };
       this.advertisementService.getAdvertisementData(data).subscribe({
         next: (res: any) => {
           this.spinner.hide();
           this.toastService.success('Advertisement created successfully');
-          this.restData();
+          this.getadvertizements();
         },
         error: (err) => {
           this.spinner.hide();
@@ -150,12 +160,17 @@ export class AdvertisementComponent implements OnInit {
     this.selectedFile = null;
   }
 
-  deleteAdvertisement(id):void{
+  deleteAdvertisement(id): void {
     this.advertisementService.deleteAdvertisement(id).subscribe({
       next: (res: any) => {
         this.spinner.hide();
         this.toastService.danger('Advertisement deleted successfully');
         this.removePostSelectedFile(id);
+        const ad = this.advertisementDataList.find((ad) => ad.id === id);
+        if (ad) {
+          ad.id = null;
+          ad.link = '';
+        }
       },
       error: (err) => {
         this.spinner.hide();
