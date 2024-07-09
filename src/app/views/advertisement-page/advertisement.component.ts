@@ -115,14 +115,17 @@ export class AdvertisementComponent implements OnInit {
   saveAdvertisement(id: number): void {
     const ad = this.advertisementDataList.find((ad) => ad.id === id);
     if (ad && ad.file) {
+    this.spinner.show();
       this.channelService.upload(ad.file).subscribe({
         next: (res: any) => {
           if (res.body.url) {
             ad.imageUrl = res.body.url;
+            this.spinner.hide();
             this.saveChanges(ad);
           }
         },
         error: (err: any) => {
+          this.spinner.hide();
           this.profileImg = {
             file: null,
             url: '',
