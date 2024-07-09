@@ -10,16 +10,6 @@ import { ChannelService } from 'src/app/services/channels.service';
 })
 export class AdvertisementComponent implements OnInit {
   selectedFile: any;
-  profileImg: any = {
-    file: null,
-    url: '',
-  };
-
-  advertizementData: any = {
-    id: null,
-    imageUrl: '',
-    updatedDate: null,
-  };
 
   advertisementDataList: any[] = [];
   imageDimensions: { width: number; height: number } | null = null;
@@ -112,6 +102,10 @@ export class AdvertisementComponent implements OnInit {
     }
   }
 
+  onLinkChange(advertisement: any) {
+    advertisement.isLinkChanged = true;
+  }
+
   saveAdvertisement(id: number): void {
     const ad = this.advertisementDataList.find((ad) => ad.id === id);
     if (ad && ad.file) {
@@ -126,23 +120,24 @@ export class AdvertisementComponent implements OnInit {
         },
         error: (err: any) => {
           this.spinner.hide();
-          this.profileImg = {
-            file: null,
-            url: '',
-          };
         },
       });
+    } else if (ad && ad.link && !ad.file) {
+      this.saveChanges(ad);
     }
   }
 
   saveChanges(ad: any): void {
     this.spinner.show();
 
-    if (ad.imageUrl && ad.createdDate) {
+    if (ad.imageUrl && ad.createdDate || ad.link && ad.createdDate) {
       const data = {
         id: ad.id,
         imageUrl: ad.imageUrl,
+        link: ad.link
       };
+      console.log('update',data);
+      
       this.advertisementService.getAdvertisementData(data).subscribe({
         next: (res: any) => {
           this.spinner.hide();
@@ -157,6 +152,7 @@ export class AdvertisementComponent implements OnInit {
     } else if (ad.imageUrl && ad.createdDate === null) {
       const data = {
         imageUrl: ad.imageUrl,
+        link: ad.link
       };
       this.advertisementService.getAdvertisementData(data).subscribe({
         next: (res: any) => {
@@ -173,10 +169,6 @@ export class AdvertisementComponent implements OnInit {
   }
 
   restData(): void {
-    this.profileImg = {
-      file: null,
-      url: '',
-    };
     this.selectedFile = null;
   }
 

@@ -58,8 +58,11 @@
                 </ng-container>
               </c-col>
             </c-col>
+            <c-card-footer class="text-medium-emphasis">
+              <input class="w-100" type="text" [(ngModel)]="advertisement.link" placeholder="Enter advertisement link" [disabled]="!advertisement.imageUrl" (ngModelChange)="onLinkChange(advertisement)">
+            </c-card-footer>
           </c-card>
-          <div class="align-self-end mt-3" *ngIf="advertisement.file">
+          <div class="align-self-end mt-3" *ngIf="advertisement.file || (advertisement.link && advertisement.isLinkChanged)">
             <button
               cButton
               color="primary"
