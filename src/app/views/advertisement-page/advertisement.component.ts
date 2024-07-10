@@ -71,7 +71,7 @@ export class AdvertisementComponent implements OnInit {
   }
 
   ensureMinimumCards(): void {
-    const minimumCards = 6;
+    const minimumCards = 12;
     const currentLength = this.advertisementDataList.length;
     if (currentLength < minimumCards) {
       for (let i = currentLength; i < minimumCards; i++) {
