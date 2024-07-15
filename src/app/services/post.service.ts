@@ -32,6 +32,10 @@ export class PostService {
   //   return this.http.get(`${this.baseUrl}/${id}?startDate=${startDate}&endDate=${endDate}`);
   // }
 
+  getAllPost(data): Observable<any> {
+    return this.http.post(`${this.baseUrl}/get-all-posts`, data);
+  }
+  
   viewPost(data): Observable<any> {
     return this.http.post(`${this.baseUrl}/get-my-post`, data);
   }

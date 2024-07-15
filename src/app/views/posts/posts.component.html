@@ -3,31 +3,7 @@
 
   <c-card-body>
     <c-row class="pb-3">
-      <!-- <c-col xs="3">
-        <input
-          cFormControl
-          placeholder="Search..."
-          name="search"
-          [formControl]="searchCtrl"
-        />
-      </c-col>
-      <c-col lg="3">
-        <input cFormControl type="date" [(ngModel)]="fromDate" />
-      </c-col>
-      <c-col lg="3">
-        <input
-          cFormControl
-          type="date"
-          placeholder="Search..."
-          [(ngModel)]="toDate"
-        />
-      </c-col>
-      <c-col lg="1">
-        <button cButton color="primary" (click)="searchData()">Search</button>
-      </c-col> -->
-      
-      <app-filter (searchClick)="onSearch()"></app-filter>
-
+      <app-filter (searchClick)="onSearch()" [showSearchInput]="false"></app-filter>
     </c-row>
 
     <app-table>
@@ -71,7 +47,7 @@
             <td>{{ post?.posttype || "S" }}</td>
             <td>{{ post?.likescount || 0 }}</td>
             <td>{{ post?.viewcount || 0 }}</td>
-            <td>
+            <td *ngIf="post.isdeleted === 'N'; else Deleted">
               <button
                 class="bg-transparent border-0"
                 size="sm"
@@ -93,6 +69,16 @@
                   </i>
               </button>
             </td>
+            <ng-template #Deleted>
+              <td>
+                <button
+                class="btn btn-sm btn-danger text-white c-btn border-0"
+                size="sm"
+              >
+                Deleted
+              </button>
+              </td>
+            </ng-template>
           </tr>
         </ng-container>
       </tbody>

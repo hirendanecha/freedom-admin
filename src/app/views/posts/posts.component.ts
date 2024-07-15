@@ -29,7 +29,8 @@ export class PostsComponent {
   type = '';
   searchCtrl: FormControl;
   fromDate: Date
-  toDate: Date
+  toDate: Date;
+  startDate: Date;
 
   constructor(
     private modalService: NgbModal,
@@ -37,14 +38,7 @@ export class PostsComponent {
     private router: Router,
     private spinner: NgxSpinnerService,
     private toaster: ToastService
-  ) {
-    this.searchCtrl = new FormControl('');
-    this.searchCtrl.valueChanges
-      .pipe(distinctUntilChanged(), debounceTime(500))
-      .subscribe((val: string) => {
-        this.getPostList();
-      });
-  }
+  ) { }
 
   ngOnInit(): void {
     this.getPostList();
@@ -57,18 +51,18 @@ export class PostsComponent {
 
   getPostList(): void {
     this.spinner.show();
-    this.postService
-      .getPostList(
-        this.pagination.activePage,
-        this.pagination.perPage,
-        this.searchCtrl.value
-      )
-      .subscribe({
+      const data = {
+        page: this.pagination.activePage,
+        size: this.pagination.perPage,
+        startDate: this.startDate,
+        endDate: this.toDate,
+      };
+      this.postService.getAllPost(data).subscribe({
         next: (res: any) => {
           this.spinner.hide();
           if (res.data) {
-            this.postList = res.data;
-            this.pagination.totalItems = res.pagination?.totalItems;
+            this.postList = res.data.data;
+            this.pagination.totalItems = res.data.pagination?.totalItems;
           }
         },
         error: (error) => {
@@ -76,9 +70,6 @@ export class PostsComponent {
           this.toaster.danger(error.message);
         },
       });
-  }
-
-  searchData(): void {
   }
 
   deletePost(Id: any) {
@@ -108,7 +99,7 @@ export class PostsComponent {
   }
 
   viewPost(id): void {
-    this.router.navigate([`post-list/${id}`]);
+    this.router.navigate([`newsfeed/${id}`]);
   }
   onVisibleChange(event: boolean) {
     this.visible = event;
@@ -120,8 +111,8 @@ export class PostsComponent {
   }
 
   onSearch(): void {
-    const searchTerm = this.filterComponent.searchCtrl.value;
-    const startDate = this.filterComponent.startDate;
-    const toDate = this.filterComponent.toDate;
+    this.startDate = this.filterComponent.startDate;
+    this.toDate = this.filterComponent.toDate;
+    this.getPostList()
   }
 }

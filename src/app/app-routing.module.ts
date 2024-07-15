@@ -26,7 +26,7 @@ const routes: Routes = [
         canActivate: mapToCanActivate([AuthenticationGuard])
       },
       {
-        path: 'post-list',
+        path: 'newsfeed',
         loadChildren: () =>
           import('./views/posts/post.module').then((m) => m.PostModule),
         canActivate: mapToCanActivate([AuthenticationGuard])
