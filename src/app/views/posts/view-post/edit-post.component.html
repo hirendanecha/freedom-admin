@@ -1,6 +1,6 @@
 <div class="bg-light flex-row align-items-center min-vh-100">
   <c-container>
-    <app-filter (searchClick)="onSearch()"></app-filter>
+    <!-- <app-filter (searchClick)="onSearch()" [showSearchInput]="false"></app-filter> -->
     <c-row class="justify-content-center">
       <!-- <c-col md="1">
       </c-col> -->
@@ -15,10 +15,16 @@
               />
             </c-col>
             <c-col>
-              <div>
-                <p class="mb-0" *ngIf="postDetails?.Username">
+              <div class="d-flex justify-content-between px-3">
+                <p class="mb-0 title-text" *ngIf="postDetails?.Username">
                   @{{ postDetails?.Username | lowercase }}
                 </p>
+                <button
+                  class="btn text-light btn-sm btn-danger float-end"
+                  (click)="deletePost(postDetails.id)"
+                >
+                  Delete
+                </button>
               </div>
               <div class="mt-3">
                 <p
