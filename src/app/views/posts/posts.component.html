@@ -26,12 +26,23 @@
                     post?.postcreationdate | dateDay
                   }}</span>
                 </p>
-                <button
-                  class="btn text-light btn-sm btn-danger float-end"
-                  (click)="deletePost(post.id)"
+                <div class="d-flex gap-2">
+                  <button
+                  class="btn text-light btn-sm float-end"
+                  [ngClass]="
+                  post.isdeleted === 'N' ? ' btn-primary' : 'btn-success'
+                "
+                  (click)="hidePost(post.id, post.isdeleted === 'N' ? 'Y' : 'N')"
                 >
-                  Delete
+                  {{ post.isdeleted === "Y" ? "Show" : "Hide" }} Post
                 </button>
+                  <button
+                    class="btn text-light btn-sm btn-danger float-end"
+                    (click)="deletePost(post.id)"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
               <div class="mt-3">
                 <p
