@@ -138,11 +138,39 @@ export class PostsComponent {
     }
   }
 
+  hidePost(Id: number, isdeleted: string) {
+    const modalRef = this.modalService.open(DeleteDialogComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.title = isdeleted === 'Y' ? 'Hide Post' : 'Show Post';
+    modalRef.componentInstance.successBtn = isdeleted === 'Y' ? 'Hide' : 'Show';
+    modalRef.componentInstance.userId = Id;
+    modalRef.componentInstance.message =
+      `Are you sure want to ${isdeleted === 'Y' ? 'Hide' : 'Show'} this post from Newsfeed?`;
+    modalRef.result.then((res) => {
+      if (res === 'success') {
+        this.postService.hidePost(Id, isdeleted).subscribe({
+          next: (res: any) => {
+            if (res) {
+              this.toaster.success(res.message);
+              modalRef.close();
+              this.postList = [];
+              this.getPostList();
+            }
+          },
+          error: (error) => {
+            this.toaster.danger(error.message);
+          },
+        });
+      }
+    });
+  }
+
   deletePost(Id: any) {
     const modalRef = this.modalService.open(DeleteDialogComponent, {
       centered: true,
     });
-    modalRef.componentInstance.title = 'Post';
+    modalRef.componentInstance.title = 'Delete Post';
     modalRef.componentInstance.userId = Id;
     modalRef.componentInstance.message =
       'Are you sure want to delete this post?';
@@ -153,6 +181,7 @@ export class PostsComponent {
             if (res) {
               this.toaster.success(res.message);
               modalRef.close();
+              this.postList = [];
               this.getPostList();
             }
           },

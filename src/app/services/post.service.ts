@@ -14,6 +14,10 @@ export class PostService {
   private baseUrl = environment.serverUrl + 'posts';
   constructor(private http: HttpClient) { }
 
+  hidePost(id, isdeleted): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/hide-post/${id}?isDeleted=${isdeleted}`);
+  }
+
   deletePost(id): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
