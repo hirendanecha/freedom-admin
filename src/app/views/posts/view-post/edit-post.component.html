@@ -41,6 +41,9 @@
                 <div *ngIf="postDetails?.imageUrl">
                   <img class="img-post" [src]="postDetails?.imageUrl" alt="" />
                 </div>
+                <ng-container *ngIf="postDetails?.imagesList">
+                  <app-img-layout [post]="postDetails" />
+                </ng-container>
                 <div class="like-section border-top border-bottom mt-1">
                   <ul
                     class="ps-0 d-flex align-items-center justify-content-around mb-0 w-100"
