@@ -21,7 +21,7 @@
             <c-col>
               <div class="d-flex justify-content-between">
                 <p class="mb-0 fw-bold" *ngIf="post?.Username">
-                  @{{ post?.Username | lowercase }}
+                  &#64;{{ post?.Username | lowercase }}
                   <span class="fw-400">{{
                     post?.postcreationdate | dateDay
                   }}</span>
