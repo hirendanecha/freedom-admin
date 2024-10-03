@@ -86,7 +86,7 @@
                 user.IsSuspended === 'N' ? ' btn-danger' : 'btn-success'
               "
               (click)="
-                suspendUser(user.Id, user.IsSuspended === 'N' ? 'Y' : 'N')
+                suspendUser(user, user.IsSuspended === 'N' ? 'Y' : 'N')
               "
             >
               {{ user.IsSuspended === "N" ? "Suspend" : "Re-active" }}
@@ -222,7 +222,7 @@
                     user.IsSuspended === 'N' ? ' btn-danger' : 'btn-success'
                   "
                   (click)="
-                    suspendUser(user.Id, user.IsSuspended === 'N' ? 'Y' : 'N')
+                    suspendUser(user, user.IsSuspended === 'N' ? 'Y' : 'N')
                   "
                 >
                   {{ user.IsSuspended === "N" ? "Suspend" : "Re-active" }}
