@@ -83,7 +83,7 @@ export class PostsComponent {
             ) {
               setTimeout(() => {
                 this.playVideo(ele);
-              }, 1500);
+              }, 100);
             }
           });
         } else {

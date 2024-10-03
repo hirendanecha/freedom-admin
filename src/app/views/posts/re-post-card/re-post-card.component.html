@@ -26,6 +26,9 @@
           class="post-description"
           [innerHTML]="parentPost?.metalink"
         ></a>
+        <ng-container *ngIf="parentPost?.imagesList">
+          <app-img-layout [post]="parentPost" />
+        </ng-container>
         <div *ngIf="parentPost?.imageUrl">
           <img class="img-post" [src]="parentPost?.imageUrl" alt="" />
         </div>

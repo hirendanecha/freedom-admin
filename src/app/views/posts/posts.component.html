@@ -21,7 +21,7 @@
             <c-col>
               <div class="d-flex justify-content-between">
                 <p class="mb-0 fw-bold" *ngIf="post?.Username">
-                  @{{ post?.Username | lowercase }}
+                  &#64;{{ post?.Username | lowercase }}
                   <span class="fw-400">{{
                     post?.postcreationdate | dateDay
                   }}</span>
@@ -60,6 +60,9 @@
                 <div *ngIf="post?.imageUrl">
                   <img class="img-post" [src]="post?.imageUrl" alt="" />
                 </div>
+                <ng-container *ngIf="post?.imagesList">
+                  <app-img-layout [post]="post" />
+                </ng-container>
                 <!-- <ng-container *ngIf="post?.streamname">
                   <video width="100%" height="240" controls [poster]="post?.thumbfilename">
                     <source [src]="post?.streamname" loading="lazy" type="video/mp4">
