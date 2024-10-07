@@ -1,13 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Pagination } from 'src/app/@shared/interface/pagination';
-import { PostService } from 'src/app/services/post.service';
+import { Pagination } from '../../@shared/interface/pagination';
+import { PostService } from '../../services/post.service';
 import { DeleteDialogComponent } from '../users/delete-confirmation-dialog/delete-dialog.component';
 import { Router } from '@angular/router';
-import { FilterComponent } from 'src/app/@shared/components/filter/filter.component';
+import { FilterComponent } from '../../@shared/components/filter/filter.component';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ToastService } from 'src/app/services/toast.service';
+import { ToastService } from '../../services/toast.service';
+import { SocketService } from '../../services/socket.service';
 declare var jwplayer: any;
 @Component({
   selector: 'app-posts',
@@ -32,7 +33,7 @@ export class PostsComponent {
   startDate: Date;
   hasMoreData = false;
   shouldShowSearchInput: boolean = false;
-  isOpenCommentsPostId = '';
+  isOpenCommentsPostId: string | null = '';
   isExpand = false;
   commentList = [];
   activePage = 1;
@@ -43,7 +44,8 @@ export class PostsComponent {
     private postService: PostService,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private toaster: ToastService
+    private toaster: ToastService,
+    private socketService: SocketService,
   ) {}
 
   ngOnInit(): void {
@@ -263,6 +265,25 @@ export class PostsComponent {
           },
         });
       }
+    });
+  }
+
+  reactLikeOnPost(post: any) {
+    post.likescount = post?.likescount + 1;
+    post.totalReactCount = post?.totalReactCount + 1;
+    const data = {
+      postId: post.id,
+      profileId: 1,
+      likeCount: post.likescount,
+      actionType: 'L',
+      toProfileId: post.profileid,
+    };
+    this.likeDisLikePost(data);
+  }
+
+  likeDisLikePost(data): void {
+    this.socketService.likeFeedPost(data, (res) => {
+      return;
     });
   }
 }

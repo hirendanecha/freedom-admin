@@ -29,7 +29,12 @@ export class SocketService {
   isSuspendUser(params, callback: (post: any) => void) {
     this.socket.emit('suspend-user', params, callback);
   }
+  
   // socket for posts //
+  likeFeedPost(params, callback: (post: any) => void) {
+    this.socket?.emit('likeOrDislike', params, callback);
+  }
+
   // getPost(params, callback: (post: any) => void) {
   //   this.socket.emit('get-new-post', params, callback);
   // }
