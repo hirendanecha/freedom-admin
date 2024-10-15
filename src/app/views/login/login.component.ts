@@ -70,7 +70,7 @@ export class LoginComponent {
         }
       },
       error: (err) => {
-        this.toaster.danger(err.message);
+        this.toaster.danger(err.error.message);
       },
     });
   }
