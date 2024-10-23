@@ -89,7 +89,7 @@
                 suspendUser(user, user.IsSuspended === 'N' ? 'Y' : 'N')
               "
             >
-              {{ user.IsSuspended === "N" ? "Suspend" : "Re-active" }}
+              {{ user.IsSuspended === "N" ? "Suspend" : "Un-Suspend" }}
             </button>
             <button
               class="btn btn-sm text-white m-1 custom-btn-list"
@@ -109,8 +109,8 @@
             >
               {{
                 user.MediaApproved === 0 || user.MediaApproved === null
-                  ? "Activate Media"
-                  : "De-activate"
+                  ? "Media Approved"
+                  : "Media Un-Approved"
               }}
             </button>
             <button
@@ -150,7 +150,7 @@
             <th>Profile</th>
             <th>User&nbsp;ID</th>
             <!-- <th>ProfileId</th> -->
-            <th>Firstname</th>
+            <!-- <th>Firstname</th> -->
             <!-- <th>Lastname</th> -->
             <th>Username</th>
             <th>Email</th>
@@ -185,9 +185,9 @@
             <!-- <td>
             {{ user.profileId || "-" }}
           </td> -->
-            <td>
+            <!-- <td>
               {{ user.FirstName || "-" }}
-            </td>
+            </td> -->
             <!-- <td>
             {{ user.LastName || "-" }}
           </td> -->
@@ -225,7 +225,7 @@
                     suspendUser(user, user.IsSuspended === 'N' ? 'Y' : 'N')
                   "
                 >
-                  {{ user.IsSuspended === "N" ? "Suspend" : "Re-active" }}
+                  {{ user.IsSuspended === "N" ? "Suspend" : "Un-Suspend" }}
                 </button>
                 <button
                   class="btn btn-sm text-white m-1 custom-btn"
@@ -246,8 +246,8 @@
                 >
                   {{
                     user.MediaApproved === 0 || user.MediaApproved === null
-                      ? "Activate Media"
-                      : "De-activate"
+                      ? "Media Approved"
+                      : "Media Un-Approved"
                   }}
                 </button>
                 <button
