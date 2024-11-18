@@ -207,19 +207,21 @@
       </c-row>
       <c-row class="justify-content-center mt-4">
         <c-col md="12">
-          <label for="">Admins</label>
+          <label for="">Members</label>
           <div class="d-flex flex-wrap">
             <div
               class="single-box d-flex align-items-center gap-2 px-3 py-2 w-100"
               *ngFor="let member of adminList"
             >
               <img
-                class="w-48-px h-48-px rounded-4"
+                class="w-40-px h-40-px rounded-4"
                 loading="lazy"
                 data-src="{{
                   member?.ProfilePicName ||
                     '/assets/images/avtar/placeholder-user.png'
                 }}"
+                height="40"
+                width="40"
                 onerror="this.onerror=null;this.src='/assets/images/avtar/placeholder-user.png'"
                 alt="avatar"
               />
