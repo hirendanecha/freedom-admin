@@ -1,18 +1,8 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { debounceTime, fromEvent } from 'rxjs';
-import { ChannelService } from 'src/app/services/channels.service';
-import { CommunityService } from 'src/app/services/community.service';
-import { ToastService } from 'src/app/services/toast.service';
-import { UserService } from 'src/app/services/user.service';
+import { ChannelService } from './../../../services/channels.service';
+import { ToastService } from './../../../services/toast.service';
 @Component({
   selector: 'app-edit-channel',
   templateUrl: './edit-channel.component.html',
@@ -42,7 +32,6 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
 
   constructor(
     private channelService: ChannelService,
-    private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
@@ -72,7 +61,6 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
     if (this.channelImg.file) {
       this.spinner.show();
       this.channelService.upload(this.channelImg.file).subscribe({
-
         next: (res: any) => {
           this.spinner.hide();
           if (this.channelImg.file?.size < 5120000) {
@@ -158,6 +146,7 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
       Username: this.channelDetails.Username,
       unique_link: this.channelDetails.unique_link,
       feature: this.channelDetails.feature,
+      notificationEmail: this.channelDetails.notificationEmail,
     };
     this.channelService.editChannal(id, upadtedChannelData).subscribe({
       next: (res: any) => {
@@ -234,8 +223,8 @@ export class EditChannelComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onSelectUser(item): void {
-    this.selectedItems.push(item.Id);
+  onSelectUser(item: any): void {
+    this.selectedItems.push(item?.Id);
     console.log(item);
   }
 

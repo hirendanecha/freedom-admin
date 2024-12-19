@@ -90,7 +90,7 @@
       </c-row> -->
       <c-row class="justify-content-center mt-2">
         <h5 class="mt-4">User Details:</h5>
-        <c-col md="6">
+        <c-col md="4">
           <label>Username</label>
           <input
             cFormControl
@@ -103,7 +103,7 @@
             />
             <!-- required -->
         </c-col>
-        <c-col md="6">
+        <c-col md="4">
           <label>Email</label>
           <input
             cFormControl
@@ -112,6 +112,16 @@
             [(ngModel)]="channelDetails.Email"
             [ngModelOptions]="{ standalone: true }"
             disabled
+          />
+        </c-col>
+        <c-col md="4">
+          <label>Notification Email</label>
+          <input
+            cFormControl
+            name="email"
+            type="email"
+            [(ngModel)]="channelDetails.notificationEmail"
+            [ngModelOptions]="{ standalone: true }"
           />
         </c-col>
       </c-row>
